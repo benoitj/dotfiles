@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+
+DMENU="dmenu -l 5 -i" 
+
+chosen=$(echo -e "Restart\nReboot\nLogout\nShutdown" | $DMENU -p "Session")
+
+case "$chosen" in
+  Restart) echo "restart" >> /tmp/dwm.fifo ;;
+  Reboot) reboot ;;
+  Logout) echo "quit" >> /tmp/dwm.fifo ;;
+  Shutdown) shutdown now ;;
+esac
+
