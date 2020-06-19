@@ -1,0 +1,4 @@
+
+
+# ignore any chezmoi local configuration
+~/.config/chezmoi/
