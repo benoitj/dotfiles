@@ -1,0 +1,44 @@
+
+# setup usb disk daemon
+udiskie -a -N &
+
+# keyboard config
+setxkbmap dvorak -option ctrl:nocaps  
+
+sxhkd &
+
+# authentication agent
+/usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
+
+# TODO setup screensaver
+#test -x ~/.local/bin/asciiquarium_screensaver && xss-lock -- ~/.local/bin/asciiquarium_screensaver &
+#xset s 300 300
+
+# TODO setup wallpaper
+#~/.config/scripts/cli/wallpaper.sh &
+
+nextcloud &
+
+# notifications
+dunst &
+
+#compositor
+compton &
+
+# status bar
+/usr/local/bin/dwmstatus &
+
+# configure fifo
+test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
+
+#exec /usr/bin/i3
+#exec /usr/local/bin/dwm
+
+xrdb ~/.Xresources
+
+
+while :
+do
+  /usr/local/bin/dwm
+  test $? -eq 0 && break
+done
