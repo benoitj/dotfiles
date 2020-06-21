@@ -2,7 +2,7 @@
 
 # Basic binds
 super + Return
-	$TERMINAL
+	/usr/local/bin/st
 super + d
 	dmenu_run -l 10
 #super + Tab
@@ -14,7 +14,7 @@ super + shift + e
 
 # mixer super + m
 super + m
-	$TERMINAL -c "Mixer" -e pulsemixer
+	/usr/local/bin/st -c "Mixer" -e pulsemixer
 
 #; super + plus
 XF86AudioRaiseVolume
@@ -60,7 +60,7 @@ Print
 #	~/.config/scripts/dmenu/passmenu13
 
 super + F1
-	$TERMINAL -e lf
+	/usr/local/bin/st -e lf
 
 super + F8
 	~/.local/bin/keyboard-layout
