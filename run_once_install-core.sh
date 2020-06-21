@@ -16,7 +16,7 @@ which dwm || (cd ~/src/dwm; make; sudo make install)
 test -d ~/src/dwmstatus || git clone https://github.com/benoitj/dwmstatus ~/src/dwmstatus
 which dwmstatus || (cd ~/src/dwmstatus; make; sudo make install)
 
-$PACMAN dunst sxhkd compton mate-polkit
+$PACMAN dunst sxhkd compton mate-polkit zip unzip
 $PACMAN vim
 $PACMAN pulsemixer pamixer mpc
 $PACMAN surfraw
