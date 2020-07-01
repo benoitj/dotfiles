@@ -1,0 +1,71 @@
+;;; -*- lexical-binding: t -*-
+;;; DONE
+
+(require 'mu4e)
+
+(setq
+ mu4e-compose-reply-to-address "{{ .email }}")
+ mu4e-user-mail-address-list '("{{ .email }}" "{{ .email2 }}" "{{ .email3 }}")
+ mu4e-compose-signature (concat "{{ .name }}" "\n" "{{ .email }}")
+ )
+
+(setq mail-user-agent 'mu4e-user-agent)
+
+(setq
+ mu4e-get-mail-command "mbsync -a"
+ mu4e-update-interval 600
+ mu4e-index-update-error-continue nil)
+
+;; when switch off queue mode, I still prefer async sending
+(use-package async
+  :ensure t
+  :commands (mu4e)
+  :config (require 'smtpmail-async))
+
+(setq
+ send-mail-function 'async-smtpmail-send-it
+ message-send-mail-function 'async-smtpmail-send-it
+ ;; replace with your email provider's settings
+ ;; smtpmail-smtp-server "something"
+ smtpmail-stream-type 'ssl
+ smtpmail-smtp-server "smtp.fastmail.com"
+ smtpmail-smtp-service 587
+ smtpmail-stream-type 'starttls
+ 
+ ;; if you need offline mode, set these -- and create the queue dir
+ ;; with 'mu mkdir', i.e:
+ ;; mu mkdir /home/user/Mail/queue && touch ~/Maildir/queue/.noindex
+ ;; https://www.djcbsoftware.nl/code/mu/mu4e/Queuing-mail.html
+ smtpmail-queue-mail  t
+ smtpmail-queue-dir  (expand-file-name "~/.mail/fastmail/queue/cur"))
+
+(setq
+ mu4e-maildir       "~/.mail"   ;; top-level Maildir
+ mu4e-sent-folder "/fastmail/Sent"
+ mu4e-drafts-folder "/fastmail/Draft"
+ mu4e-trash-folder "/fastmail/Trash"
+ mu4e-refile-folder "/fastmail/Archive"
+ )
+
+(add-to-list 'auth-sources "~/.authinfo")
+
+(setq mu4e-maildir-shortcuts
+      '(("/fastmail/Archive"     . ?a)
+	("/fastmail/Inbox"       . ?i)
+	("/fastmail/Sent"        . ?s)))
+
+(setq
+ mu4e-headers-fields
+ '((:human-date . 12)
+   (:flags . 6)
+   (:from-or-to . 22)
+   (:thread-subject))
+ )
+
+(setq
+ mu4e-view-show-addresses t
+ mu4e-view-show-images t
+ mu4e-view-html-plaintext-ratio-heuristic most-positive-fixnum)
+
+(setq message-kill-buffer-on-exit nil)
+(setq mu4e-change-filenames-when-moving t)
