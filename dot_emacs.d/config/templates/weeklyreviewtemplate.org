@@ -1,0 +1,65 @@
+* Weekly Review
+** Get Clear [0/5]
+- [ ] Collect Loose Papers and Materials
+- [ ] Get “IN” to Zero
+  - [ ] Papers
+  - [ ] Physical Notebook
+  - [ ] Physical Objects
+  - [ ] Text Messages
+  - [ ] Voice Mail
+  - [ ] Email Inboxes
+    #+BEGIN_SRC emacs-lisp
+    (progn
+      (browse-url "https://mail.google.com/mail/u/0/#inbox")
+      (browse-url "https://mail.google.com/mail/u/1/#inbox")
+      (browse-url "https://mail.google.com/mail/u/2/#inbox"))
+    #+END_SRC
+  - [ ] Evernote Inbox
+    #+BEGIN_SRC emacs-lisp
+      (open-evernote-osx)
+    #+END_SRC
+  - [ ] Browser Tabs
+  - [ ] Downloads Folder
+    #+BEGIN_SRC emacs-lisp
+    (dired "~/Downloads/")
+    #+END_SRC
+  - [ ] Desktop
+    #+BEGIN_SRC emacs-lisp
+    (dired "~/Desktop/")
+    #+END_SRC
+- [ ] Empty Your Head: New projects, tasks, waiting-fors, someday/maybes?
+** Get Current [0/9]
+- [ ] Review Previous and Upcoming Calendar Data:
+  #+BEGIN_SRC emacs-lisp
+  (my-org-agenda-longer-open-loops)
+  #+END_SRC
+- [ ] Review Action Lists:
+  #+BEGIN_SRC emacs-lisp
+  (let ((org-agenda-files '("~/src/notes/todo.org")))
+    (org-agenda "TODO" "T")
+    (beginend-org-agenda-mode-goto-beginning))
+  #+END_SRC
+- [ ] Review Waiting For List:
+  #+BEGIN_SRC emacs-lisp
+  (org-agenda "WAITING" "T")
+  #+END_SRC
+- [ ] Review Project (and Larger Outcome) Lists:
+  #+BEGIN_SRC emacs-lisp
+  (project-overview)
+  (project-deadline-overview)
+  #+END_SRC
+- [ ] Review Stuck Projects:
+  #+BEGIN_SRC emacs-lisp
+  (my-org-agenda-list-stuck-projects)
+  #+END_SRC
+- [ ] Archive completed or inactive projects.
+- [ ] Update Budget
+- [ ] Review Any Relevant Checklists
+** Get Creative [0/5]
+- [ ] Review [[file:~/org/somedaymaybe.org][Someday Maybe List]]
+- [ ] Use RandomNote
+  #+BEGIN_SRC emacs-lisp
+  (randomnote-osx)
+  #+END_SRC
+- [ ] Be Creative and Courageous: Are there any new, wonderful, harebrained, creative, thought-provoking, risk-taking ideas you can capture and add into your system, or “external brain”?
+- [ ] Clock out.

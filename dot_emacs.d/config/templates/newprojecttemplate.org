@@ -1,0 +1,38 @@
+* %^{Project name}
+DEADLINE: %^t
+:PROPERTIES:
+:STARTDATE: %u
+:END:
+%^{OUTCOME}p
+%^{AREA}p
+%?
+- [ ] Add project tags for context (e.g. work, personal)
+- [ ] List specific tasks
+- [ ] Schedule next actions from generated tasks
+- [ ] Create an Evernote notebook matching project name
+
+  #+name: headline
+  #+BEGIN_SRC emacs-lisp
+  (nth 4 (org-heading-components))
+  #+END_SRC
+
+  #+BEGIN_SRC shell :var project=headline
+  osascript -e "tell application \"Evernote\" to create notebook \"$project\""
+  #+END_SRC
+
+- [ ] Move notebook into 1 Projects, and move any relevant notes to the new notebook, or link to them in a TOC
+  #+BEGIN_SRC emacs-lisp
+    (open-evernote-osx)
+  #+END_SRC
+- [ ] Create Dropbox folder if needed for storage; move files there
+  #+BEGIN_SRC emacs-lisp
+    (mkdir (concat "~/Dropbox/1 Projects/" (nth 4 (org-heading-components))))
+  #+END_SRC
+- [ ] Create [[https://drive.google.com/drive/u/0/folders/1UGyopdsoExR3VaxlxvS6niUqpjxByDVh][Google Drive]] folder if needed for collaboration; move documents there
+  #+BEGIN_SRC emacs-lisp
+    (mkdir (concat "~/Google Drive/1 Projects/" (nth 4 (org-heading-components))))
+  #+END_SRC
+
+  #+BEGIN_SRC emacs-lisp
+    (mkdir (concat "~/Google Drive Work/1 Projects/" (nth 4 (org-heading-components))))
+  #+END_SRC
