@@ -1,0 +1,30 @@
+- [ ] Add project completion date and calculate time span
+  #+BEGIN_SRC emacs-lisp
+  (org-entry-put (point) "ENDDATE" (org-time-stamp '(16) t))
+  (org-entry-put (org-mark-subtree) "ENDDATE" (org-time-stamp '(16) t))
+  #+END_SRC
+- [ ] Generate project clock report
+  #+BEGIN_SRC emacs-lisp
+    (org-clock-report)
+  #+END_SRC
+- [ ] Move remaining tasks to other Projects or Areas
+- [ ] Delete completed tasks
+- [ ] If project was linked to a higher goal, add completion to goals file
+
+  #+BEGIN_SRC emacs-lisp
+    (open-evernote-osx)
+  #+END_SRC
+- [ ] Move notes in relevant Evernote notebook to other Areas, Resources, or Archives
+- [ ] Delete or archive Evernote notebook
+
+- [ ] Process project Dropbox folder if created; delete or archive
+  #+BEGIN_SRC emacs-lisp
+  (dired "~/Dropbox/1 Projects")
+  #+END_SRC
+- [ ] Process project [[https://drive.google.com/drive/u/0/folders/1UGyopdsoExR3VaxlxvS6niUqpjxByDVh][Google Drive]] folder if created; delete or archive
+  #+BEGIN_SRC emacs-lisp
+  (dired "~/Google Drive/1 Projects/")
+  #+END_SRC
+
+- [ ] Remove deadline in Org
+- [ ] Move project to 4 Archives

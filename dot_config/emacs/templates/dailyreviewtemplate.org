@@ -1,0 +1,33 @@
+* Daily Review
+- [ ] Clear Physical Desktop / Inbox / Notebook
+- [ ] Clear Downloads and Desktop Folders
+  #+BEGIN_SRC emacs-lisp
+  (dired "~/Downloads/")
+  (dired "~/Desktop/")
+  (image-dired "~/Desktop/")
+  #+END_SRC
+- [ ] Collect Calendar Open Loops (+/- 2  days)
+  #+BEGIN_SRC emacs-lisp
+  (my-org-agenda-recent-open-loops)
+  #+END_SRC
+- [ ] Clear Email Inboxes
+  #+BEGIN_SRC emacs-lisp
+  (progn
+      (browse-url "https://mail.google.com/mail/u/0/#inbox")
+      (browse-url "https://mail.google.com/mail/u/1/#inbox")
+      (browse-url "https://mail.google.com/mail/u/2/#inbox"))
+  #+END_SRC
+- [ ] Process streams (Slack, [[https://twitter.com/][Twitter]]) as inboxes - record tasks, read it later, file notes
+- [ ] Capture any remaining open loops as tasks
+- [ ] Schedule + refile tasks in [[file:~/src/notes/todo.org::*Inbox][Org Mode Inbox]], Mobile [[file:~/src/notes/refile-mobile.org][Refile Location]]
+- [ ] Schedule today's tasks (immersive -> process, deep -> shallow):
+  #+BEGIN_SRC emacs-lisp
+    (progn
+      (org-agenda nil "a")
+      (org-agenda-day-view))
+  #+END_SRC
+
+  #+RESULTS:
+  : Switched to day view
+
+- [ ] Clock out.

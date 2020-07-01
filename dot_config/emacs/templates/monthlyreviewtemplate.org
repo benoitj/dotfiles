@@ -1,0 +1,48 @@
+* Monthly Review
+:PROPERTIES:
+:SORT:     TYPE
+:END:
+** Review [[~/src/notes/goals.org][Life Goals]]
+- [ ] Scroll through completed goals.
+- [ ] Move newly completed goals to “Completed” heading for archives.
+- [ ] Update timelines for existing goals.
+- [ ] Update wording/definition/scale of goals.
+- [ ] Add any new goals, and corresponding projects if needed.
+** Review Project List
+#+BEGIN_SRC emacs-lisp
+(project-overview)
+#+END_SRC
+- [ ] Archive any completed or inactive projects
+- [ ] Update outcome for each project, making sure corresponding goal is listed under each project in Org-Mode
+- [ ] Order projects by general priority in Org-Mode
+- [ ] Replicate updated Project List as needed
+  - [ ] Org-Mode
+  - [ ] Evernote
+  - [ ] Dropbox
+  - [ ] Google Drive
+  - [ ] Documents Folder
+** Review Areas of Responsibility
+#+BEGIN_SRC emacs-lisp
+(areas-overview)
+#+END_SRC
+- [ ] Evaluate areas and capture any new tasks, projects, habits, routines, or decisions needed.
+- [ ] Replicate list of areas across systems.
+  - [ ] Org-Mode
+  - [ ] Evernote
+  - [ ] Dropbox
+  - [ ] Google Drive
+  - [ ] Documents Folder
+** Review [[evernote:///view/84441341/s516/53c11ac3-d3c1-42a6-8886-125948836f09/53c11ac3-d3c1-42a6-8886-125948836f09/][Personal Narrative Vision]]
+- [ ] Bold possible new projects or areas that need renewed focus.
+- [ ] Remove formatting of completed parts, as your dreams turn into reality
+** Review and rearticulate [[evernote:///view/84441341/s516/46076615-463f-46d1-8557-c5889188cb5c/46076615-463f-46d1-8557-c5889188cb5c/][12 Favorite Problems]]
+** Review Someday / Maybe list
+- [ ] Review [[file:~/org/somedaymaybe.org][Someday Maybe List]]
+- [ ] Assign next actions or new projects to any that I might want to consider doing
+** Pick [[https://airtable.com/tblk92VIsS1lm44S1/viwIntjApUlqRbJam][someone from CRM to keep in touch with]]
+** Update Places I've Been
+** Re-prioritize tasks
+- [ ] Review next actions and re-apply priority tags, accounting for priority drift
+** Extract highlights from finished ebooks
+- [ ] Import text and images into Evernote
+** Empty trash in Evernote
