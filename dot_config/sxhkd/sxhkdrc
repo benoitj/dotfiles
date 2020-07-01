@@ -52,8 +52,8 @@ super + s
 super + shift + Print
 	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b -s
 
-Print
-	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b
+super + Print
+	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b -u
 
 # TODO
 #super + p
