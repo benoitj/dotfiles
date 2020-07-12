@@ -3,7 +3,7 @@
 set -o nounset
 set -o errexit
 
-DMENU="dmenu -l 5 -i" 
+DMENU="dmenu -l 5 -i -c -bw 3" 
 
 chosen=$(echo -e "Restart\nReboot\nLogout\nShutdown" | $DMENU -p "Session")
 

@@ -1,3 +1,4 @@
+export PATH=$PATH:~/.local/bin
 
 # setup usb disk daemon
 udiskie -a -N &
@@ -36,9 +37,4 @@ test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 
 xrdb ~/.Xresources
 
-
-while :
-do
-  /usr/local/bin/dwm
-  test $? -eq 0 && break
-done
+exec /usr/local/bin/dwm

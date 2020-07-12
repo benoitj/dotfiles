@@ -1,0 +1,31 @@
+
+IMAPAccount fastmail
+Host imap.fastmail.com
+Port 993
+User {{ .email }}
+PassCmd "cat ~/.mbsyncpw"
+SSLType IMAPS
+
+IMAPStore fastmail-remote
+Account fastmail
+
+MailDirStore fastmail-local
+Path ~/.mail/fastmail/
+Inbox ~/.mail/fastmail/Inbox
+Trash ~/.mail/fastmail/Trash
+SubFolders Verbatim
+
+channel fastmail
+Master :fastmail-remote:
+Slave :fastmail-local:
+Patterns *
+SyncState *
+Create Both
+Expunge Both
+Remove Both
+CopyArrivalDate yes
+
+
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+#Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything

@@ -1,0 +1,33 @@
+#!/bin/bash
+# Feed this script a link and it will give dmenu
+# some choice programs to use to open it.
+
+# The URL will be shown visually in 30 characters or less.
+set -o nounset
+set -o errexit
+
+DMENU="dmenu -l 10 -i"
+BROWSER="qutebrowser"
+
+url="$1"
+
+if [[ "${#1}" -gt 30 ]];
+then
+  visual="${url:0:20}"..."${1: -7}"
+else
+  visual="$url"
+fi
+
+x=$(echo -e "browser\nmpv\nmpv (loop)\nwget\nfeh\nw3m\nmpv (float)\nyt-dl-video\nyt-dl-audio" | $DMENU -p "How should I open '$visual'?")
+
+case "$x" in
+  browser) $BROWSER "$url" & disown ;;
+  mpv) mpv -quiet "$url" & disown ;;
+  "mpv (loop)") mpv -quiet --loop "$url" & disown ;;
+  wget) wget "$url" & disown ;;
+  feh) feh "$url" & disown ;;
+  w3m) st w3m "$url" & disown ;;
+  "mpv (float)") mpv --geometry=+0-0 --autofit=30%  --title="mpvfloat" "$url" & disown ;;
+  yt-dl-video) tsp youtube-dl "$1" & disown ;;
+  yt-dl-audio) tsp youtube-dl -x "$1" & disown ;;
+esac
