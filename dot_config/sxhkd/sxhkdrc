@@ -4,7 +4,7 @@
 super + Return
 	/usr/local/bin/st
 super + d
-	dmenu_run -l 10
+	dmenu_run -l 10 -c -bw 3 -F -i
 #super + Tab
 #	rofi -show window
 super + shift + e

@@ -1,0 +1,7 @@
+[Added Associations]
+text/x-log=emacs.desktop;
+
+[Default Applications]
+application/pdf=mupdf.desktop
+text/html=surf.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop

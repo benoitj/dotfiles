@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+shopt -s nullglob globstar
+
+DMENU="dmenu -l 10"
+
+pass-get() {
+  password=$1
+  field=$2
+
+  pass show "$password" | grep -i "$field:" | sed -e "s/$field: //"
+}
+
+auto() {
+  password="$1"
+
+  window_id=$(xwininfo -int | grep -i "window id" | sed 's/.*Window id: \([0-9]*\) .*/\1/')
+  xdotool windowfocus --sync $window_id
+
+  pass-get "$password" "user" | xdotool type --clearmodifiers --file -
+  xdotool key Tab
+  pass show "$password" | { read -r pass; printf %s "$pass"; } |
+    xdotool type --clearmodifiers --file -
+  xdotool key Return
+}
+
+open-url() {
+  password="$1"
+  url=$(pass-get "$password" "url")
+  test -n "$url" || exit;
+
+  echo "url: $url"
+  xdg-open "$url"
+}
+
+copy-user() {
+  password="$1"
+  user=$(pass-get "$password" "user")
+  test -n "$user" || exit;
+
+  echo "user: $user"
+  echo -n "$user" | xclip -selection clipboard -i -l 45
+}
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+password=$(printf '%s\n' "${password_files[@]}" | $DMENU -p "Search Password")
+
+choices="Autotype\nCopy Password\nCopy Username\nOpen URL"
+
+chosen=$(echo -e "$choices" | $DMENU -p "$password")
+
+case "$chosen" in
+  Autotype) auto "$password" ;;
+  "Copy Password") pass show -c "$password" 2>&1 >/dev/null ;;
+  "Copy Username") copy-user "$password" ;;
+  "Open URL") open-url "$password";;
+esac
+
+#  pass show -c "$password" 2>/dev/null
+#pass show "$password" | { read -r pass; printf %s "$pass"; } |
+#  xdotool type --clearmodifiers --file -
+
