@@ -6,7 +6,7 @@ udiskie -a -N &
 # keyboard config
 setxkbmap dvorak -option ctrl:nocaps  
 
-sxhkd &
+sxhkd -m -1 &
 
 # authentication agent
 /usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
@@ -37,4 +37,8 @@ test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 
 xrdb ~/.Xresources
 
-exec /usr/local/bin/dwm
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+
+exec dbus-launch --exit-with-session /usr/local/bin/dwm

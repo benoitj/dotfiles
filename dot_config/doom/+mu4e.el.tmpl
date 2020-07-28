@@ -44,6 +44,17 @@
 
   (setq message-kill-buffer-on-exit nil)
   (setq mu4e-change-filenames-when-moving t)
+  (add-to-list 'mu4e-bookmarks
+       ;; add bookmark for recent messages on the Mu mailing list.
+       '( :name "Unread 7 Days"
+          :key  ?b
+          :query "flag:unread AND NOT flag:trashed AND date:7d..now"))
+
+  (add-to-list 'mu4e-bookmarks
+       ;; add bookmark for recent messages on the Mu mailing list.
+       '( :name "ref"
+          :key  ?m
+          :query "from:benoit@benoitj.ca AND NOT maildir:/fastmail/Sent AND NOT flag:trashed"))
 
 
   )

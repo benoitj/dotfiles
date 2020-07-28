@@ -193,12 +193,16 @@ export DMENU=dmenu
 
 alias vi=vim
 
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+
 #test
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-test -x /usr/bin/starship && eval "$(starship init bash)"
+test -x ~/.cargo/bin/starship && eval "$(~/.cargo/bin/starship init bash)"
 
 # changes on chezmoi repo
