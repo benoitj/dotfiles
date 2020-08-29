@@ -1,5 +1,9 @@
 ;;; ~/src/dotfiles/emacs/.config/doom/+org.el -*- lexical-binding: t; -*-
 
+(setq plantuml-default-exec-mode 'jar)
+(setq plantuml-jar-path "/usr/share/plantuml/lib/plantuml.jar")
+
+(setq ob-mermaid-cli-path "~/node_modules/.bin/mmdc")
 
 (setq org-directory "~/src/tasks")
 (setq org-para-todo (concat org-directory "/todo.org"))

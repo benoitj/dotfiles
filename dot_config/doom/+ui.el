@@ -15,12 +15,15 @@
     :init
     (setq heaven-and-hell-theme-type 'dark)
     (setq heaven-and-hell-themes
-	  '((light . espresso)
-	    (dark . dracula)))
+	  '((light . gruvbox-light-medium)
+	    (dark . gruvbox-dark-medium)))
     (setq heaven-and-hell-load-theme-no-confirm t)
     :bind (("<f6>" . 'heaven-and-hell-toggle-theme)))
 
-(setq doom-theme 'dracula)
+(setq doom-theme 'gruvbox-dark-medium)
+
+(setq browse-url-firefox-program "firefox-bin")
+(setq browse-url-browser-function 'browse-url-firefox)
 
 ;;
 ;; If you want to change the style of line numbers, change this to `relative' or

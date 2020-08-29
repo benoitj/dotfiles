@@ -1,8 +1,15 @@
 [user]
 	email = {{ .email }}
 	name = {{ .name }}
+	signingkey = 0x5425347E4304939A
 
 [remind]
 	paths = {{ .chezmoi.homedir }}/src/*
 [merge]
 	tool = kdiff3
+[commit]
+	gpgsign = true
+[github]
+	user = {{ .freenode_nick }}
+[gitea "codeberg.org/api/v1"]
+	user = {{ .freenode_nick }}
