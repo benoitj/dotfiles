@@ -741,7 +741,7 @@
 
 ## Enable plugins in Web pages.
 ## Type: Bool
-# c.content.plugins = False
+c.content.plugins = True
 
 ## Draw the background color and images also when the page is printed.
 ## Type: Bool

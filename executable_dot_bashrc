@@ -100,7 +100,7 @@ export nc="$HOME/Nextcloud"
 #### Tools configuration
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -190,6 +190,8 @@ fi
 
 export EDITOR=vim
 export DMENU=dmenu
+
+export PATH="$PATH:~/node_modules/.bin/"
 
 alias vi=vim
 
