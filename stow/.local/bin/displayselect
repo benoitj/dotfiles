@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+
+
+#autorandr --change --default default
+#exit 0
+
+DMENU="dmenu -l 5 -i -c -bw 3"
+
+choices=$(echo "auto"; cd $HOME/.config/autorandr; ls -1 | grep -v default | sort)
+
+chosen=$(echo -e "$choices" | $DMENU -p "Display layout")
+
+case "$chosen" in
+  auto) autorandr --change --default default ;;
+  *) autorandr --change $chosen ;;
+esac
+
+sleep 2
+dunstify "Changed screen layout to $(autorandr --current)"

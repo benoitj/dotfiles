@@ -1,0 +1,73 @@
+#!/bin/bash
+
+#### PROMPT
+# trim long paths in the prompt
+PROMPT_DIRTRIM=2
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+if [ "$color_prompt" = yes ]; then
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+#### PATHs
+
+export PATH="$PATH:~/node_modules/.bin/"
+
+# directories in this path are used to complete. separated by :
+CDPATH="."
+
+#### HISTORY features
+# record each line as is
+PROMPT_COMMAND='history -a'
+
+# history size
+HISTSIZE=500000
+HISTFILESIZE=100000
+HISTFILE="$HOME/.cache/bash_history"
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=erasedups:ignoreboth
+
+# history time is iso format
+HISTTIMEFORMAT='%F %T '
+
+#### setup colors
+
+# this one is seting up LS_COLORS env variable
+test -x /usr/bin/dircolors && \
+test -r $HOME/.config/bash/dircolors && \
+eval "$(dircolors -b $HOME/.config/bash/dircolors)" || \
+eval "$(dircolors -b)"
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+#### PATH definitions
+
+export PATH_DOT="$HOME/src/dotfiles"
+export PATH_CFG="$HOME/.config"
+export PATH_DOC="$HOME/Documents"
+export PATH_SRC="$HOME/src"
+
+#### other setup
+export EDITOR=vim
+export DMENU=dmenu
+
+export LESSOPEN="|lesspipe.sh %s"
