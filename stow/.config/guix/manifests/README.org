@@ -1,0 +1,106 @@
+#+TITLE: Readme
+
+* Initial setup
+
+** Create extra profiles folder
+#+BEGIN_SRC sh
+GUIX_EXTRA_PROFILES="$HOME/.guix-extra-profiles"
+mkdir -p "$GUIX_EXTRA_PROFILES"
+echo "$GUIX_EXTRA_PROFILES" 
+#+END_SRC
+
+#+RESULTS:
+: /home/benoit/.guix-extra-profiles
+
+** setup automatic loading of profiles
+
+setup this in the .bash_profile
+
+#+BEGIN_SRC sh :noeval
+for i in $GUIX_EXTRA_PROFILES/*; do
+  profile=$i/$(basename "$i")
+  if [ -f "$profile"/etc/profile ]; then
+    GUIX_PROFILE="$profile"
+    . "$GUIX_PROFILE"/etc/profile
+  fi
+  unset profile
+done
+#+END_SRC
+
+* activate a new profile
+
+#+BEGIN_SRC sh :tangle :file ~/.local/bin/gpa :shebang #!/bin/sh
+
+# NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
+
+GREEN='\033[1;32m'
+RED='\033[1;30m'
+NC='\033[0m'
+GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+
+profiles=$*
+if [[ $# -eq 0 ]]; then
+    profiles="$HOME/.config/guix/manifests/*.scm";
+fi
+
+for profile in $profiles; do
+  # Remove the path and file extension, if any
+  profileName=$(basename $profile)
+  profileName="${profile%.*}"
+  profilePath="$GUIX_EXTRA_PROFILES/$profileName"
+  manifestPath=$HOME/.config/guix/manifests/$profile.scm
+
+  if [ -f $manifestPath ]; then
+    echo
+    echo -e "${GREEN}Activating profile:" $manifestPath "${NC}"
+    echo
+
+    mkdir -p $profilePath
+    guix package --manifest=$manifestPath --profile="$profilePath/$profileName"
+
+    # Source the new profile
+    GUIX_PROFILE="$profilePath/$profileName"
+    if [ -f $GUIX_PROFILE/etc/profile ]; then
+        . "$GUIX_PROFILE"/etc/profile
+    else
+        echo -e "${RED}Couldn't find profile:" $GUIX_PROFILE/etc/profile "${NC}"
+    fi
+  else
+    echo "No profile found at path" $profilePath
+  fi
+done
+#+END_SRC
+
+#+RESULTS:
+| No | profile | found | at | path | /home/benoit/.guix-extra-profiles//home/benoit/.config/guix/manifests/base    |
+| No | profile | found | at | path | /home/benoit/.guix-extra-profiles//home/benoit/.config/guix/manifests/desktop |
+
+* Update profile
+
+#+begin_src sh :tangle .local/bin/gpu :shebang #!/bin/sh
+
+# NOTE: This file is generated from ~/.dotfiles/System.org.  Please see commentary there.
+
+GREEN='\033[1;32m'
+NC='\033[0m'
+GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+
+profiles=$*
+if [[ $# -eq 0 ]]; then
+    profiles="$GUIX_EXTRA_PROFILES/*";
+fi
+
+for profile in $profiles; do
+  profileName=$(basename $profile)
+  profilePath=$GUIX_EXTRA_PROFILES/$profileName
+
+  echo
+  echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
+  echo
+
+  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm"
+done
+
+#+end_src
+
+guix package --manifest=/path/to/guix-my-project-manifest.scm --profile="$GUIX_EXTRA_PROFILES"/my-project/my-project

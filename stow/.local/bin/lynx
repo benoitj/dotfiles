@@ -1,0 +1,14 @@
+#!/bin/sh
+ 
+_lynx=/usr/bin/lynx
+
+if [[ -z "$_lynx" ]]
+then
+    echo "lynx not found"
+    return 1
+fi
+
+[[ -r ~/.config/lynx/lynx.cfg ]] && lynx_opts="-cfg=$HOME/.config/lynx/lynx.cfg"
+[[ -r ~/.config/lynx/lynx.lss ]] && lynx_opts="$lynx_opts -lss=$HOME/.config/lynx/lynx.lss"
+
+$_lynx $lynx_opts $*

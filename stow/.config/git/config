@@ -1,0 +1,42 @@
+[user]
+	email = benoit@benoitj.ca
+	name = Benoit Joly
+	signingkey = 0x5425347E4304939A
+[core]
+	excludesfile = ~/.config/git/ignore
+	attributesfile = ~/.config/git/attributes
+
+[init]
+	defaultBranch = main
+
+[sendemail]
+	    smtpserver = /usr/bin/msmtp
+
+[remind]
+	paths = /home/benoit/src/*
+
+[diff]
+	tool = ediff
+	guitool = ediff
+[merge]
+	tool = ediff
+
+[commit]
+	gpgsign = true
+[github]
+	user = benoitj
+[gitea "codeberg.org/api/v1"]
+	user = benoitj
+
+[diff "lisp"]
+	xfuncname = "^(\\(.*)$"
+[diff "org"]
+	xfuncname = "^(\\*+ +.*)$"
+
+[difftool "ediff"]
+	cmd = /home/benoit/.local/bin/ediff.sh $LOCAL $REMOTE $MERGED
+
+[mergetool "ediff"]
+	cmd = /home/benoit/.local/bin/ediff.sh $LOCAL $REMOTE $MERGED $BASE
+	trustExitCode = true
+

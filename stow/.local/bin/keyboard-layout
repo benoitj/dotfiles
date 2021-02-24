@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+
+DMENU="dmenu -l 3 -c -bw 2 -i" 
+
+chosen=$(echo -e "Dvorak\nUS\nca-fr" | $DMENU -p "Select layout")
+
+case "$chosen" in
+  Dvorak) 	setxkbmap -option "ctrl:nocaps" dvorak ;;
+  US) 		setxkbmap -option "ctrl:nocaps" us ;;
+  ca-fr) 	setxkbmap -option "ctrl:nocaps" ca,fr ;;
+esac
+

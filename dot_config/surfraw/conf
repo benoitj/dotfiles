@@ -1,3 +1,0 @@
-SURFRAW_text_browser=/usr/bin/w3m
-SURFRAW_graphical_browser=surf
-SURFRAW_graphical=yes

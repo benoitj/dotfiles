@@ -1,0 +1,62 @@
+
+
+
+# migadu
+
+IMAPAccount migadu
+Host imap.migadu.com
+Port 993
+User server@benlab.ca
+PassCmd "cat ~/.mbsyncpw.migadu"
+SSLType IMAPS
+
+IMAPStore migadu-remote
+Account migadu
+
+MailDirStore migadu-local
+Path ~/.mail/server@benlab.ca/
+Inbox ~/.mail/server@benlab.ca/Inbox
+Trash ~/.mail/server@benlab.ca/Trash
+SubFolders Verbatim
+
+channel migadu
+Master :migadu-remote:
+Slave :migadu-local:
+Patterns *
+SyncState *
+Create Both
+Expunge Both
+Remove Both
+CopyArrivalDate yes
+
+# mailbox.org
+
+IMAPAccount mailbox
+Host imap.mailbox.org
+Port 993
+User {{ .email }}
+PassCmd "cat ~/.mbsyncpw.mailbox"
+SSLType IMAPS
+
+IMAPStore mailbox-remote
+Account mailbox
+
+MailDirStore mailbox-local
+Path ~/.mail/mailbox.org/
+Inbox /home/benoit/.mail/mailbox.org/Inbox
+Trash /home/benoit/.mail/mailbox.org/Trash
+SubFolders Verbatim
+
+channel mailbox
+Master :mailbox-remote:
+Slave :mailbox-local:
+Patterns *
+SyncState *
+Create Both
+Expunge Both
+Remove Both
+CopyArrivalDate yes
+
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+#Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything

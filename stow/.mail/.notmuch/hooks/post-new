@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+echo "tagging new mails"
+#notmuch tag --batch --input=~/.mail/.notmuch/hooks/notmuch-batch.tags
+~/.local/bin/mail-autotag.sh

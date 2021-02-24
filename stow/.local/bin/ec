@@ -1,0 +1,8 @@
+#!/bin/sh
+
+. ~/.bashrc
+
+if ! emacsclient -e 0 >&/dev/null
+then emacs
+fi
+emacsclient -c "$@"

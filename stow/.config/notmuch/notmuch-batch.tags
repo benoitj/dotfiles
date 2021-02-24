@@ -1,0 +1,20 @@
++spam -new -- folder:/.*Spam.*/ or folder:/.*Junk.*/
+#+archive -new -inbox -- tag:inbox and not tag:unread and date:..6M
+
+
++from_me_to_me -new -- tag:new to:benoit@benoitj.ca and from:benoit@benoitj.ca
++from_me_to_me -new -- tag:new to:benoit.m.joly@gmail.com and from:benoit.m.joly@gmail.com
+
++sent -new -unread -- tag:new from:benoit@benoitj.ca or from:benoit.m.joly@gmail.com
+
++inbox +finance -new -- tag:new from:hydro.qc.ca
++inbox +finance -new -- tag:new from:revenuquebec.ca
++inbox +finance -new -- tag:new from:manulifesecurities.ca
+
++inbox +ecole -new -- tag:new from:.*cslaval.qc.ca
+
++inbox -new -- tag:new to:benoit@benoitj.ca or to:benoit.m.joly@gmail.com
+
+# to resort these, just
+# tag -unsorted +new -- tag:unsorted
++unsorted -new -- tag:new
