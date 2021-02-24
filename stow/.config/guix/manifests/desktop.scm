@@ -2,16 +2,16 @@
 
 (specifications->manifest
  '(
-   "alsa-plugins:out" ;; required by qutebrowser to play audio
-   "alsa-plugins:pulseaudio" ;; required by qutebrowser to play audio. missing LD_LIBRARY_PATH
-   "alsa-utils"
-   "pulsemixer"
-   "pamixer"
-   "gst-plugins-base"
-   "gst-plugins-good"
-   "gst-plugins-bad"
-   "gst-plugins-ugly"
-   "gstreamer"
+;;   "alsa-plugins:out" ;; required by qutebrowser to play audio
+;;   "alsa-plugins:pulseaudio" ;; required by qutebrowser to play audio. missing LD_LIBRARY_PATH
+;;   "alsa-utils"
+;;   "pulsemixer"
+;;   "pamixer"
+;;   "gst-plugins-base"
+;;   "gst-plugins-good"
+;;   "gst-plugins-bad"
+;;   "gst-plugins-ugly"
+;;   "gstreamer"
 
    ;; wm / xtools
    "arandr"
@@ -43,7 +43,7 @@
    "flameshot"
    "mupdf"
    "poppler"
-   "libreoffice"
+;;   "libreoffice"
    "zathura"
    "zathura-pdf-mupdf"
    "zathura-djvu"
@@ -55,14 +55,14 @@
    "emacs"
 
    ;; devtools
-   "clojure"
+;;   "clojure"
    ;;   "clojure-lsp-bin"
    "cmake"
    "git"
    "go"
    "go-github.com-howeyc-gopass"
    "guile"
-   "leiningen"
+;;   "leiningen"
    "maven"
    "openjdk@11."
    "ruby"
@@ -80,7 +80,7 @@
    "w3m"
    "lynx"
    "surfraw"
-   "firefox"
+;;   "firefox"
 
    ;; network tools
    "transmission" ;; out and gui

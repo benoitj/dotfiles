@@ -1,5 +1,4 @@
-;; This is an operating system configuration generated
-;; by the graphical installer.
+;; -*- mode: guix-scheme -*-
 
 (use-modules
  (gnu)
@@ -9,6 +8,7 @@
  (gnu packages audio)
  (gnu packages pulseaudio)
  (gnu packages certs)
+ (gnu packages suckless)
  ((gnu packages linux)
   #:select
   (light))
@@ -27,6 +27,8 @@
  ;; required for pcscd-service
  security-token)
 
+(define dmenu)
+
 
 (define %backlight-udev-rule
   (udev-rule
@@ -39,8 +41,6 @@
 
 (define %my-desktop-services
   (cons*
-;;    (service network-manager-service-type)
-;;   (service wpa-supplicant-service-type)
    (service pcscd-service-type)
    (service mate-desktop-service-type)
    (modify-services %desktop-services
@@ -89,9 +89,8 @@
     pulseaudio
     nss-certs)
    %base-packages))
-
  (services ;;(cons*
-            %my-desktop-services)
+  %my-desktop-services)
  (bootloader
   (bootloader-configuration
    (bootloader grub-efi-bootloader)
