@@ -41,6 +41,9 @@ export SPACESHIP_DIR_TRUNC_REPO=false
 export SPACESHIP_GIT_BRANCH_COLOR=blue
 export SPACESHIP_DIR_COLOR=green
 
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/benoit/.local/share/flatpak/exports/share
+
+
 [[ -d ~/.local/bin ]] && PATH="$HOME/.local/bin:$PATH"
 [[ -d ~/.local/scripts/cli ]] && PATH="$HOME/.local/scripts/cli:$PATH"
 [[ -d ~/.local/scripts/rofi ]] && PATH="$HOME/.local/scripts/rofi:$PATH"
