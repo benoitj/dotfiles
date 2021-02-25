@@ -6,7 +6,10 @@
 (concatenate-manifests
  (list
   (packages->manifest
-   `((,my-dmenu "out")))
+   `((,my-dmenu "out")
+     (,my-st "out")
+     (,my-dwm "out")
+     (,my-dwmstatus "out")))
   (specifications->manifest
    '(
      "alsa-plugins:out" ;; required by qutebrowser to play audio
