@@ -8,16 +8,9 @@
  (gnu packages audio)
  (gnu packages pulseaudio)
  (gnu packages certs)
- (gnu packages suckless)
- ((gnu packages linux)
-  #:select
-  (light))
+ (gnu packages linux)
  (nongnu packages linux)
- (nongnu system linux-initrd)
- ((gnu packages security-token)
-  #:select
-  (libu2f-host)))
-
+ (nongnu system linux-initrd))
 
 (use-service-modules 
  desktop 
@@ -26,9 +19,6 @@
  xorg 
  ;; required for pcscd-service
  security-token)
-
-(define dmenu)
-
 
 (define %backlight-udev-rule
   (udev-rule
