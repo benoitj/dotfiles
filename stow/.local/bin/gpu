@@ -17,5 +17,5 @@ for profile in $profiles; do
   echo -e "${GREEN}Updating profile:" $profilePath "${NC}"
   echo
 
-  guix package --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm"
+  guix package -L ~/.config/guix/packages/ --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm"
 done

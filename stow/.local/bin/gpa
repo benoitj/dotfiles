@@ -23,7 +23,7 @@ for profile in $profiles; do
     echo
 
     mkdir -p $profilePath
-    guix package --manifest=$manifestPath --profile="$profilePath/$profileName"
+    guix package -L ~/.config/guix/packages/ --manifest=$manifestPath --profile="$profilePath/$profileName"
 
     # Source the new profile
     GUIX_PROFILE="$profilePath/$profileName"
