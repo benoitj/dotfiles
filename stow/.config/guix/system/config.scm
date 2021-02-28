@@ -9,42 +9,23 @@
  (gnu packages pulseaudio)
  (gnu packages certs)
  (gnu packages linux)
+ (gnu services desktop)
+ (gnu services xorg)
+ (srfi srfi-1)
  (nongnu packages linux)
  (nongnu system linux-initrd))
 
 (use-service-modules 
- desktop 
  networking 
  ssh 
- xorg 
  ;; required for pcscd-service
  security-token)
-
-(define %backlight-udev-rule
-  (udev-rule
-   "90-backlight.rules"
-   (string-append "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
-                  "RUN+=\"/run/current-system/profile/bin/chgrp video /sys/class/backlight/%k/brightness\""
-                  "\n"
-                  "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
-                  "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
 
 (define %my-desktop-services
   (cons*
    (service pcscd-service-type)
    (service mate-desktop-service-type)
-   (modify-services %desktop-services
-                    (elogind-service-type config =>
-                                          (elogind-configuration
-                                           (inherit config)
-                                           (handle-lid-switch-external-power 'suspend)))
-                    (udev-service-type config =>
-                                       (udev-configuration
-                                        (inherit config)
-                                        (rules
-                                         (cons %backlight-udev-rule
-                                               (udev-configuration-rules config))))))))
-
+   %desktop-services))
 
 (operating-system
  (locale "en_CA.utf8")
@@ -79,8 +60,20 @@
     pulseaudio
     nss-certs)
    %base-packages))
- (services ;;(cons*
-  %my-desktop-services)
+ (services
+  (cons*
+   (service pcscd-service-type)
+   ;;(service mate-desktop-service-type)
+   (service slim-service-type
+            (slim-configuration
+             (default-user "benoit")))
+   (remove
+    (lambda
+        (service)
+      (eq?
+       (service-kind service)
+       gdm-service-type))
+    %desktop-services)))
  (bootloader
   (bootloader-configuration
    (bootloader grub-efi-bootloader)
