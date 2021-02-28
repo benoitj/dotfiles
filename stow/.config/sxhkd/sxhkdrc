@@ -2,11 +2,13 @@
 
 # Basic binds
 super + Return
-	/usr/local/bin/st
+	st
 super + d
 	dmenu_run -l 10 -c -bw 3 -F -i
 #super + Tab
 #	rofi -show window
+
+# FIXME: implement in dwm directly
 super + shift + e
 	~/.local/bin/session-menu
 
@@ -14,7 +16,7 @@ super + shift + e
 
 # mixer super + m
 super + m
-	/usr/local/bin/st -c "Mixer" -e pulsemixer
+	st -c "Mixer" -e pulsemixer
 
 #; super + plus
 XF86AudioRaiseVolume
@@ -34,9 +36,11 @@ shift + XF86AudioLowerVolume
 XF86AudioMute
 	pamixer --allow-boost -t
 
+# FIXME: implement with dbus
 XF86AudioPlay
 	mpc -q toggle
 
+# FIXME: implement with dbus
 XF86Audio{Prev,Next}
 	mpc -q {prev,next}
 
@@ -60,7 +64,7 @@ super + Print
 #	~/.config/scripts/dmenu/passmenu13
 
 super + F1
-	/usr/local/bin/st -e lf
+	st -e ranger
 
 super + F8
 	~/.local/bin/keyboard-layout
