@@ -75,8 +75,6 @@ fi
 
 export TERMINAL=st
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-[[ "$(tty)" = "/dev/tty1" ]] && exec startx
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1

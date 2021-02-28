@@ -27,3 +27,5 @@ dmenu.selbackground : #44475A
 dmenu.selforeground : #F8F8F2
 
 St.background: #282A37
+
+rofi.font: Fira Code 14

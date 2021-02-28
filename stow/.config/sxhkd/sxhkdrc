@@ -4,7 +4,8 @@
 super + Return
 	st
 super + d
-	dmenu_run -l 10 -c -bw 3 -F -i
+	rofi -theme gruvbox-dark -show combi -combi-modi "run,drun" -modi combi
+	#dmenu_run -l 10 -c -bw 3 -F -i
 #super + Tab
 #	rofi -show window
 
