@@ -9,7 +9,8 @@
    `((,my-dmenu "out")
      (,my-st "out")
      (,my-dwm "out")
-     (,my-dwmstatus "out")))
+     (,my-dwmstatus "out")
+     (,my-qutebrowser "out")))
   (specifications->manifest
    '(
      "alsa-plugins:out" ;; required by qutebrowser to play audio
@@ -25,6 +26,7 @@
      
      ;; wm / xtools
      "arandr"
+     "xrandr"
      "autorandr"
      "compton"
      "dunst"
@@ -42,6 +44,9 @@
      "xdotool"
      "xsel"
      "flatpak"
+     "rofi"
+     "xrdb"
+     "setxkbmap"
           
      "scrot"
      ;; "slip" dmenu / scrot
@@ -69,7 +74,11 @@
      ;;   "clojure"
      ;;   "clojure-lsp-bin"
      "cmake"
+     "make"
+     "strace"
      "git"
+     "stow"
+     "vim"
      "go"
      "go-github.com-howeyc-gopass"
      "guile"
@@ -87,7 +96,8 @@
      ;;"perl-mime-tools"
      
      ;; browsers
-     "qutebrowser"
+     ;; "qutebrowser" ;; replaced by my-qutebrowser
+     "wget"
      "w3m"
      "lynx"
      "surfraw"
@@ -112,7 +122,10 @@
 
 
 ;; not found:
+;; fira-code-nerd <- has bunch of glyph needed for ligatures
+;; starship <- currently installed in .local/bin
 ;; qt5-webengine-widevine ;; qute support for drm
+;; qutebrowser 2 <- patch on it's way
 ;;"pdfjs" ;; used by qutebrowser to display pdf inline
 ;;   "hugo"
 ;;   "gopls" ;; go language server
