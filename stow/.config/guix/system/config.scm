@@ -94,8 +94,7 @@ EndSection
        "lp" ;; bluetooth
        "audio"
        "video"
-       "input"
-       "plugdev")))
+       "input")))
    %base-user-accounts))
  (packages
   (append
