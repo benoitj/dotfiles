@@ -29,7 +29,6 @@
 
    ;; audio / video / media
    "ffmpeg"
-   "gnupg"
    "flac"
    "gawk"
    "chromaprint"
@@ -53,17 +52,26 @@
    "bsd-games"
 
    ;; file processing
-   "chezmoi"
    "diffutils"
    "gzip"
    "findutils"
    "fzy"
    "jq"
+   "tree"
    "mediainfo"
    "pbzip2" ;; multi core replacement for bzip2/bunzip2
-   "pv" ;; pipe progress monitor
+   "pv"     ;; pipe progress monitor
    "ranger"
    "ripgrep"
+   "gnupg"
+   "ncurses"
+   "pinentry"
+   "pinentry-tty"
+   "python"
+   "python-yubikey-manager"
+   "yubikey-personalization"
+   "sshfs"
+   "openssh"
 
    ;; console tools
    "bc" ;; calculator
