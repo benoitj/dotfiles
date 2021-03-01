@@ -3,6 +3,8 @@
 (use-modules
  (gnu)
  (gnu packages security-token)
+ (gnu packages vim)
+ (gnu packages package-management)
  (gnu packages wm)
  (gnu packages xorg)
  (gnu packages audio)
@@ -18,20 +20,56 @@
 (use-service-modules 
  networking 
  ssh 
- ;; required for pcscd-service
  security-token)
 
-(define %my-desktop-services
-  (cons*
-   (service pcscd-service-type)
-   (service mate-desktop-service-type)
-   %desktop-services))
+;; Allow members of the "video" group to change the screen brightness.
+(define %backlight-udev-rule
+  (udev-rule
+   "90-backlight.rules"
+   (string-append "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
+                  "RUN+=\"/run/current-system/profile/bin/chgrp video /sys/class/backlight/%k/brightness\""
+                  "\n"
+                  "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
+                  "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
 
+(define %xorg-libinput-config
+  "Section \"InputClass\"
+  Identifier \"Touchpads\"
+  Driver \"libinput\"
+  MatchDevicePath \"/dev/input/event*\"
+  MatchIsTouchpad \"on\"
+
+  Option \"Tapping\" \"on\"
+  Option \"TappingDrag\" \"on\"
+  Option \"DisableWhileTyping\" \"on\"
+  Option \"MiddleEmulation\" \"on\"
+  Option \"ScrollMethod\" \"twofinger\"
+EndSection
+Section \"InputClass\"
+  Identifier \"Keyboards\"
+  Driver \"libinput\"
+  MatchDevicePath \"/dev/input/event*\"
+  MatchIsKeyboard \"on\"
+EndSection
+")
+
+
+(define %my-desktop-services
+  (modify-services %desktop-services
+                   (elogind-service-type config =>
+                                         (elogind-configuration
+                                          (inherit config)
+                                          (handle-lid-switch-external-power 'suspend)))
+                   (udev-service-type config =>
+                                      (udev-configuration
+                                       (inherit config)
+                                       (rules
+                                        (cons %backlight-udev-rule
+                                              (udev-configuration-rules config)))))))
 (operating-system
  (locale "en_CA.utf8")
  (timezone "America/New_York")
- (keyboard-layout
-  (keyboard-layout "us"))
+ (keyboard-layout (keyboard-layout "us" #:model "thinkpad"))
  (host-name "milhouse")
  (kernel linux)
  (initrd microcode-initrd)
@@ -51,29 +89,43 @@
     (group "users")
     (home-directory "/home/benoit")
     (supplementary-groups
-     '("wheel" "netdev" "audio" "video" "input" "plugdev")))
+     '("wheel"
+       "netdev"
+       "lp" ;; bluetooth
+       "audio"
+       "video"
+       "input"
+       "plugdev")))
    %base-user-accounts))
  (packages
   (append
    (list
+    vim
+    stow
     xf86-input-libinput
+    bluez
+    bluez-alsa
     pulseaudio
     nss-certs)
    %base-packages))
  (services
   (cons*
    (service pcscd-service-type)
-   ;;(service mate-desktop-service-type)
    (service slim-service-type
             (slim-configuration
-             (default-user "benoit")))
-   (remove
+             (default-user "benoit")
+             (xorg-configuration
+              (xorg-configuration
+               (keyboard-layout keyboard-layout)
+               (extra-config (list %xorg-libinput-config))))))
+   (bluetooth-service #:auto-enable? #t)
+   (remove  
     (lambda
         (service)
       (eq?
        (service-kind service)
        gdm-service-type))
-    %desktop-services)))
+    %my-desktop-services)))
  (bootloader
   (bootloader-configuration
    (bootloader grub-efi-bootloader)
