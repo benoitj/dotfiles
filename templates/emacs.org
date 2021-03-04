@@ -1,0 +1,263 @@
+#+TITLE: Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
+
+* My emacs config
+
+This is version *too many to count* of my emacs configuration.
+After some basic setup, spacemacs, my own init.el, doom emacs, and now going back to basis using org tangle.
+
+This configuration is inspired by [[https://github.com/daviwil/emacs-from-scratch][emacs-from-scratch]], doom emacs, and many people's emacs config.
+
+#+begin_src emacs-lisp
+;;; -*- lexical-binding: t -*-
+
+(defvar bj/default-font-size 180)
+(defvar bj/default-variable-font-size 180)
+
+;; Make frame transparency overridable
+(defvar bj/frame-transparency '(90 . 90))
+
+#+end_src
+
+* Package Management
+** Use package
+
+to configure stuff in guix
+
+#+begin_src emacs-lisp
+
+(require 'use-package)
+
+#+end_src
+
+** Straight
+   
+for stuff not in guix
+
+#+begin_src emacs-lisp
+
+  ;; Bootstrap straight.el
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+          'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  ;; Always use straight to install on systems other than Linux
+  ;;(setq straight-use-package-by-default t)
+  
+  ;; Use straight.el for use-package expressions
+  ;;(straight-use-package 'use-package)
+
+#+end_src
+
+* Keep things clean
+  #+begin_src emacs-lisp
+ ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
+;; reliably, set `user-emacs-directory` before loading no-littering!
+;(setq user-emacs-directory "~/.cache/emacs")
+
+(use-package no-littering)
+
+;; no-littering doesn't set this by default so we must place
+;; auto save files in the same path as it uses for sessions
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+ 
+  #+end_src
+* Bindings
+** General <space> configuration
+
+   #+begin_src emacs-lisp
+
+     (defun bj/open-dot-emacs ()
+        ""
+	(interactive)
+	 (find-file (expand-file-name "~/src/dotfiles/templates/emacs.org")))
+
+     (defun bj/open-dotfiles ()
+         ""
+	(interactive)
+	 (find-file (expand-file-name "~/src/dotfiles/")))
+
+     (use-package general
+       :after evil
+       :config
+       (general-create-definer bj/leader-keys
+	 :keymaps '(normal insert visual emacs)
+	 :prefix "SPC"
+	 :global-prefix "M-SPC")
+
+       (bj/leader-keys
+	 "b" '(:ignore t :which-key "buffers")
+	 "bb" '(switch-to-buffer :which-key "buffers")
+	 "bi" '(ibuffer :which-key "ibuffer")
+	 "bk" '(kill-buffer :which-key "kill")
+	 "f" '(:ignore t :which-key "files")
+	 "fs" '(save-buffer :which-key "save")
+	 "fd" '(:ignore t :which-key "dotfiles")
+	 "fdd" '(bj/open-dotfiles :which-key "dotfiles")
+	 "fde" '(bj/open-dot-emacs :which-key "emacs")))
+
+   #+end_src
+
+** Evil
+ 
+   #+begin_src emacs-lisp
+  (use-package evil
+    :demand t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    (setq evil-respect-visual-line-mode t)
+    (setq evil-undo-system 'undo-tree)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+
+    ;; Use visual line motions even outside of visual-line-mode buffers
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
+
+  (use-package evil-collection
+    :after evil
+    :init
+    (setq evil-collection-company-use-tng nil)  ;; Is this a bug in evil-collection?
+    :custom
+    (evil-collection-outline-bind-tab-p nil)
+    :config
+    (evil-collection-init))
+   
+   #+end_src
+
+* UI Configuration
+  
+** Basic configuration
+   #+begin_src emacs-lisp
+
+     (setq inhibit-startup-message t)
+
+     (scroll-bar-mode -1)        ; Disable visible scrollbar
+     (tool-bar-mode -1)          ; Disable the toolbar
+     (tooltip-mode -1)           ; Disable tooltips
+     (set-fringe-mode 10)        ; Give some breathing room
+
+     (menu-bar-mode -1)            ; Disable the menu bar
+
+     ;; Set up the visible bell
+     (setq visible-bell t)
+
+     ;; Set frame transparency
+     (set-frame-parameter (selected-frame) 'alpha bj/frame-transparency)
+     (add-to-list 'default-frame-alist `(alpha . ,bj/frame-transparency))
+     (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+     (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+     (column-number-mode)
+     (global-display-line-numbers-mode t)
+
+     ;; Disable line numbers for some modes
+     (dolist (mode '(org-mode-hook
+		     term-mode-hook
+		     shell-mode-hook
+		     treemacs-mode-hook
+		     eshell-mode-hook))
+       (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+   #+end_src
+** TODO Theme
+
+#+begin_src emacs-lisp
+
+    (use-package modus-themes
+    :demand t
+    :init
+    ;; Add all your customizations prior to loading the themes
+    ;;(setq modus-themes-slanted-constructs t
+    ;;     modus-themes-bold-constructs nil)
+
+    ;; Load the theme files before enabling a theme (else you get an error).
+    (modus-themes-load-themes)
+    :config
+    ;; Load the theme of your choice:
+    (modus-themes-load-vivendi)
+    :bind ("<f5>" . modus-themes-toggle))
+#+end_src
+
+** Which key
+
+   #+begin_src emacs-lisp
+
+  (use-package which-key
+    :defer 0
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 1))
+
+   #+end_src
+
+* Org
+
+** setup babel languages
+
+#+begin_src emacs-lisp
+    (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (ledger . t)))
+#+end_src
+
+** Structure templates
+
+#+begin_src emacs-lisp
+
+(with-eval-after-load 'org
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
+  (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+  (add-to-list 'org-structure-template-alist '("json" . "src json")))
+
+#+end_src
+
+
+** Automatically "Tangle" on Save
+
+Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-emacs-and--org-mode-for-literate-programming][this book]] on literate programming.
+
+#+begin_src emacs-lisp
+
+  ;; Since we don't want to disable org-confirm-babel-evaluate all
+  ;; of the time, do it around the after-save-hook
+  (defun dw/org-babel-tangle-dont-ask ()
+    ;; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle)))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'dw/org-babel-tangle-dont-ask
+                                                'run-at-end 'only-in-org-mode)))
+
+#+end_src
+
+* Dev tools
+** Git
+
+   #+begin_src emacs-lisp
+     (use-package magit
+       :commands magit-status)
+   #+end_src
