@@ -12,6 +12,7 @@
  (gnu packages certs)
  (gnu packages linux)
  (gnu services desktop)
+ (gnu services sound)
  (gnu services xorg)
  (srfi srfi-1)
  (nongnu packages linux)
@@ -20,7 +21,8 @@
 (use-service-modules 
  networking 
  ssh 
- security-token)
+ security-token
+ nix)
 
 ;; Allow members of the "video" group to change the screen brightness.
 (define %backlight-udev-rule
@@ -94,7 +96,8 @@ EndSection
        "lp" ;; bluetooth
        "audio"
        "video"
-       "input")))
+       "input"
+       "plugdev")))
    %base-user-accounts))
  (packages
   (append
@@ -110,6 +113,8 @@ EndSection
  (services
   (cons*
    (service pcscd-service-type)
+   (service mate-desktop-service-type)
+   (service nix-service-type)
    (service slim-service-type
             (slim-configuration
              (default-user "benoit")

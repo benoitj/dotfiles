@@ -24,6 +24,7 @@ then
 		then
 			GUIX_PROFILE="$profile"
 			. "$GUIX_PROFILE"/etc/profile
+			export MANPATH="$MANPATH:$GUIX_PROFILE/share/man"
 		fi
 		unset profile
 	done
@@ -31,7 +32,9 @@ fi
 export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
 export GUIX_PROFILE="/home/benoit/.guix-profile"
 source "$GUIX_PROFILE/etc/profile"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:.guix-extra-profiles/desktop/desktop/lib/alsa-lib/"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.guix-extra-profiles/desktop/desktop/lib/alsa-lib/"
+source /run/current-system/profile/etc/profile.d/nix.sh
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:$HOME/.nix-profile/share/applications
 
 export EDITOR="vim"
 export BROWSER="qutebrowser"
