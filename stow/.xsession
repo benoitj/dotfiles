@@ -14,8 +14,11 @@ autorandr -c
 dunst &
 unclutter &
 
+feh --bg-scale Downloads/pexels-philippe-donn-1114690.jpg
+
 #udiskie -a -N &
 dwmstatus &
+
 
 test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 exec dbus-launch dwm
