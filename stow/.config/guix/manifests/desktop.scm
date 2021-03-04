@@ -69,6 +69,14 @@
      
      ;; editor
      "emacs"
+     "emacs-modus-themes"
+     "emacs-general"
+     "emacs-evil"
+     "emacs-evil-collection"
+     "emacs-which-key"
+     "emacs-use-package"
+     "emacs-no-littering"
+     "emacs-magit"
      
      ;; devtools
      ;;   "clojure"
@@ -101,7 +109,7 @@
      "w3m"
      "lynx"
      "surfraw"
-     ;;   "firefox"
+     "firefox"
      
      ;; network tools
      "transmission" ;; out and gui
