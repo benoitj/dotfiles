@@ -89,9 +89,9 @@ shopt -s cdable_vars
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
-#export GPG_TTY="$(tty)"
-#export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-#gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 
 #test
 
