@@ -113,7 +113,6 @@ EndSection
  (services
   (cons*
    (service pcscd-service-type)
-   (service mate-desktop-service-type)
    (service nix-service-type)
    (service slim-service-type
             (slim-configuration
