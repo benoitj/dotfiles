@@ -11,8 +11,8 @@ This configuration is inspired by [[https://github.com/daviwil/emacs-from-scratc
 #+begin_src emacs-lisp
 ;;; -*- lexical-binding: t -*-
 
-(defvar bj/default-font-size 180)
-(defvar bj/default-variable-font-size 180)
+(defvar bj/default-font-size 140)
+(defvar bj/default-variable-font-size 140)
 
 ;; Make frame transparency overridable
 (defvar bj/frame-transparency '(90 . 90))
@@ -21,36 +21,41 @@ This configuration is inspired by [[https://github.com/daviwil/emacs-from-scratc
 
 * Startup Performance
 
-#+begin_src emacs-lisp
+** garbage collection tuning
+   #+begin_src emacs-lisp
 
-  ;; The default is 800 kilobytes.  Measured in bytes.
-  (setq gc-cons-threshold (* 100 1000 1000))
+   ;; The default is 800 kilobytes.  Measured in bytes.
+   (setq gc-cons-threshold (* 100 1000 1000))
+   (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold (* 20 1000 1000))))
+  
+   #+end_src
 
-  (defun bj/display-startup-time ()
-    (message "Emacs loaded in %s with %d garbage collections."
-             (format "%.2f seconds"
-                     (float-time
-                       (time-subtract after-init-time before-init-time)))
-             gcs-done))
+** monitor performance  
+   #+begin_src emacs-lisp
 
-  (add-hook 'emacs-startup-hook #'bj/display-startup-time)
-  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold (* 20 1000 1000))))
+   (defun bj/display-startup-time ()
+     (message "Emacs loaded in %s with %d garbage collections."
+	      (format "%.2f seconds"
+		      (float-time
+			(time-subtract after-init-time before-init-time)))
+	      gcs-done))
 
-#+end_src
+   (add-hook 'emacs-startup-hook #'bj/display-startup-time)
+
+   #+end_src
 
 * Package Management
 ** Use package
 
-to configure stuff in guix
+to configure stuff installed from guix
 
 #+begin_src emacs-lisp
 
 (setq use-package-always-defer t)
+(setq use-package-always-ensure nil)
 (setq use-package-verbose t)
-
-
+ 
 (require 'use-package)
-
 
 #+end_src
 
@@ -73,13 +78,6 @@ for stuff not in guix
         (goto-char (point-max))
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
-
-  ;; Always use straight to install on systems other than Linux
-  ;;(setq straight-use-package-by-default t)
-  
-  ;; Use straight.el for use-package expressions
-  ;;(straight-use-package 'use-package)
-
 #+end_src
 
 * Keep things clean
@@ -130,6 +128,7 @@ for stuff not in guix
 	 "fdd" '(bj/open-dotfiles :which-key "dotfiles")
 	 "fde" '(bj/open-dot-emacs :which-key "emacs")
 	 "h" '(:keymap help-map :which-key "help")
+	 "t"  '(:ignore t :which-key "toggles")
 	 "w" '(:ignore t :which-key "windows")
 	 "ww" '(other-window :which-key "switch")
 	 "wd" '(delete-window :which-key "delete")
@@ -155,9 +154,9 @@ for stuff not in guix
     (evil-mode 1)
     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
-    ;; Use visual line motions even outside of visual-line-mode buffers
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    ;; TODO Use visual line motions even outside of visual-line-mode buffers
+    ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
     (evil-set-initial-state 'messages-buffer-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal))
@@ -207,6 +206,22 @@ for stuff not in guix
        (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
    #+end_src
+** Font Configuration
+
+I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://fonts.google.com/specimen/Cantarell][Cantarell]] fonts for this configuration which will more than likely need to be installed on your machine.  Both can usually be found in the various Linux distro package managers or downloaded from the links above.
+
+#+begin_src emacs-lisp
+
+(set-face-attribute 'default nil :font "Fira Code Retina" :height bj/default-font-size)
+
+;; Set the fixed pitch face
+(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height bj/default-font-size)
+
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil :font "Cantarell" :height bj/default-variable-font-size :weight 'regular)
+
+#+end_src
+
 ** TODO Theme
 
 #+begin_src emacs-lisp
@@ -225,6 +240,23 @@ for stuff not in guix
     (modus-themes-load-vivendi)
     :bind ("<f5>" . modus-themes-toggle))
 #+end_src
+** modeline
+
+   #+begin_src emacs-lisp
+     (use-package all-the-icons
+       :demand t)
+
+     (setq doom-modeline-buffer-state-icon nil)
+
+     (use-package doom-modeline
+       :demand t
+       :init (doom-modeline-mode 1)
+       :custom (
+       (doom-modeline-height 15)
+       (doom-modeline-buffer-state-icon t)
+       (doom-modeline-modal-icon nil)))
+
+   #+end_src
 
 ** Which key
 
@@ -238,7 +270,9 @@ for stuff not in guix
 
    #+end_src
 
-   
+** TODO matcher
+** TODO completion
+
 * file management
 ** recentf
    #+begin_src emacs-lisp
@@ -298,7 +332,28 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 
 #+end_src
 
+* Apps
+** Command Log Mode
+
+[[https://github.com/lewang/command-log-mode][command-log-mode]] is useful for displaying a panel showing each key binding you use in a panel on the right side of the frame.  Great for live streams and screencasts!
+
+#+begin_src emacs-lisp
+
+  (use-package command-log-mode
+    :straight t
+    :commands (command-log-mode global-command-log-mode)
+    :general
+    (bj/leader-keys
+    "tc" '(:ignore t :which-key "command log")
+    "tcc" '(clm/command-log-clear :which-key "clear")
+    "tcb" '(clm/toggle-command-log-buffer :which-key "buffer")
+    "tct" '(global-command-log-mode :which-key "toggle")))
+
+#+end_src
+
+
 * Dev tools
+** TODO Projectile
 ** Git
 
    #+begin_src emacs-lisp

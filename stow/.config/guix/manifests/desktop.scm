@@ -83,6 +83,9 @@
      "emacs-use-package"
      "emacs-no-littering"
      "emacs-magit"
+     "emacs-all-the-icons"
+     "emacs-all-the-icons-dired" ;; TODO
+     "emacs-doom-modeline"
      
      ;; devtools
      ;;   "clojure"
