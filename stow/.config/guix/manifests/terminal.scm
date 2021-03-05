@@ -70,6 +70,7 @@
    "python"
    "python-yubikey-manager"
    "yubikey-personalization"
+   "python-pynacl"
    "sshfs"
    "openssh"
 
