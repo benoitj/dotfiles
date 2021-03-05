@@ -129,6 +129,7 @@ for stuff not in guix
 	 "fd" '(:ignore t :which-key "dotfiles")
 	 "fdd" '(bj/open-dotfiles :which-key "dotfiles")
 	 "fde" '(bj/open-dot-emacs :which-key "emacs")
+	 "h" '(:keymap help-map :which-key "help")
 	 "w" '(:ignore t :which-key "windows")
 	 "ww" '(other-window :which-key "switch")
 	 "wd" '(delete-window :which-key "delete")
@@ -173,7 +174,6 @@ for stuff not in guix
    #+end_src
 
 * UI Configuration
-  
 ** Basic configuration
    #+begin_src emacs-lisp
 
@@ -238,6 +238,20 @@ for stuff not in guix
 
    #+end_src
 
+   
+* file management
+** recentf
+   #+begin_src emacs-lisp
+   (use-package recentf
+     :demand t
+     :general
+     (bj/leader-keys
+     "fr" '(recentf-open-files :which-key "recent"))
+     :config
+     (recentf-mode 1))
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory) 
+   #+end_src
 * Org
 
 ** setup babel languages
@@ -294,5 +308,5 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
        (bj/leader-keys
 	 "g" '(:ignore t :which-key "git")
 	 "gg" '(magit-status :which-key "status")
-	 "gf" '(magit-file-dispatch :which-key "file ops"))
+	 "gf" '(magit-file-dispatch :which-key "file ops")))
    #+end_src
