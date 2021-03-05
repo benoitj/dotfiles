@@ -19,6 +19,25 @@ This configuration is inspired by [[https://github.com/daviwil/emacs-from-scratc
 
 #+end_src
 
+* Startup Performance
+
+#+begin_src emacs-lisp
+
+  ;; The default is 800 kilobytes.  Measured in bytes.
+  (setq gc-cons-threshold (* 100 1000 1000))
+
+  (defun bj/display-startup-time ()
+    (message "Emacs loaded in %s with %d garbage collections."
+             (format "%.2f seconds"
+                     (float-time
+                       (time-subtract after-init-time before-init-time)))
+             gcs-done))
+
+  (add-hook 'emacs-startup-hook #'bj/display-startup-time)
+  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold (* 20 1000 1000))))
+
+#+end_src
+
 * Package Management
 ** Use package
 
