@@ -84,8 +84,14 @@
      "emacs-no-littering"
      "emacs-magit"
      "emacs-all-the-icons"
-     "emacs-all-the-icons-dired" ;; TODO
+     "emacs-all-the-icons-dired"
      "emacs-doom-modeline"
+     "emacs-ivy"
+     "emacs-ivy-rich"
+     ;; emacs-ivy-yasnipet, emacs-ivy-xref, emacs-ivy-posframe
+     "emacs-counsel"
+     ;; emacs-counsel-projectile, emacs-counsel-notmuch, emacs-counsel-jq, emacs-counsel-dash
+     "emacs-swiper"
      
      ;; devtools
      ;;   "clojure"
