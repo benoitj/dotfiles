@@ -47,6 +47,8 @@
      "rofi"
      "xrdb"
      "setxkbmap"
+     "xdg-utils"
+     "xdg-user-dirs"
           
      "scrot"
      ;; "slip" dmenu / scrot
@@ -65,6 +67,9 @@
      "zathura-djvu"
      "sxiv"
      "gimp"
+     "syncthing"
+     "keepassxc"
+
      ;; need a replacement. brings the whole gnome desktop: "cheese"
      
      ;; editor
@@ -109,7 +114,7 @@
      "w3m"
      "lynx"
      "surfraw"
-     "firefox"
+     ;;"firefox"
      
      ;; network tools
      "transmission" ;; out and gui
