@@ -99,12 +99,19 @@ for stuff not in guix
 	 "b" '(:ignore t :which-key "buffers")
 	 "bb" '(switch-to-buffer :which-key "buffers")
 	 "bi" '(ibuffer :which-key "ibuffer")
-	 "bk" '(kill-buffer :which-key "kill")
+	 "bd" '(kill-buffer :which-key "kill")
 	 "f" '(:ignore t :which-key "files")
+	 "ff" '(find-file :which-key "open")
 	 "fs" '(save-buffer :which-key "save")
 	 "fd" '(:ignore t :which-key "dotfiles")
 	 "fdd" '(bj/open-dotfiles :which-key "dotfiles")
-	 "fde" '(bj/open-dot-emacs :which-key "emacs")))
+	 "fde" '(bj/open-dot-emacs :which-key "emacs")
+	 "w" '(:ignore t :which-key "windows")
+	 "ww" '(other-window :which-key "switch")
+	 "wd" '(delete-window :which-key "delete")
+	 "wo" '(delete-other-windows :which-key "delete others")
+	 "ws" '(split-window-below :which-key "split horiz")
+	 "wv" '(split-window-right :which-key "split vert")))
 
    #+end_src
 
@@ -259,5 +266,10 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 
    #+begin_src emacs-lisp
      (use-package magit
-       :commands magit-status)
+       :commands magit-status
+       :general
+       (bj/leader-keys
+	 "g" '(:ignore t :which-key "git")
+	 "gg" '(magit-status :which-key "status")
+	 "gf" '(magit-file-dispatch :which-key "file ops"))
    #+end_src
