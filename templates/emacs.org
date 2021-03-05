@@ -45,7 +45,12 @@ to configure stuff in guix
 
 #+begin_src emacs-lisp
 
+(setq use-package-always-defer t)
+(setq use-package-verbose t)
+
+
 (require 'use-package)
+
 
 #+end_src
 
