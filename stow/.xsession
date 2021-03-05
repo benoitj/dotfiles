@@ -19,6 +19,8 @@ feh --bg-scale Downloads/pexels-philippe-donn-1114690.jpg
 #udiskie -a -N &
 dwmstatus &
 
+test -x $(which syncthing) && syncthing -logfile=$HOME/.cache/syncthing.log &
+
 
 test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 exec dbus-launch dwm
