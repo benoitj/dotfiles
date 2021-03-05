@@ -1,5 +1,5 @@
 ! Dracula Xresources palette
-*.font: Hack:pixelsize=14:antialias=true:autohint=true
+*.font: Cantarell:pixelsize=14:antialias=true:autohint=true
 *.foreground: #F8F8F2
 *.background: #282A36
 *.color0:     #000000

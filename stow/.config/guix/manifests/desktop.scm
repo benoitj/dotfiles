@@ -35,6 +35,7 @@
      "font-dejavu"
      "font-fira-code"
      "font-google-noto"
+     "font-abattis-cantarell"
      "font-hack"
      "libnotify"
      "sxhkd"
