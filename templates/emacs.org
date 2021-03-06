@@ -168,6 +168,14 @@ for stuff not in guix
    #+end_src
 
 * UI Configuration
+** run-now-or-make-frame-hook macro
+   #+begin_src emacs-lisp
+     (defmacro bj/run-now-or-on-make-frame-hook (&rest body)
+       `(if (daemonp)
+	    '(add-hook 'server-after-make-frame-hook (lambda () ,@body))
+	  (progn ,@body)))
+
+   #+end_src
 ** Basic configuration
    #+begin_src emacs-lisp
 
@@ -254,8 +262,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
     (bj/leader-keys
       "ts" '(hydra-text-scale/body :which-key "scale text")))
 
-  (add-hook 'after-init-hook 'bj/reset-frame-font)
-
+  (bj/run-now-or-on-make-frame-hook (bj/reset-frame-font))
 #+end_src
 
 ** TODO Theme
@@ -282,17 +289,26 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
      (use-package all-the-icons
        :demand t)
 
-     (setq doom-modeline-buffer-state-icon nil)
-
-     (use-package doom-modeline
-       :demand t
-       :init (doom-modeline-mode 1)
-       :custom (
-       (doom-modeline-height 15)
-       (doom-modeline-buffer-state-icon t)
-       (doom-modeline-modal-icon nil)))
-
+  (use-package doom-modeline
+    :after eshell     ;; Make sure it gets hooked after eshell
+    :hook (after-init . doom-modeline-init)
+    :custom-face
+    (mode-line ((t (:height 0.85))))
+    (mode-line-inactive ((t (:height 0.85))))
+    :custom
+    (doom-modeline-height 15)
+    (doom-modeline-bar-width 6)
+    (doom-modeline-lsp t)
+    (doom-modeline-github nil)
+    (doom-modeline-mu4e nil)
+    (doom-modeline-irc nil)
+    (doom-modeline-minor-modes t)
+    (doom-modeline-persp-name nil)
+    (doom-modeline-buffer-file-name-style 'truncate-except-project)
+    (doom-modeline-buffer-state-icon nil)
+    (doom-modeline-major-mode-icon nil))
    #+end_src
+
 
 ** Which key
 
@@ -300,6 +316,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 
   (use-package which-key
     :defer 0
+    :diminish which-key-mode
     :config
     (which-key-mode)
     (setq which-key-idle-delay 1))
@@ -315,6 +332,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 
   (use-package ivy
     :demand t
+    :diminish 'ivy-mode
     :bind
     (("C-c C-r" . ivy-resume))
     ;; TODO: see if we want more bindings
@@ -336,6 +354,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 
   (use-package counsel
     :after ivy
+    :diminish counsel-mode
     :general
       (bj/leader-keys
       "fr" '(counsel-recentf :which-key "recentf"))
