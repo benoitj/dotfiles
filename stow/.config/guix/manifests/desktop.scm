@@ -92,6 +92,8 @@
      "emacs-counsel"
      ;; emacs-counsel-projectile, emacs-counsel-notmuch, emacs-counsel-jq, emacs-counsel-dash
      "emacs-swiper"
+     "emacs-helpful"
+     "emacs-hydra"
      
      ;; devtools
      ;;   "clojure"
