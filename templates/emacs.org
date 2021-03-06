@@ -11,11 +11,6 @@ This configuration is inspired by [[https://github.com/daviwil/emacs-from-scratc
 #+begin_src emacs-lisp
 ;;; -*- lexical-binding: t -*-
 
-(defvar bj/default-font-size 140)
-(defvar bj/default-variable-font-size 140)
-
-;; Make frame transparency overridable
-(defvar bj/frame-transparency '(90 . 90))
 
 #+end_src
 
@@ -189,6 +184,7 @@ for stuff not in guix
      (setq visible-bell t)
 
      ;; Set frame transparency
+     (setq bj/frame-transparency '(90 . 90))
      (set-frame-parameter (selected-frame) 'alpha bj/frame-transparency)
      (add-to-list 'default-frame-alist `(alpha . ,bj/frame-transparency))
      (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
@@ -211,14 +207,54 @@ for stuff not in guix
 I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://fonts.google.com/specimen/Cantarell][Cantarell]] fonts for this configuration which will more than likely need to be installed on your machine.  Both can usually be found in the various Linux distro package managers or downloaded from the links above.
 
 #+begin_src emacs-lisp
+  (setq bj/default-font-size 120)
+  (setq bj/fixed-font-name "Fira Code Retina")
+  (setq bj/variable-font-name "Cantarell")
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height bj/default-font-size)
+  ;; Make frame transparency overridable
+  (defcustom bj/font-size bj/default-font-size "My default font size")
 
-;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height bj/default-font-size)
+  (defun bj/set-frame-font-size (&optional font-size)
+    "change frame font size to font-size.
+      If no font-size specified, reset to default."
+    (let ((font-size
+	   (or font-size   
+	       (car (get 'bj/font-size 'standard-value)))))
+      (customize-set-variable 'bj/font-size font-size)
+      (set-face-attribute 'default nil :font bj/fixed-font-name :height font-size)
+    
+      ;; Set the fixed pitch face
+      (set-face-attribute 'fixed-pitch nil :font bj/fixed-font-name :height font-size)
+    
+      (set-face-attribute 'variable-pitch nil :font bj/variable-font-name :height font-size :weight 'regular)))
 
-;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height bj/default-variable-font-size :weight 'regular)
+  (defun bj/increase-frame-font ()
+    "Increase font by 1"
+    (interactive)
+    (bj/set-frame-font-size (+ bj/font-size 10)))
+
+  (defun bj/decrease-frame-font ()
+    "Decrease font by 1"
+    (interactive)
+    (bj/set-frame-font-size (- bj/font-size 10)))
+
+  (defun bj/reset-frame-font ()
+    "Reset font size to default"
+    (interactive)
+    (bj/set-frame-font-size bj/default-font-size))
+
+  (with-eval-after-load 'hydra
+    (defhydra hydra-text-scale (:timeout 4)
+      "scale text"
+      ("+" bj/increase-frame-font "in")
+      ("-" bj/decrease-frame-font "out")
+      ("0" bj/reset-frame-font "reset")
+      ("q" nil "finished" :exit t))
+  
+    (bj/leader-keys
+      "ts" '(hydra-text-scale/body :which-key "scale text")))
+
+  (add-hook 'after-init-hook 'bj/reset-frame-font)
 
 #+end_src
 
@@ -270,7 +306,7 @@ I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://f
 
    #+end_src
 
-** TODO matcher
+** ivy/counsel matcher
 [[https://oremacs.com/swiper/][Ivy]] is an excellent completion framework for Emacs.  It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs.  Counsel is a customized set of commands to replace `find-file` with `counsel-find-file`, etc which provide useful commands for each of the default completion commands.
 
 [[https://github.com/Yevgnen/ivy-rich][ivy-rich]] adds extra columns to a few of the Counsel commands to provide more information about each item.
@@ -322,27 +358,30 @@ I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://f
     (ivy-rich-mode 1))
 #+end_src
 
-*** Improved Candidate Sorting with prescient.el
-
-prescient.el provides some helpful behavior for sorting Ivy completion candidates based on how recently or frequently you select them.  This can be especially helpful when using =M-x= to run commands that you don't have bound to a key but still need to access occasionally.
-
-This Prescient configuration is optimized for use in System Crafters videos and streams, check out the [[https://youtu.be/T9kygXveEz0][video on prescient.el]] for more details on how to configure it!
-
+** help information
 #+begin_src emacs-lisp
 
-  (use-package ivy-prescient
-    :after counsel
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key)
     :custom
-    (ivy-prescient-enable-filtering nil)
-    :config
-    ;; Uncomment the following line to have sorting remembered across sessions!
-    ;(prescient-persist-mode 1)
-    (ivy-prescient-mode 1))
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
 
 #+end_src
+** hydras
+   #+begin_src emacs-lisp
+   (use-package hydra)
+   #+end_src
 
-
+** TODO m-x improved
 ** TODO completion
+   
+install company
 
 * file management
 ** TODO dired
