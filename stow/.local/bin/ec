@@ -3,6 +3,6 @@
 . ~/.bashrc
 
 if ! emacsclient -e 0 >&/dev/null
-then emacs
+then emacs --daemon
 fi
 emacsclient -c "$@"
