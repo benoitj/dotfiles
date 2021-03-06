@@ -94,6 +94,19 @@
      "emacs-swiper"
      "emacs-helpful"
      "emacs-hydra"
+     "emacs-rainbow-delimiters"
+     "emacs-ace-window"
+     "emacs-evil-visualstar"
+     "emacs-deadgrep"
+     "emacs-neotree"
+     "emacs-smartparens"
+     "emacs-editorconfig"
+     "emacs-company"
+     ;; "emacs-company-flx" ;; TODO missing in guix
+     "emacs-company-quickhelp"
+     "emacs-company-box"
+     "emacs-pos-tip"
+     "emacs-projectile"
      
      ;; devtools
      ;;   "clojure"

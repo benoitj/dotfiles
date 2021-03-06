@@ -88,7 +88,7 @@ for stuff not in guix
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
  
   #+end_src
-* Bindings
+* Bindings / navigation
 ** General <space> configuration
 
    #+begin_src emacs-lisp
@@ -164,9 +164,37 @@ for stuff not in guix
     (evil-collection-outline-bind-tab-p nil)
     :config
     (evil-collection-init))
+  (use-package evil-visualstar
+    :after evil
+    :config
+    (global-evil-visualstar-mode t))
+
+   #+end_src
+
+** window switching
+   #+begin_src emacs-lisp
+   (use-package ace-window
+     :demand t
+     :init
+     (global-set-key [remap other-window] 'ace-window)
+     (custom-set-faces
+     '(aw-leading-char-face
+       ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+       )
    
    #+end_src
 
+** scrolling
+   #+begin_src emacs-lisp
+   (use-package smooth-scrolling
+     :defer 0
+     :straight t
+     :config
+     (smooth-scrolling-mode 1))
+
+   (setq scroll-conservatively 101)
+
+   #+end_src
 * UI Configuration
 ** run-now-or-make-frame-hook macro
    #+begin_src emacs-lisp
@@ -208,6 +236,14 @@ for stuff not in guix
 		     eshell-mode-hook))
        (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+     (defalias 'yes-or-no-p 'y-or-n-p)
+     
+   #+end_src
+** saving sessions
+   #+begin_src emacs-lisp
+   (desktop-save-mode t)
+   ;; (add-hook 'desktop-after-read-hook 'bj/reset-theme-hook)
+   (save-place-mode t)
    #+end_src
 ** Font Configuration
 
@@ -395,14 +431,157 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 ** TODO m-x improved
 ** TODO completion
    
-install company
-
-* file management
-** TODO dired
    #+begin_src emacs-lisp
-   (use-package all-the-icons-dired
-     :hook (dired-mode . all-the-icons-dired-mode))
+  (use-package company
+  :hook (after-init . global-company-mode)
+  :custom
+  (company-require-match #'company-explicit-action-p)
+  (company-minimum-prefix-length 3)
+  (company-idle-delay 0.2)
+  (company-tooltip-align-annotation t)
+  (company-auto-complete-chars nil)
+  (company-frontends '(company-pseudo-tooltip-frontend
+		       company-echo-metadata-frontend))
+  :bind
+  (([remap completion-at-point]  . company-manual-begin)
+   ([remap completion-symbol]  . company-manual-begin)  
+   
+   :map company-active-map
+   ("M-n" . nil)
+   ("M-p" . nil)
+   ("<tab>" . company-complete-selection)
+   ("TAB" . company-complete-selection)
+   ("SPC" . nil)
+   ("C-n" . company-select-next)
+   ("C-p" . company-select-previous)
+   :map company-active-map
+   :filter (company-explicit-action-p)
+   ("<return>" . company-complete-selection)
+   ("RET"  . company-complete-selection))
+  
+  :bind*
+  (("M-TAB" . company-manual-begin)))
+
+;; provide partial matches in completion like with intellij
+(use-package company-flx
+  :after company
+  :straight t
+  :config
+  (company-flx-mode +1))
+
+
+;;;; quickhelp popup like with autocomplete
+(use-package company-quickhelp
+  :after company
+  :config
+  (setq company-quickhelp-delay 3)
+  :commands (company-quickhelp-mode)
+  :init
+  (company-quickhelp-mode nil))
+
+(use-package pos-tip
+    :commands (pos-tip-show))
+
+ ;; FIXME: somehow company-box does not have proper icons loaded
+(use-package company-box
+  :after (company all-the-icons)
+  :hook (company-mode . company-box-mode))
+
    #+end_src
+   
+** parens highlighting
+   #+begin_src emacs-lisp
+   (use-package rainbow-delimiters
+    :hook
+    ((emacs-lisp-mode . rainbow-delimiters-mode)
+     (clojure-mode . rainbow-delimiters-mode)))
+   
+   #+end_src
+* file management
+** dired
+   #+begin_src emacs-lisp
+   (global-set-key (kbd "<f5>") 'revert-buffer)
+
+   (use-package all-the-icons-dired
+     :after all-the-icons
+     :hook (dired-mode . all-the-icons-dired-mode))
+
+   (use-package neotree
+     :bind
+       (([f8] . 'neotree-toggle)))
+
+       ;; History
+     (setq savehist-file "~/.emacs.d/savehist"
+           history-length t
+	   history-delete-duplicates t
+	   savehist-save-minibuffer-history 1
+	   savehist-additional-variables
+	        '(kill-ring
+		search-ring
+  		regexp-search-ring)
+		recentf-max-saved-items 50)
+
+     (savehist-mode 1)
+     (recentf-mode 1)
+
+     ;; enable open dired for current buffer
+     (require 'dired-x)
+     ;; allow dired to delete or copy dir
+     (setq dired-recursive-copies (quote always)) ; “always” means no asking
+     (setq dired-recursive-deletes (quote top)) ; “top” means ask once
+     (put 'dired-find-alternate-file 'disabled nil)
+     (setq dired-dwim-target t)
+
+     (defun bj/dired-mode-setup ()
+       "to be run as hook for `dired-mode'."
+       (dired-hide-details-mode 1))
+     (add-hook 'dired-mode-hook 'bj/dired-mode-setup)
+
+   #+end_src
+** searching
+   #+begin_src emacs-lisp
+    (use-package deadgrep
+    :general 
+    (bj/leader-keys
+    "s" '(:ignore t :which-key "search")
+    "sd" '(deadgrep :which-key "deadgrep")
+    "sr" '(counsel-rg :which-key "counsel rg")))
+;;         (:map deadgrep-mode-map
+;;               ("q" . kill-this-buffer))))
+ 
+   #+end_src
+* editor  
+** parens
+   #+begin_src emacs-lisp
+  (use-package smartparens
+  :hook (prog-mode . smartparens-mode)
+  :config
+  (require 'smartparens-config))
+ 
+   #+end_src
+** editorconfig
+   #+begin_src emacs-lisp
+   (use-package editorconfig
+     :hook (prog-mode . editorconfig-mode))
+   #+end_src
+** Editing functions
+
+   #+begin_src emacs-lisp
+   ;; fix up/down case word by going to the beginning of the word
+   (defadvice upcase-word (before upcase-word-advice activate)
+     (unless (looking-back "\\b" nil)
+       (backward-word)))
+   
+   (defadvice downcase-word (before downcase-word-advice activate)
+     (unless (looking-back "\\b" nil)
+       (backward-word)))
+   
+   (defadvice capitalize-word (before capitalize-word-advice activate)
+     (unless (looking-back "\\b" nil)
+       (backward-word)))
+   
+   #+end_src
+
 * Org
 
 ** setup babel languages
@@ -471,6 +650,26 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 
 * Dev tools
 ** TODO Projectile
+   #+begin_src emacs-lisp
+   (use-package projectile
+  :general
+  (bj/leader-keys
+    "p" '(:ignore t :which-key "projectile")
+    "pp" '(projectile-switch-project :which-key "switch")
+    "pf" '(projectile-find-file :which-key "file")
+    "pr" '(projectile-ag :which-key "ripgrep"))
+  :config
+  (projectile-mode))
+    
+  (use-package counsel-projectile
+  :general
+  (bj/leader-keys
+    "pg" '(counsel-projectile-git-grep :which-key "git grep"))
+  :config
+  (counsel-projectile-mode +1)
+  (setq projectile-completion-system 'ivy))
+ 
+   #+end_src
 ** Git
 
    #+begin_src emacs-lisp
