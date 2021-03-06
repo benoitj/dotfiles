@@ -204,7 +204,7 @@ for stuff not in guix
    #+end_src
 ** Font Configuration
 
-I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://fonts.google.com/specimen/Cantarell][Cantarell]] fonts for this configuration which will more than likely need to be installed on your machine.  Both can usually be found in the various Linux distro package managers or downloaded from the links above.
+This section setup fonts size and add an hydra to scale up/down the whole frame fonts
 
 #+begin_src emacs-lisp
   (setq bj/default-font-size 120)

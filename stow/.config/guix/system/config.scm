@@ -12,6 +12,7 @@
  (gnu packages certs)
  (gnu packages linux)
  (gnu services desktop)
+ (gnu services docker)
  (gnu services sound)
  (gnu services xorg)
  (srfi srfi-1)
@@ -97,6 +98,7 @@ EndSection
        "audio"
        "video"
        "input"
+       "docker"
        "plugdev")))
    %base-user-accounts))
  (packages
@@ -114,6 +116,7 @@ EndSection
   (cons*
    (service pcscd-service-type)
    (service nix-service-type)
+   (service docker-service-type)
    (service slim-service-type
             (slim-configuration
              (default-user "benoit")
