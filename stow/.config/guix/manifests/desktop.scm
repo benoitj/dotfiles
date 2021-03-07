@@ -9,8 +9,8 @@
    `((,my-dmenu "out")
      (,my-st "out")
      (,my-dwm "out")
-     (,my-dwmstatus "out")
-     (,my-qutebrowser "out")))
+     (,my-dwmstatus "out")))
+;;     (,my-qutebrowser "out")))
   (specifications->manifest
    '(
      "alsa-plugins:out" ;; required by qutebrowser to play audio
@@ -70,6 +70,8 @@
      "gimp"
      "syncthing"
      "keepassxc"
+     "notmuch"
+     "isync"
 
      ;; need a replacement. brings the whole gnome desktop: "cheese"
      
@@ -107,6 +109,7 @@
      "emacs-company-box"
      "emacs-pos-tip"
      "emacs-projectile"
+     "emacs-vterm"
      
      ;; devtools
      ;;   "clojure"
@@ -134,7 +137,7 @@
      ;;"perl-mime-tools"
      
      ;; browsers
-     ;; "qutebrowser" ;; replaced by my-qutebrowser
+     "qutebrowser"
      "wget"
      "w3m"
      "lynx"

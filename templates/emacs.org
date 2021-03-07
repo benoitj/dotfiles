@@ -582,7 +582,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
    
    #+end_src
 
-* Org
+* TODO Org
 
 ** setup babel languages
 
@@ -629,6 +629,28 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 #+end_src
 
 * Apps
+** TODO social
+  for later 
+   
+   #+begin_src emacs-lisp
+   
+;; (use-package elfeed
+;;   :config
+;;   (global-set-key (kbd "C-x w") 'elfeed))
+;; 
+;; (use-package elfeed-org
+;;   :after elfeed
+;;   :config
+;;   (setq rmh-elfeed-org-files '("~/Documents/elfeed.org"))
+;;   (elfeed-org))
+;; 
+;; (use-package elfeed-goodies
+;;   :after elfeed)
+;; 
+;; (use-package mastodon
+;;   :config
+;;   (setq mastodon-instance-url "https://linuxrocks.online"))
+   #+end_src
 ** Command Log Mode
 
 [[https://github.com/lewang/command-log-mode][command-log-mode]] is useful for displaying a panel showing each key binding you use in a panel on the right side of the frame.  Great for live streams and screencasts!
@@ -646,8 +668,36 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
     "tct" '(global-command-log-mode :which-key "toggle")))
 
 #+end_src
+** shell
+   may have a look at better shell
+   #+begin_src emacs-lisp
+   (use-package eshell
+     :general
+     (bj/leader-keys
+     "o" '(:ignore t :which-key "open")
+     "os" '(:ignore t :which-key "shell")
+     "ose" '(eshell :which-key "eshell")))
 
+   (use-package vterm
+     :general
+     (bj/leader-keys
+     "oss" '(vterm :which-key "vterm")))
+   
+   #+end_src
+** TODO key management
+   
 
+(use-package keychain-environment
+  :config
+  (keychain-refresh-environment))
+** TODO notmuch
+   #+begin_src emacs-lisp
+   (use-package notmuch
+   :general
+   (bj/leader-keys
+    "om" '(notmuch-hello :which-key "notmuch")))
+
+   #+end_src
 * Dev tools
 ** TODO Projectile
    #+begin_src emacs-lisp
