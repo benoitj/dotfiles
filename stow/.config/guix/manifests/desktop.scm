@@ -72,6 +72,7 @@
      "keepassxc"
      "notmuch"
      "isync"
+     "msmtp"
 
      ;; need a replacement. brings the whole gnome desktop: "cheese"
      
