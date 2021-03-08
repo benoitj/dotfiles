@@ -10,7 +10,7 @@
 	defaultBranch = main
 
 [sendemail]
-	    smtpserver = /usr/bin/msmtp
+	    smtpserver = /home/benoit/.guix-extra-profiles/desktop/desktop/bin/msmtp
 
 [remind]
 	paths = /home/benoit/src/*
