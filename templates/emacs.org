@@ -699,10 +699,13 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
      (use-package notmuch
       :custom
       (send-mail-function 'smtpmail-send-it)
+      (user-mail-address "benoit@benoitj.ca")
+      (user-full-name "Benoit Joly")
       (smtpmail-smtp-server "smtp.mailbox.org")
       (smtpmail-stream-type 'ssl)
       (smtpmail-smtp-service 465)
       (notmuch-fcc-dirs "mailbox.org/Sent/")
+      (message-directory "mailbox.org/Drafts/")
       (notmuch-saved-searches
         '((:name "recent inbox" :query "tag:inbox AND date:2w..now" :key "i" :sort-order newest-first)
           (:name "full inbox" :query "tag:inbox" :key "I")
