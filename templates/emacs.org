@@ -691,12 +691,29 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
   :config
   (keychain-refresh-environment))
 ** TODO notmuch
-   #+begin_src emacs-lisp
-   (use-package notmuch
-   :general
-   (bj/leader-keys
-    "om" '(notmuch-hello :which-key "notmuch")))
 
+   requires a .authinfo.gpg file with:
+   machine smtp.mailbox.org login <user login> password "my password" port 465
+
+   #+begin_src emacs-lisp
+     (use-package notmuch
+      :custom
+      (send-mail-function 'smtpmail-send-it)
+      (smtpmail-smtp-server "smtp.mailbox.org")
+      (smtpmail-stream-type 'ssl)
+      (smtpmail-smtp-service 465)
+      (notmuch-fcc-dirs "mailbox.org/Sent/")
+      (notmuch-saved-searches
+        '((:name "recent inbox" :query "tag:inbox AND date:2w..now" :key "i" :sort-order newest-first)
+          (:name "full inbox" :query "tag:inbox" :key "I")
+          (:name "unread" :query "tag:unread" :key "u")
+          (:name "flagged" :query "tag:flagged" :key "f")
+          (:name "sent" :query "tag:sent" :key "t")
+          (:name "drafts" :query "tag:draft" :key "d")
+          (:name "all mail" :query "*" :key "a")))
+      :general
+      (bj/leader-keys
+       "om" '(notmuch-hello :which-key "notmuch")))
    #+end_src
 * Dev tools
 ** TODO Projectile
