@@ -22,7 +22,7 @@ if [ ! ${#} -ge 2 ]; then
 fi
 
 # tools
-_EMACSCLIENT=$HOME/.guix-profile/bin/emacsclient
+_EMACSCLIENT=$HOME/.guix-extra-profiles/desktop/desktop/bin/emacsclient
 _BASENAME=/home/benoit/.guix-extra-profiles/base/base/bin/basename
 _CP=/home/benoit/.guix-extra-profiles/base/base/bin/cp
 _MKTEMP=/home/benoit/.guix-extra-profiles/base/base/bin/mktemp
