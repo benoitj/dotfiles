@@ -115,7 +115,8 @@ for stuff not in guix
 	 "b" '(:ignore t :which-key "buffers")
 	 "bb" '(switch-to-buffer :which-key "buffers")
 	 "bi" '(ibuffer :which-key "ibuffer")
-	 "bd" '(kill-buffer :which-key "kill")
+	 "bd" '(kill-current-buffer :which-key "kill current")
+	 "bD" '(kill-buffer :which-key "kill")
 	 "f" '(:ignore t :which-key "files")
 	 "ff" '(find-file :which-key "open")
 	 "fs" '(save-buffer :which-key "save")
@@ -727,7 +728,7 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
     "p" '(:ignore t :which-key "projectile")
     "pp" '(projectile-switch-project :which-key "switch")
     "pf" '(projectile-find-file :which-key "file")
-    "pr" '(projectile-ag :which-key "ripgrep"))
+    "pr" '(projectile-ripgrep :which-key "ripgrep"))
   :config
   (projectile-mode))
     
