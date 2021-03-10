@@ -21,6 +21,11 @@ dwmstatus &
 
 test -x $(which syncthing) && syncthing -logfile=$HOME/.cache/syncthing.log &
 
+# Start Shepherd to manage user daemons
+if [ -z "$(pgrep -u benoit shepherd)" ]; then
+  touch ~/started.pid
+  shepherd
+fi
 
 test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 exec dbus-launch dwm
