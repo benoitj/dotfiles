@@ -93,6 +93,7 @@
      "emacs-ivy-rich"
      ;; emacs-ivy-yasnipet, emacs-ivy-xref, emacs-ivy-posframe
      "emacs-counsel"
+     "emacs-counsel-projectile"
      ;; emacs-counsel-projectile, emacs-counsel-notmuch, emacs-counsel-jq, emacs-counsel-dash
      "emacs-swiper"
      "emacs-helpful"
@@ -119,6 +120,7 @@
      "make"
      "strace"
      "git"
+     "git:send-email"
      "stow"
      "vim"
      "go"
