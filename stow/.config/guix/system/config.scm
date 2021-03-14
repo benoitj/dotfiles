@@ -11,6 +11,7 @@
  (gnu packages pulseaudio)
  (gnu packages certs)
  (gnu packages linux)
+ (gnu packages nfs)
  (gnu services desktop)
  (gnu services docker)
  (gnu services sound)
@@ -23,7 +24,8 @@
  networking 
  ssh 
  security-token
- nix)
+ nix
+ nfs)
 
 ;; Allow members of the "video" group to change the screen brightness.
 (define %backlight-udev-rule
@@ -110,10 +112,13 @@ EndSection
     bluez
     bluez-alsa
     pulseaudio
-    nss-certs)
+    nss-certs
+    nfs-utils)
    %base-packages))
  (services
   (cons*
+   (service nfs-service-type
+	    (nfs-configuration))
    (service pcscd-service-type)
    (service nix-service-type)
    (service docker-service-type)
@@ -166,4 +171,10 @@ EndSection
     (device "/dev/mapper/home")
     (type "ext4")
     (dependencies mapped-devices))
+   (file-system
+    (mount-point "/mnt/homer/data")
+    (device "homer:/mnt/mpool/data")
+    (type "nfs")
+    (mount? #f)
+    (options "user"))
    %base-file-systems)))
