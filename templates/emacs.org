@@ -124,6 +124,8 @@ for stuff not in guix
 	 "fdd" '(bj/open-dotfiles :which-key "dotfiles")
 	 "fde" '(bj/open-dot-emacs :which-key "emacs")
 	 "h" '(:keymap help-map :which-key "help")
+	 "q" '(:ignore t :which-key "quit")
+	 "qq" '(kill-emacs :which-key "kill emacs")
 	 "t"  '(:ignore t :which-key "toggles")
 	 "w" '(:ignore t :which-key "windows")
 	 "ww" '(other-window :which-key "switch")
@@ -187,14 +189,7 @@ for stuff not in guix
 
 ** scrolling
    #+begin_src emacs-lisp
-   (use-package smooth-scrolling
-     :defer 0
-     :straight t
-     :config
-     (smooth-scrolling-mode 1))
-
    (setq scroll-conservatively 101)
-
    #+end_src
 * UI Configuration
 ** run-now-or-make-frame-hook macro
@@ -591,8 +586,10 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
     (org-babel-do-load-languages
       'org-babel-load-languages
       '((emacs-lisp . t)
+        (plantuml . t)
         (ledger . t)))
 #+end_src
+
 
 ** Structure templates
 
@@ -752,3 +749,52 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 	 "gg" '(magit-status :which-key "status")
 	 "gf" '(magit-file-dispatch :which-key "file ops")))
    #+end_src
+** plantuml
+   #+begin_src emacs-lisp
+   (use-package plantuml-mode
+     :mode ("\\.puml" "\\.plantuml")
+     :config
+     (setq plantuml-default-exec-mode 'jar)
+     (setq plantuml-output-type "png")
+     (setq plantuml-java-args '("-jar")))
+   
+   #+end_src
+
+** asciidoc
+   
+   #+begin_src emacs-lisp
+   (use-package adoc-mode
+     :mode "\\.adoc")
+   #+end_src
+   
+** Docker
+
+   #+begin_src emacs-lisp
+   (use-package dockerfile-mode
+     :mode "Dockerfile")
+   #+end_src
+   
+** Haskell
+   
+   #+begin_src emacs-lisp
+   (use-package haskell-mode
+     :mode "\\.hs")
+
+   (use-package intero
+     :straight t
+     :after haskell-mode
+     :config
+     (intero-global-mode 1))
+   
+   #+end_src
+   
+** Clojure
+   #+begin_src emacs-lisp
+   
+   (use-package cider
+     :mode "\\.cljs")
+   #+end_src
+
+   
+** TODO Java
+
