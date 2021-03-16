@@ -10,7 +10,7 @@
      (,my-st "out")
      (,my-dwm "out")
      (,my-dwmstatus "out")))
-;;     (,my-qutebrowser "out")))
+  ;;     (,my-qutebrowser "out")))
   (specifications->manifest
    '(
      "alsa-plugins:out" ;; required by qutebrowser to play audio
@@ -118,6 +118,7 @@
      "emacs-dockerfile-mode"
      "emacs-haskell-mode"
      "emacs-cider"
+     "emacs-org"
 
      ;; devtools
      "openjdk@11"
