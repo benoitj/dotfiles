@@ -79,6 +79,7 @@
      
      ;; editor
      "emacs"
+     "emacs-bug-hunter"
      "emacs-modus-themes"
      "emacs-general"
      "emacs-evil"
@@ -119,6 +120,21 @@
      "emacs-haskell-mode"
      "emacs-cider"
      "emacs-org"
+;;     "emacs-org-bullets"
+     "emacs-org-superstar"
+;;     "emacs-org-pomodoro"
+     "emacs-org-roam"
+;;     "emacs-org-rich-yank"
+;;     "emacs-org-reveal"
+;;     "emacs-org-re-reveal"
+;;     "emacs-org-present"
+;;     "emacs-org-pretty-table"
+;;     "emacs-org-generate"
+;;     "emacs-org-download"
+;;     "emacs-org-contrib"
+;;     "emacs-org-beautify-theme"
+;;     "emacs-org-appear"
+     "emacs-guix"
 
      ;; devtools
      "openjdk@11"
@@ -132,8 +148,11 @@
      "git:send-email"
      "stow"
      "vim"
+     "password-store"
+     "browserpass-native" ;; requires to register in firefox using: make -C $(guix build browserpass-native)/lib/browserpass hosts-firefox-user
+     "python-tldextract"
+     "python"
      "go"
-     "go-github.com-howeyc-gopass"
      "guile"
      "rust:out"
      "rust:cargo"
