@@ -19,6 +19,13 @@
 ;;    #:start (make-forkexec-constructor '("syncthing" "-no-browser"))
 ;;    #:stop  (make-kill-destructor)))
 
+(define goimapnotify
+  (make <service>
+    #:provides '(goimapnotify)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("goimapnotify" "-conf" "~/.config/goimapnotify/config.json"))
+    #:stop  (make-kill-destructor)))
+
 (define pulseaudio
   (make <service>
     #:provides '(pulseaudio)
@@ -27,8 +34,9 @@
     #:stop  (make-kill-destructor)))
 
 ;(register-services gpg-agent mcron syncthing pulseaudio)
-(register-services pulseaudio)
+(register-services pulseaudio goimapnotify)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(pulseaudio))
+(for-each start '(pulseaudio goimapnotify))
+
