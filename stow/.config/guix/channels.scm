@@ -12,6 +12,7 @@
        (channel
         (name 'benoitj)
         (url "https://github.com/benoitj/my-guix-channel.git")
+        ;(url "file:///home/benoit/src/my-guix-channel")
 	(branch "main")
         (introduction
          (make-channel-introduction
