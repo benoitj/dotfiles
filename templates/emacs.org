@@ -8,11 +8,6 @@ After some basic setup, spacemacs, my own init.el, doom emacs, and now going bac
 
 This configuration is inspired by [[https://github.com/daviwil/emacs-from-scratch][emacs-from-scratch]], doom emacs, and many people's emacs config.
 
-#+begin_src emacs-lisp
-;;; -*- lexical-binding: t -*-
-
-
-#+end_src
 
 * Startup Performance
 
@@ -237,9 +232,9 @@ for stuff not in guix
    #+end_src
 ** saving sessions
    #+begin_src emacs-lisp
-   (desktop-save-mode t)
+   ;; (desktop-save-mode t)
    ;; (add-hook 'desktop-after-read-hook 'bj/reset-theme-hook)
-   (save-place-mode t)
+   ;; (save-place-mode t)
    #+end_src
 ** Font Configuration
 
@@ -461,7 +456,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 ;; provide partial matches in completion like with intellij
 (use-package company-flx
   :after company
-  :straight t
+  straight t
   :config
   (company-flx-mode +1))
 
@@ -579,22 +574,63 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
    #+end_src
 
 * TODO Org
+  
+** basic org setup
 
+   #+begin_src emacs-lisp
+   (bj/leader-keys
+	 "n" '(:ignore t :which-key "notes")
+	 "nt" '(org-todo-list :which-key "todos")
+	 "na" '(org-agenda :which-key "agenda")
+         "nc" '(org-capture :which-key "capture"))
+   (setq org-directory "~/src/notes")
+   (setq org-agenda-files '("~/src/notebook/todo.org"))
+   (setq org-refile-targets '(("~/src/notebook/todo.org" :maxlevel . 3)
+                              ("~/src/notebook/somedaymaybe.org" :level . 1)))
+   (setq org-refile-allow-creating-parent-nodes t)
+   (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+   (setq org-return-follows-link t)
+   #+end_src
+   
+** better presentation
+
+   #+begin_src emacs-lisp
+   (defun org-superstar-hook () 
+     (org-superstar-mode 1))
+
+   (use-package org-superstar 
+     :hook (org-mode . org-superstar-hook)
+     :config
+     (setq org-hide-leading-stars nil)
+     (setq org-superstar-leading-bullet ?\s)
+     ;; If you use Org Indent you also need to add this, otherwise the
+     ;; above has no effect while Indent is enabled.
+     (setq org-indent-mode-turns-on-hiding-stars nil)
+     ;; enable this if it becomes slow
+     (setq inhibit-compacting-font-caches t))
+  #+end_src
+
+** TODO ensure C-' screens are in current window instead of next
+   
+** roam
+   #+begin_src emacs-lisp
+   (use-package org-roam)
+
+   #+end_src
 ** setup babel languages
 
 #+begin_src emacs-lisp
-    (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((emacs-lisp . t)
-        (plantuml . t)
-        (ledger . t)))
+  (eval-after-load 'org
+     (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         (shell . t)
+	 (plantuml . t))))
 #+end_src
-
 
 ** Structure templates
 
 #+begin_src emacs-lisp
-
 (with-eval-after-load 'org
   (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
@@ -604,9 +640,7 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
   (add-to-list 'org-structure-template-alist '("json" . "src json")))
-
 #+end_src
-
 
 ** Automatically "Tangle" on Save
 
