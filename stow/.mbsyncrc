@@ -7,7 +7,7 @@ IMAPAccount migadu
 Host imap.migadu.com
 Port 993
 User server@benlab.ca
-PassCmd "getpw.sh _benoit/server@migadu.com"
+PassCmd "pass show migadu.com_events | head -1"
 SSLType IMAPS
 
 IMAPStore migadu-remote
@@ -35,7 +35,7 @@ IMAPAccount mailbox
 Host imap.mailbox.org
 Port 993
 User benoit@benoitj.ca
-PassCmd "getpw.sh _benoit/mailbox.org"
+PassCmd "pass show mailbox.org | head -1"
 SSLType IMAPS
 
 IMAPStore mailbox-remote
