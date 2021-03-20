@@ -371,6 +371,8 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
    ;;          :map ivy-reverse-i-search-map
    ;;          ("C-k" . ivy-previous-line)
    ;;          ("C-d" . ivy-reverse-i-search-kill))
+    :custom
+    (ivy-use-selectable-prompt t)
     :config
     (ivy-mode 1))
 
@@ -709,7 +711,19 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
    
 ** roam
    #+begin_src emacs-lisp
-   (use-package org-roam)
+
+     (use-package org-roam
+       :after (org ivy)
+       :hook (after-init org-roam-mode)
+       :init
+       (setq org-roam-directory (expand-file-name "org-roam" org-directory))
+       (setq org-roam-db-file-update-timer 2)
+       :general
+       (bj/leader-keys
+	 "nr" '(org-roam-find-file :which-key "find notes")
+	 "nR" '(org-roam-buffer-toggle-display :which-key "toggle org buffer")))
+
+
 
    #+end_src
 ** setup babel languages
@@ -745,13 +759,13 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 
   ;; Since we don't want to disable org-confirm-babel-evaluate all
   ;; of the time, do it around the after-save-hook
-  (defun dw/org-babel-tangle-dont-ask ()
-    ;; Dynamic scoping to the rescue
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle)))
-
-  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'dw/org-babel-tangle-dont-ask
-                                                'run-at-end 'only-in-org-mode)))
+;;  (defun bj/org-babel-tangle-dont-ask ()
+;;    ;; Dynamic scoping to the rescue
+;;    (let ((org-confirm-babel-evaluate nil))
+;;      (org-babel-tangle)))
+;;
+;;  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'bj/org-babel-tangle-dont-ask
+;;                                                'run-at-end 'only-in-org-mode)))
 
 #+end_src
 
