@@ -4,7 +4,7 @@ set -euo pipefail
 echo "Moving messages according to notmuch tags"
 
 # Make sure we have updated paths
-notmuch new --no-hooks
+notmuch new --no-hooks 2>&1 | grep -v 'Note: Ignoring non-mail'
 
 # Archive files that are NOT tagged Inbox
 #filter="folder:company/INBOX -tag:inbox"
@@ -16,11 +16,12 @@ notmuch new --no-hooks
 #notmuch search --output=files --format=text0 $filter | xargs -0 --no-run-if-empty mv -t ~/mail/company/Junk\ E-Mail/new/
 
 # Make sure we have updated paths
-notmuch new --no-hooks
+notmuch new --no-hooks 2>&1 | grep -v 'Note: Ignoring non-mail'
 
 
 [[ $# -eq 0 ]] && sync="-a" || sync="$1"
 
 mbsync $sync
 
-notmuch new
+notmuch new 2>&1 | grep -v 'Note: Ignoring non-mail'
+
