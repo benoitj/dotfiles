@@ -546,10 +546,10 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 * editor  
 ** parens
    #+begin_src emacs-lisp
-  (use-package smartparens
-  :hook (prog-mode . smartparens-mode)
-  :config
-  (require 'smartparens-config))
+;;  (use-package smartparens
+;;  :hook (prog-mode . smartparens-mode)
+;;  :config
+;;  (require 'smartparens-config))
  
    #+end_src
 ** editorconfig
@@ -582,9 +582,9 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
    #+begin_src emacs-lisp
    (bj/leader-keys
 	 "n" '(:ignore t :which-key "notes")
-	 "nt" '(org-todo-list :which-key "todos")
+	 "nl" '(org-todo-list :which-key "todos list")
 	 "na" '(org-agenda :which-key "agenda")
-         "nc" '(org-capture :which-key "capture"))
+         "nn" '(org-capture :which-key "capture"))
    (setq org-directory "~/src/notebook")
    (setq org-agenda-files '("~/src/notebook/todo.org"))
    (setq org-refile-targets '(("~/src/notebook/todo.org" :maxlevel . 3)
@@ -712,16 +712,23 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 ** roam
    #+begin_src emacs-lisp
 
-     (use-package org-roam
-       :after (org ivy)
-       :hook (after-init org-roam-mode)
-       :init
-       (setq org-roam-directory (expand-file-name "org-roam" org-directory))
-       (setq org-roam-db-file-update-timer 2)
-       :general
-       (bj/leader-keys
-	 "nr" '(org-roam-find-file :which-key "find notes")
-	 "nR" '(org-roam-buffer-toggle-display :which-key "toggle org buffer")))
+	  (use-package org-roam
+	    :after (org ivy)
+	    :init
+	    (setq org-roam-directory (expand-file-name "org-roam" org-directory))
+	    (setq org-roam-db-file-update-timer 2)
+	    :general
+	    (bj/leader-keys
+	     "nb" '(org-roam-switch-to-buffer :which-key "switch buffer")
+	     "nf" '(org-roam-find-file :which-key "find file")
+	     "ng" '(org-roam-graph :which-key "graph")
+	     "ni" '(org-roam-insert :which-key "insert")
+	     "nI" '(org-roam-insert-immediate :which-key "insert immediate")
+	     "nm" '(org-roam-buffer-toggle-display :which-key "roam")
+	     "nt" '(org-roam-tag-add :which-key "add tag")
+	     "nT" '(org-roam-tag-delete :which-key "delete tag"))
+	    :config
+	    (org-roam-mode))
 
 
 
@@ -759,17 +766,37 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 
   ;; Since we don't want to disable org-confirm-babel-evaluate all
   ;; of the time, do it around the after-save-hook
-;;  (defun bj/org-babel-tangle-dont-ask ()
-;;    ;; Dynamic scoping to the rescue
-;;    (let ((org-confirm-babel-evaluate nil))
-;;      (org-babel-tangle)))
-;;
-;;  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'bj/org-babel-tangle-dont-ask
-;;                                                'run-at-end 'only-in-org-mode)))
+  (defun bj/org-babel-tangle-dont-ask ()
+    ;; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle)))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'bj/org-babel-tangle-dont-ask
+						'run-at-end 'only-in-org-mode)))
+
 
 #+end_src
 
 * Apps
+  
+** rss reader
+
+   #+begin_src emacs-lisp
+;;     (setq elfeed-feeds (list
+;;			 (list "fever+https://user@myhost.com"
+;;			       :api-url "https://myhost.com/plugins/fever/"
+;;			       :password "password/with|special@characters:"
+;;			       :autotags '(("example.com" comic)))))
+;;
+;;	  (use-package elfeed
+;;	    :general
+;;	    (bj/leader-keys
+;;	      "or" '(elfeed :which-key "rss")))
+;;
+;;	  (use-package elfeed-protocol
+;;	    :straight t)
+
+   #+end_src
 ** TODO social
   for later 
    

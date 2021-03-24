@@ -122,6 +122,7 @@
      "emacs-org"
      "emacs-org-superstar"
      "emacs-org-roam"
+     "emacs-elfeed"
      "sqlite" ;; needed by roam
      ;;     "emacs-org-rich-yank"
      ;;     "emacs-org-reveal"
@@ -135,6 +136,8 @@
      ;;     "emacs-org-appear"
      "emacs-guix"
 
+     "graphviz"
+     ;;"plantuml"
      ;; devtools
      "openjdk@11"
      "openjdk@11:jdk"
