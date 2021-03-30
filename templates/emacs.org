@@ -89,12 +89,12 @@ for stuff not in guix
    #+begin_src emacs-lisp
 
      (defun bj/open-dot-emacs ()
-        ""
+	""
 	(interactive)
 	 (find-file (expand-file-name "~/src/dotfiles/templates/emacs.org")))
 
      (defun bj/open-dotfiles ()
-         ""
+	 ""
 	(interactive)
 	 (find-file (expand-file-name "~/src/dotfiles/")))
 
@@ -105,6 +105,10 @@ for stuff not in guix
 	 :keymaps '(normal insert visual emacs)
 	 :prefix "SPC"
 	 :global-prefix "M-SPC")
+       (general-create-definer bj/local-leader-keys
+	 :keymaps '(normal insert visual emacs)
+	 :prefix "SPC m"
+	 :global-prefix "M-SPC m")
 
        (bj/leader-keys
 	 "b" '(:ignore t :which-key "buffers")
