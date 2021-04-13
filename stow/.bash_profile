@@ -37,8 +37,9 @@ source /run/current-system/profile/etc/profile.d/nix.sh
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:$HOME/.nix-profile/share/applications
 
 # these are fixes for discord. somehow it's missing libdrm, opt/Discord and something in mesa
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/nix/store/wqfa2rsdzlngfy70ipiqhq3kn9z87jfs-libdrm-2.4.102/lib/
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/nix/store/my8p22j1pcaq7kn6ypwrsrfdmbqahqq6-mesa-20.3.4/lib/
+# make sure you run nix-env -i mesa libdrm
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(nix-store -qR $(which drmdevice)  | grep drm | grep -v bin)/lib/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.nix-profile/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.nix-profile/opt/Discord
 
 export EDITOR="vim"
