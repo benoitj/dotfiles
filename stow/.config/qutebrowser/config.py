@@ -130,5 +130,5 @@ config.bind('<Alt-Shift-u>', 'spawn --userscript qute-keepassxc --key 0x5425347E
 config.bind('pw', 'spawn --userscript qute-keepassxc --key 0x5425347E4304939A', mode='normal')
 config.bind('<z><l>', 'spawn --userscript qute-pass --username-target secret --username-pattern "username: (.+)"')
 config.bind('<z><u><l>', 'spawn --userscript qute-pass --username-target secret --username-pattern "username: (.+)" --username-only')
-config.bind('<z><p><l>', 'spawn --userscript qute-pass --password-only')
+config.bind('<z><p><l>', 'spawn --userscript qute-pass --username-target secret --username-pattern "username: (.+)" --password-only')
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --otp-only')

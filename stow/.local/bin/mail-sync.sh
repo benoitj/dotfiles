@@ -15,6 +15,10 @@ notmuch new --no-hooks 2>&1 | grep -v 'Note: Ignoring non-mail'
 #echo "`notmuch count $filter` junk messages"
 #notmuch search --output=files --format=text0 $filter | xargs -0 --no-run-if-empty mv -t ~/mail/company/Junk\ E-Mail/new/
 
+filter="tag:deleted AND folder:mailbox.org/Inbox"
+echo "`notmuch count $filter` deleted messages"
+notmuch search --output=files --format=text0 $filter | xargs -0 --no-run-if-empty rm -f
+
 # Make sure we have updated paths
 notmuch new --no-hooks 2>&1 | grep -v 'Note: Ignoring non-mail'
 

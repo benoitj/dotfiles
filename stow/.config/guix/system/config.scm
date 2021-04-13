@@ -5,6 +5,7 @@
  (gnu packages security-token)
  (gnu packages vim)
  (gnu packages package-management)
+ (gnu packages gnome)
  (gnu packages wm)
  (gnu packages xorg)
  (gnu packages audio)
@@ -16,6 +17,7 @@
  (gnu services docker)
  (gnu services sound)
  (gnu services xorg)
+ (gnu services virtualization)
  (srfi srfi-1)
  (nongnu packages linux)
  (nongnu system linux-initrd))
@@ -61,20 +63,24 @@ EndSection
 
 (define %my-desktop-services
   (modify-services %desktop-services
-                   (elogind-service-type config =>
-                                         (elogind-configuration
-                                          (inherit config)
-                                          (handle-lid-switch-external-power 'suspend)))
-                   (udev-service-type config =>
-                                      (udev-configuration
-                                       (inherit config)
-                                       (rules
-                                        (cons %backlight-udev-rule
-                                              (udev-configuration-rules config)))))))
+		   (elogind-service-type config =>
+					 (elogind-configuration
+					  (inherit config)
+					  (handle-lid-switch-external-power 'suspend)))
+                   (network-manager-service-type config =>
+                                                 (network-manager-configuration (inherit config)
+                                                                                  (vpn-plugins (list network-manager-openvpn))))
+		   (udev-service-type config =>
+				      (udev-configuration
+				       (inherit config)
+				       (rules
+					(cons %backlight-udev-rule
+					      (udev-configuration-rules config)))))))
 (operating-system
  (locale "en_CA.utf8")
  (timezone "America/New_York")
- (keyboard-layout (keyboard-layout "us" #:model "thinkpad"))
+ (keyboard-layout
+  (keyboard-layout "us" #:model "thinkpad"))
  (host-name "milhouse")
  (kernel linux)
  (initrd microcode-initrd)
@@ -101,7 +107,9 @@ EndSection
        "video"
        "input"
        "docker"
-       "plugdev")))
+       "plugdev"
+       "kvm"
+       "libvirt")))
    %base-user-accounts))
  (packages
   (append
@@ -122,17 +130,22 @@ EndSection
    (service pcscd-service-type)
    (service nix-service-type)
    (service docker-service-type)
+   (service libvirt-service-type
+	    (libvirt-configuration
+	     (unix-sock-group "libvirt")
+	     (tls-port "16555")))
    (service slim-service-type
-            (slim-configuration
-             (default-user "benoit")
-             (xorg-configuration
-              (xorg-configuration
-               (keyboard-layout keyboard-layout)
-               (extra-config (list %xorg-libinput-config))))))
+	    (slim-configuration
+	     (default-user "benoit")
+	     (xorg-configuration
+	      (xorg-configuration
+	       (keyboard-layout keyboard-layout)
+	       (extra-config
+		(list %xorg-libinput-config))))))
    (bluetooth-service #:auto-enable? #t)
-   (remove  
+   (remove
     (lambda
-        (service)
+	(service)
       (eq?
        (service-kind service)
        gdm-service-type))
