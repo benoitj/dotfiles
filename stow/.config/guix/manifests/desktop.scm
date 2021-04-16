@@ -63,6 +63,7 @@
      "flameshot"
      "mupdf"
      "poppler"
+     "tesseract-ocr"
      ;;   "libreoffice"
      "zathura"
      "zathura-pdf-mupdf"
