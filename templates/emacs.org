@@ -143,38 +143,39 @@ for stuff not in guix
 ** Evil
  
    #+begin_src emacs-lisp
-  (use-package evil
-    :demand t
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-jump nil)
-    (setq evil-respect-visual-line-mode t)
-    (setq evil-undo-system 'undo-tree)
-    :config
-    (evil-mode 1)
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+     (use-package evil
+       :demand t
+       :init
+       (setq evil-want-integration t)
+       (setq evil-want-keybinding nil)
+       (setq evil-want-C-u-scroll t)
+       (setq evil-want-C-i-jump nil)
+       (setq evil-respect-visual-line-mode t)
+       (setq evil-undo-system 'undo-tree)
+       :config
+       (evil-mode 1)
+       (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
-    ;; TODO Use visual line motions even outside of visual-line-mode buffers
-    ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+       ;; TODO Use visual line motions even outside of visual-line-mode buffers
+       ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+       ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal))
+       (evil-set-initial-state 'messages-buffer-mode 'normal)
+       (evil-set-initial-state 'dashboard-mode 'normal))
 
-  (use-package evil-collection
-    :after evil
-    :init
-    (setq evil-collection-company-use-tng nil)  ;; Is this a bug in evil-collection?
-    :custom
-    (evil-collection-outline-bind-tab-p nil)
-    :config
-    (evil-collection-init))
-  (use-package evil-visualstar
-    :after evil
-    :config
-    (global-evil-visualstar-mode t))
+     (use-package evil-collection
+       :after evil
+       :demand t
+       :init
+       (setq evil-collection-company-use-tng nil)  ;; Is this a bug in evil-collection?
+       :custom
+       (evil-collection-outline-bind-tab-p nil)
+       :config
+       (evil-collection-init))
+     (use-package evil-visualstar
+       :after evil
+       :config
+       (global-evil-visualstar-mode t))
 
    #+end_src
 
@@ -897,23 +898,7 @@ Handy tip from [[https://leanpub.com/lit-config/read#leanpub-auto-configuring-em
 		(:name "all mail" :query "*" :key "a")))
 	    :general
 	    (bj/leader-keys
-	     "om" '(notmuch-hello :which-key "notmuch"))
-	    :config
-	    (define-key notmuch-search-mode-map "d"
-	      (lambda ()
-		"toggle deleted tag for message"
-		(interactive)
-		(if (member "deleted" (notmuch-search-get-tags))
-		   (notmuch-search-add-tag (list "-deleted"))
-		 (notmuch-search-add-tag (list "+deleted")))
-		(notmuch-tree-next-message)))
-	    (define-key notmuch-show-mode-map "d"
-	      (lambda ()
-		"toggle deleted tag for message"
-		(interactive)
-		(if (member "deleted" (notmuch-show-get-tags))
-		   (notmuch-show-tag (list "-deleted"))
-		 (notmuch-show-tag (list "+deleted"))))))
+	     "om" '(notmuch-hello :which-key "notmuch")))
    #+end_src
 * Dev tools
 ** TODO Projectile

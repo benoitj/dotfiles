@@ -1,5 +1,8 @@
+
 +spam -new -- folder:/.*Spam.*/ or folder:/.*Junk.*/
-#+archive -new -inbox -- tag:inbox and not tag:unread and date:..6M
+
+# auto archive 6M old emails that are read
++archive -new -inbox -- tag:inbox and not tag:unread and date:..6M
 
 
 +from_me_to_me -new -- tag:new to:benoit@benoitj.ca and from:benoit@benoitj.ca
@@ -13,6 +16,7 @@
 
 +inbox +ecole -new -- tag:new from:.*cslaval.qc.ca
 
+# move emails sent to me to inbox
 +inbox -new -- tag:new to:benoit@benoitj.ca or to:benoit.m.joly@gmail.com
 
 # to resort these, just
