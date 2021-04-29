@@ -591,30 +591,31 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 
    #+begin_src emacs-lisp
 
-	(bj/leader-keys
-	      "n" '(:ignore t :which-key "notes")
-	      "nl" '(org-todo-list :which-key "todos list")
-	      "na" '(org-agenda :which-key "agenda")
-	      "nn" '(org-capture :which-key "capture"))
-	(setq org-directory "~/src/notebook")
-	(setq org-agenda-files '("~/src/notebook/todo.org"))
-	(setq org-refile-targets '(("~/src/notebook/todo.org" :maxlevel . 3)
-				   ("~/src/notebook/somedaymaybe.org" :level . 1)))
-	(setq org-refile-allow-creating-parent-nodes t)
-	(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-	(setq org-return-follows-link t)
-	(setq org-capture-templates
-	   '(("t" "Task" entry (file+headline (expand-file-name "todo.org" org-directory) "Inbox")
-	      "* TODO %?\n")
-	      ("p" "Project" entry (file+headline (expand-file-name "todo.org" org-directory) "Projects")
-		(file (expand-file-name "templates/newprojecttemplate.org" org-directory)))
-	      ("s" "Someday" entry (file+headline (expand-file-name "someday.org" org-directory) "Someday / Maybe")
-		"* SOMEDAY %?\n")
-	      ("m" "Maybe" entry (file+headline (expand-file-name "someday.org" org-directory) "Someday / Maybe")
-		"* MAYBE %?\n")
-	      ("l" "Log" entry (file+olp+datetree (expand-file-name "log.org" org-directory) "Log")
-		(file (expand-file-name "templates/logtemplate.org" org-directory)))))
-	   
+     (bj/leader-keys
+       "n" '(:ignore t :which-key "notes")
+       "nl" '(org-todo-list :which-key "todos list")
+       "na" '(org-agenda :which-key "agenda")
+       "nn" '(org-capture :which-key "capture"))
+     (setq org-directory "~/src/notebook")
+     (setq org-startup-indented t)
+     (setq org-agenda-files '("~/src/notebook/todo.org"))
+     (setq org-refile-targets '(("~/src/notebook/todo.org" :maxlevel . 3)
+                                ("~/src/notebook/somedaymaybe.org" :level . 1)))
+     (setq org-refile-allow-creating-parent-nodes t)
+     (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+     (setq org-return-follows-link t)
+     (setq org-capture-templates
+           '(("t" "Task" entry (file+headline (expand-file-name "todo.org" org-directory) "Inbox")
+              "* TODO %?\n")
+             ("p" "Project" entry (file+headline (expand-file-name "todo.org" org-directory) "Projects")
+              (file (expand-file-name "templates/newprojecttemplate.org" org-directory)))
+             ("s" "Someday" entry (file+headline (expand-file-name "someday.org" org-directory) "Someday / Maybe")
+              "* SOMEDAY %?\n")
+             ("m" "Maybe" entry (file+headline (expand-file-name "someday.org" org-directory) "Someday / Maybe")
+              "* MAYBE %?\n")
+             ("l" "Log" entry (file+olp+datetree (expand-file-name "log.org" org-directory) "Log")
+              (file (expand-file-name "templates/logtemplate.org" org-directory)))))
+
      ;; (defun go-to-projects ()
      ;;   (interactive)
      ;;   (find-file "~/src/notes/todo.org")
@@ -702,51 +703,47 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
    
 ** better presentation
 
-   #+begin_src emacs-lisp
-   (defun org-superstar-hook () 
-     (org-superstar-mode 1))
+#+begin_src emacs-lisp
+  (defun org-superstar-hook () 
+    (org-superstar-mode 1))
 
-   (use-package org-superstar 
-     :hook (org-mode . org-superstar-hook)
-     :config
-     (setq org-hide-leading-stars nil)
-     (setq org-superstar-leading-bullet ?\s)
-     ;; If you use Org Indent you also need to add this, otherwise the
-     ;; above has no effect while Indent is enabled.
-     (setq org-indent-mode-turns-on-hiding-stars nil)
-     ;; enable this if it becomes slow
-     (setq inhibit-compacting-font-caches t))
-  #+end_src
+  (use-package org-superstar 
+    :hook (org-mode . org-superstar-hook)
+    :config
+    (setq org-hide-leading-stars nil)
+    (setq org-superstar-leading-bullet ?\s)
+    ;; If you use Org Indent you also need to add this, otherwise the
+    ;; above has no effect while Indent is enabled.
+    (setq org-indent-mode-turns-on-hiding-stars nil)
+    ;; enable this if it becomes slow
+    (setq inhibit-compacting-font-caches t))
+#+end_src
 
 ** TODO ensure C-' screens are in current window instead of next
    
 ** roam
-   #+begin_src emacs-lisp
-
-     (use-package org-roam
-       :after (org ivy)
-       :init
-       (setq org-roam-directory (expand-file-name "org-roam" org-directory))
-       (setq org-roam-db-file-update-timer 2)
-       :general
-       (bj/leader-keys
-	"nb" '(org-roam-switch-to-buffer :which-key "switch buffer")
-	"nf" '(org-roam-find-file :which-key "find file")
-	"nm" '(org-roam-buffer-toggle-display :which-key "roam"))
-       (bj/local-leader-keys
-	 :states '(normal insert)
-	 :keymaps 'org-mode-map
-	 "g" '(org-roam-graph :which-key "graph")
-	 "i" '(org-roam-insert :which-key "insert")
-	 "I" '(org-roam-insert-immediate :which-key "insert immediate")
-	 "t" '(org-roam-tag-add :which-key "add tag")
-	 "T" '(org-roam-tag-delete :which-key "delete tag"))
-       :config
-       (org-roam-mode))
-
-
-
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package org-roam
+    :after (org ivy)
+    :init
+    (setq org-roam-directory (expand-file-name "org-roam" org-directory))
+    (setq org-roam-db-file-update-timer 2)
+    :general
+    (bj/leader-keys
+     "nb" '(org-roam-switch-to-buffer :which-key "switch buffer")
+     "nf" '(org-roam-find-file :which-key "find file")
+     "nm" '(org-roam-buffer-toggle-display :which-key "roam"))
+    (bj/local-leader-keys
+      :states '(normal insert)
+      :keymaps 'org-mode-map
+      "g" '(org-roam-graph :which-key "graph")
+      "i" '(org-roam-insert :which-key "insert")
+      "I" '(org-roam-insert-immediate :which-key "insert immediate")
+      "t" '(org-roam-tag-add :which-key "add tag")
+      "T" '(org-roam-tag-delete :which-key "delete tag"))
+    :config
+    (org-roam-mode))
+#+end_src
 ** setup babel languages
 
 #+begin_src emacs-lisp
@@ -761,15 +758,15 @@ This section setup fonts size and add an hydra to scale up/down the whole frame 
 ** Structure templates
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'org
-  (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
-  (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
-  (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
-  (add-to-list 'org-structure-template-alist '("json" . "src json")))
+  (with-eval-after-load 'org
+    (require 'org-tempo)
+    (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+    (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
+    (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+    (add-to-list 'org-structure-template-alist '("py" . "src python"))
+    (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+    (add-to-list 'org-structure-template-alist '("json" . "src json")))
 #+end_src
 
 ** Automatically "Tangle" on Save
