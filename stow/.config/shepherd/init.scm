@@ -26,6 +26,13 @@
     #:start (make-forkexec-constructor '("goimapnotify" "-conf" "/home/benoit/.config/goimapnotify/config.json"))
     #:stop  (make-kill-destructor)))
 
+(define spotifyd
+  (make <service>
+    #:provides '(spotifyd)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("spotifyd" "--no-daemon"))
+    #:stop  (make-kill-destructor)))
+
 (define emacs
   (make <service>
     #:provides '(emacs)
@@ -41,9 +48,8 @@
     #:stop  (make-kill-destructor)))
 
 ;(register-services gpg-agent mcron syncthing pulseaudio)
-(register-services pulseaudio goimapnotify emacs)
+(register-services pulseaudio goimapnotify spotifyd emacs)
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(pulseaudio goimapnotify emacs))
-
+(for-each start '(pulseaudio goimapnotify spotifyd))
