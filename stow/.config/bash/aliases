@@ -127,3 +127,5 @@ alias barney-fan='ssh barney "sudo -S /root/ipmi.sh"'
 
 alias reconfigure='sudo -E guix system reconfigure ~/.config/guix/system/config.scm'
 alias ncspot="TERM=xterm ncspot"
+
+alias tesseract="TESSDATA_PREFIX=$HOME/src/others/tessdata tesseract"
