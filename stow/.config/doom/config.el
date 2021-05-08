@@ -9,8 +9,6 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Benoit Joly"
-      user-mail-address "benoit@benoitj.ca")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -22,14 +20,26 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
- (setq doom-font "Fira Code Retina-10"
-       doom-variable-pitch-font "Cantarell-14")
+(setq doom-font (font-spec :family "Fira Code Retina" :size 14)
+      doom-big-font (font-spec :family "Fira Code Retina" :size 36)
+      doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 
-
+(use-package! notmuch
+  :config
+  (set-popup-rule! "^\\*notmuch" :ignore t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UI
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq confirm-kill-emacs nil)
+(setq
+ evil-vsplit-window-right t
+ evil-split-window-below t)
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (+ivy/switch-buffer))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -100,3 +110,16 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Email / notmuch
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq
+ user-full-name "Benoit Joly"
+ user-mail-address "benoit@benoitj.ca"
+ user-mail-addresses '("benoit@benoitj.ca" "benoit.m.joly@gmail.com" "bjoly666@gmail.com"))
+
+(after! notmuch
+  (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
+
