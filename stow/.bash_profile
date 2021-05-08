@@ -83,6 +83,7 @@ else
 fi
 
 export TERMINAL=st
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
