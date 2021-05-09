@@ -119,6 +119,7 @@
 
        :lang
        ;;agda              ; types of types of types of types...
+       asciidoc
        ;;beancount         ; mind the GAAP
        ;;cc                ; C > C++ == 1
        ;;clojure           ; java with a lisp

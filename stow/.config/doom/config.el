@@ -73,27 +73,6 @@
 
 (setq ivy-use-selectable-prompt t)
 
-
-;;(load! "+completion.el")
-;;(load! "+ui.el")
-;;(load! "+images.el")
-;;(load! "+org.el")
-;;(load! "+org-notes.el")
-;;(load! "+mu4e.el")
-;;(load! "+notmuch.el")
-;;(load! "+html.el")
-;;(load! "+vc.el")
-;;(load! "+term.el")
-;;(load! "+log.el")
-;;(load! "+social.el")
-;;(load! "+lang-adoc.el")
-;; (load! "+lang-scheme.el")
-
-
-
-
-
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -123,3 +102,10 @@
 (after! notmuch
   (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
 
+(after! ace-window
+  (setq aw-keys '(?a ?o ?e ?u ?h ?t ?s ?/ ? l)
+        aw-scope 'frame
+        aw-background t))
+
+;; use ace-window instead of evil-window-next
+(map! :leader :desc "ace-window" "w w" #'ace-window)
