@@ -8,5 +8,5 @@
        :desc "command-log-mode" "C" #'global-command-log-mode))
 
 (map! :leader
-      (:prefix o
+      (:prefix "o"
       :desc "command-log-buffer" "c" #'clm/toggle-command-log-buffer))
