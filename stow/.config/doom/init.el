@@ -48,8 +48,8 @@
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       (window-select
-        +switch-window)     ; visually switch windows
+       (window-select)
+       ;; +switch-window)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
@@ -90,14 +90,16 @@
 
        :tools
        ansible
+       biblio
        (debugger +lsp)     ; FIXME stepping through code, to help you add bugs
        ;;direnv
+       command-log
        (docker +lsp)
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
-       (lookup +docsets)             ; navigate your code and its documentation
+       (lookup +docsets +dictionary)             ; navigate your code and its documentation
        lsp
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
