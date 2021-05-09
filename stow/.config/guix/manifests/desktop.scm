@@ -136,6 +136,7 @@
      ;; "emacs-org-beautify-theme" ;; TODO replace with custom faces
      ;;     "emacs-org-appear"
      "emacs-guix"
+     "wordnet" ;; used by doom "lookup" module
 
      "graphviz"
      "fd"
