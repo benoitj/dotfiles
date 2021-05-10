@@ -1,0 +1,3 @@
+[submodule "doom-emacs"]
+	path = stow/.config/doom-emacs
+	url = https://github.com/hlissner/doom-emacs
