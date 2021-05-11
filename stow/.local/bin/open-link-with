@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Feed this script a link and it will give dmenu
 # some choice programs to use to open it.
 
@@ -21,13 +21,13 @@ fi
 x=$(echo -e "browser\nmpv\nmpv (loop)\nwget\nfeh\nw3m\nmpv (float)\nyt-dl-video\nyt-dl-audio" | $DMENU -p "How should I open '$visual'?")
 
 case "$x" in
-  browser) $BROWSER "$url" & disown ;;
-  mpv) mpv -quiet "$url" & disown ;;
-  "mpv (loop)") mpv -quiet --loop "$url" & disown ;;
-  wget) wget "$url" & disown ;;
-  feh) feh "$url" & disown ;;
-  w3m) st w3m "$url" & disown ;;
-  "mpv (float)") mpv --geometry=+0-0 --autofit=30%  --title="mpvfloat" "$url" & disown ;;
-  yt-dl-video) tsp youtube-dl "$1" & disown ;;
-  yt-dl-audio) tsp youtube-dl -x "$1" & disown ;;
+  browser) $BROWSER "$url" ;;
+  mpv) mpv -quiet "$url" ;;
+  "mpv (loop)") mpv -quiet --loop "$url" ;;
+  wget) wget "$url" ;;
+  feh) feh "$url" ;;
+  w3m) st w3m "$url" ;;
+  "mpv (float)") mpv --geometry=+0-0 --autofit=30%  --title="mpvfloat" "$url" ;;
+  yt-dl-video) tsp youtube-dl "$1" ;;
+  yt-dl-audio) tsp youtube-dl -x "$1" ;;
 esac
