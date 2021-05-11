@@ -125,7 +125,7 @@ c.content.plugins = True
 
 # Bindings for normal mode
 config.bind('cc', 'spawn --userscript org-capture-web')
-config.bind('zo', 'spawn -v -o ~/.local/bin/open-link-with "{url}"')
+config.bind('zo', 'spawn -v --detach ~/.local/bin/open-link-with "{url}"')
 config.bind('<Alt-Shift-u>', 'spawn --userscript qute-keepassxc --key 0x5425347E4304939A', mode='insert')
 config.bind('pw', 'spawn --userscript qute-keepassxc --key 0x5425347E4304939A', mode='normal')
 config.bind('<z><l>', 'spawn --userscript qute-pass --username-target secret --username-pattern "username: (.+)"')
