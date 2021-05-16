@@ -16,7 +16,7 @@ gpgconf --launch gpg-agent
 sxhkd -m -1 &
 
 # authentication agent
-$GUIX_EXTRA_PROFILES/desktop/desktop/libexec/polkit-mate-authentication-agent-1 &
+/usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
 
 # notifications
 dunst &
@@ -32,7 +32,7 @@ unclutter &
 autorandr -c
 
 # status bar
-/usr/local/bin/dwmstatus &
+/usr/bin/dwmstatus &
 
 #systemctl --user is-enabled --quiet dbus-broker || systemctl --user enable --quiet dbus-broker
 #systemctl --user is-active --quiet dbus-broker || systemctl --user start --quiet dbus-broker
@@ -40,4 +40,4 @@ autorandr -c
 # configure fifo
 test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 
-exec dbus-launch /usr/local/bin/dwm
+exec dbus-launch /usr/bin/dwm
