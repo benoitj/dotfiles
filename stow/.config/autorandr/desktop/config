@@ -1,25 +1,27 @@
-output VGA-1
+output DP1
 off
-output DP-1
+output DP2
 off
-output HDMI-1
+output DP2-2
 off
-output DP-2
+output DP2-3
 off
-output HDMI-2
+output HDMI1
 off
-output DP-2-2
+output HDMI2
 off
-output DP-2-3
+output VGA1
 off
-output DP-2-1
+output VIRTUAL1
+off
+output DP2-1
 crtc 1
 mode 2560x1440
 pos 0x0
 rate 59.95
-output eDP-1
+output eDP1
 crtc 0
-mode 1280x720
-pos 691x1440
+mode 1366x768
+pos 518x1440
 primary
-rate 59.86
+rate 59.99
