@@ -2,6 +2,15 @@
 
 export PATH=$PATH:~/.local/bin
 
+SSH_ENV="$HOME/.ssh/env"
+
+echo "Initialising new SSH agent..."
+/usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+echo succeeded
+chmod 600 "${SSH_ENV}"
+source "${SSH_ENV}" > /dev/null
+/usr/bin/ssh-add -t 216000;
+
 export KEYID=0x5425347E4304939A
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
