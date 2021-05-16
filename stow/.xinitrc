@@ -2,9 +2,10 @@
 
 export PATH=$PATH:~/.local/bin
 
+export KEYID=0x5425347E4304939A
 export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 
 # setup usb disk daemon
 #udiskie -a -N &

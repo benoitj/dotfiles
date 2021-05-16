@@ -89,9 +89,9 @@ shopt -s cdable_vars
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+#export GPG_TTY="$(tty)"
+#export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+#gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 
 #test
 
@@ -102,9 +102,9 @@ gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 alias grep='grep --color=auto'
 alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
 
-export KEYID=0x5425347E4304939A
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
-
-test -x $HOME/.local/bin/starship && eval "$(starship init bash)"
+#export KEYID=0x5425347E4304939A
+#export GPG_TTY="$(tty)"
+#export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+#gpgconf --launch gpg-agent
+#
+eval "$(starship init bash)"
