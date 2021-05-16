@@ -14,9 +14,9 @@ IMAPStore migadu-remote
 Account migadu
 
 MailDirStore migadu-local
-Path ~/.mail/server@benlab.ca/
-Inbox ~/.mail/server@benlab.ca/Inbox
-Trash ~/.mail/server@benlab.ca/Trash
+Path ~/Mail/server@benlab.ca/
+Inbox ~/Mail/server@benlab.ca/Inbox
+Trash ~/Mail/server@benlab.ca/Trash
 SubFolders Verbatim
 
 channel migadu
@@ -42,9 +42,9 @@ IMAPStore mailbox-remote
 Account mailbox
 
 MailDirStore mailbox-local
-Path ~/.mail/mailbox.org/
-Inbox /home/benoit/.mail/mailbox.org/Inbox
-Trash /home/benoit/.mail/mailbox.org/Trash
+Path ~/Mail/mailbox.org/
+Inbox /home/benoit/Mail/mailbox.org/Inbox
+Trash /home/benoit/Mail/mailbox.org/Trash
 SubFolders Verbatim
 
 channel mailbox
