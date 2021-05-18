@@ -1,0 +1,12 @@
+[Unit]
+Description=Execute scripts on IMAP mailbox changes (new/deleted/updated messages) using IDLE, golang version.
+#Requires=emacs.service
+#After=emacs.service
+
+[Service]
+ExecStart=/usr/bin/goimapnotify -conf /home/benoit/.config/goimapnotify/config.json
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target
