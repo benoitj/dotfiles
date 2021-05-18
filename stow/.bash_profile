@@ -24,6 +24,7 @@ export SPACESHIP_GIT_BRANCH_COLOR=blue
 export SPACESHIP_DIR_COLOR=green
 
 [[ -d ~/.local/bin ]] && PATH="$HOME/.local/bin:$PATH"
+[[ -d ~/go/bin ]] && PATH="$HOME/go/bin:$PATH"
 [[ -d ~/.local/scripts/cli ]] && PATH="$HOME/.local/scripts/cli:$PATH"
 [[ -d ~/.local/scripts/rofi ]] && PATH="$HOME/.local/scripts/rofi:$PATH"
 
