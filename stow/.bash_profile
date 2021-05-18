@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LANG=en_US.UTF-8
+
 PROFILE_D=~/.config/bash/bash_profile.d 
 test -d $PROFILE_D || return 
 test -f $PROFILE_D/*.sh ||  return
