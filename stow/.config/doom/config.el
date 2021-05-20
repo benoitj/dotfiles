@@ -73,6 +73,12 @@
 
 (setq ivy-use-selectable-prompt t)
 
+(setq org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
+     "%?"
+     :file-name "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t)"
+     :head "#+title: ${title}\n"
+     :unnarrowed t)))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
