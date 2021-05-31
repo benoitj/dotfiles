@@ -70,4 +70,4 @@ export PATH_SRC="$HOME/src"
 export EDITOR=vim
 export DMENU=dmenu
 
-export LESSOPEN="|lesspipe.sh %s"
+#export LESSOPEN="|lesspipe.sh %s"
