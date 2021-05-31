@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+generate_isotimestamp() {
+	date +%Y%m%d%H%M%S
+}
+
+generate_isotimestamp

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+test -n "$SCREENSHOT_DIR" || SCREENSHOT_DIR="$HOME/Pictures/screenshot"
+
+capture_upload() {
+
+	notify-send -t 2000 "Capturing in 3 seconds"
+	sleep 3
+
+	shot_filename="${SCREENSHOT_DIR}/$(isotimestamp).png"
+	scrot -s "${shot_filename}"
+
+	upload_url="$(upload-image $shot_filename)"
+
+	echo "$upload_url"
+}
+
+capture_upload

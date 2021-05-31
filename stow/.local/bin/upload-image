@@ -1,0 +1,16 @@
+#!/bin/sh
+
+upload_image() {
+	file_to_upload="$1"
+
+	test -f "$file_to_upload" || exit 1
+
+	image_url="$(curl -X POST -s -F"file=@${file_to_upload}" https://0x0.st)"
+
+	echo "$image_url" | xclip -i -selection clipboard >/dev/null
+
+	echo "$image_url"
+
+}
+
+upload_image "$1"
