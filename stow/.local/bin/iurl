@@ -1,0 +1,7 @@
+#!/bin/sh
+
+open_irc_url() {
+	xdg-open "$(tac .urllog | rofi -dmenu)"
+}
+
+open_irc_url "${1:-$HOME/.urllog}"
