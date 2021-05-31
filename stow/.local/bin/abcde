@@ -1,0 +1,4 @@
+#!/bin/sh
+
+
+/usr/bin/abcde -c ~/.config/abcde/abcde.conf $*
