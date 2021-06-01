@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+launch_tv() {
+
+	selected="$(echo 2.1 4.1 6.1 10.1 12.1 15.1 17.1 29.1 35.1 47.1 62.1 | rofi -dmenu -sep ' ')"
+
+	mpv "http://HDHR-1050AAD8:5004/auto/v$selected"
+}
+
+launch_tv
