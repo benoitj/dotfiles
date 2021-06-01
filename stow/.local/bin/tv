@@ -3,10 +3,11 @@
 set -e
 
 launch_tv() {
+	selected="$(curl -s HDHR-1050AAD8/lineup.json | jq '.[] | (.GuideNumber + " "+ .GuideName)' | sed -e 's/"//g' | rofi -dmenu)"
 
-	selected="$(echo 2.1 4.1 6.1 10.1 12.1 15.1 17.1 29.1 35.1 47.1 62.1 | rofi -dmenu -sep ' ')"
+	url="$(curl -s HDHR-1050AAD8/lineup.json | jq '.[] | select(.GuideNumber == "'${selected%% *}'")| .URL' | sed -e 's/"//g')"
 
-	mpv "http://HDHR-1050AAD8:5004/auto/v$selected"
+	mpv "$url"
 }
 
 launch_tv
