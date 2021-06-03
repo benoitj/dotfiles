@@ -4,24 +4,22 @@ set +o noclobber
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
-
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
 fi
 
 test -f ~/.config/bash/aliases && source ~/.config/bash/aliases
 
-if [[ -d ~/.config/bash/bash_functions.d ]]
-then
-  for f in ~/.config/bash/bash_functions.d/*; do source $f; done
+if [[ -d ~/.config/bash/bash_functions.d ]]; then
+	for f in ~/.config/bash/bash_functions.d/*; do source $f; done
 fi
 ### basic options
 
@@ -38,14 +36,14 @@ shopt -s checkwinsize
 bind Space:magic-space
 
 # Resursize globbing with **
-shopt -s globstar 2> /dev/null
+shopt -s globstar 2>/dev/null
 
 # case insensitive globing
-shopt -s nocaseglob;
+shopt -s nocaseglob
 
 #### tab completion
 
-# case insensitive file completion 
+# case insensitive file completion
 bind "set completion-ignore-case on"
 
 # - and _ are the same in file completion
@@ -74,13 +72,13 @@ bind '"\e[D": backward-char'
 #### directory navigation
 
 # prepend "cd"
-shopt -s autocd 2> /dev/null
+shopt -s autocd 2>/dev/null
 
 # corret typos on tab completion
-shopt -s dirspell 2> /dev/null
+shopt -s dirspell 2>/dev/null
 
 # correct typos on directories supplied to cd
-shopt -s cdspell 2> /dev/null
+shopt -s cdspell 2>/dev/null
 
 # directory aliases
 shopt -s cdable_vars
@@ -90,16 +88,24 @@ shopt -s cdable_vars
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-
 #export GPG_TTY="$(tty)"
 #export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 #gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 
 #test
 
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 
+PATH="/home/benoit/perl5/bin${PATH:+:${PATH}}"
+export PATH
+PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL5LIB
+PERL_LOCAL_LIB_ROOT="/home/benoit/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_LOCAL_LIB_ROOT
+PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
+export PERL_MB_OPT
+PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
+export PERL_MM_OPT
 
 alias grep='grep --color=auto'
 alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
