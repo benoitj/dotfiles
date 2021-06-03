@@ -10,7 +10,7 @@ capture_upload() {
 	sleep 3
 
 	shot_filename="${SCREENSHOT_DIR}/$(isotimestamp).png"
-	scrot -s "${shot_filename}"
+	maim -s "${shot_filename}"
 
 	upload_url="$(upload-image $shot_filename)"
 
