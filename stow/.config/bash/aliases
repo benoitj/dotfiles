@@ -1,14 +1,13 @@
 #!/bin/bash
 
-if [ -x /usr/bin/dircolors ]
-then
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+if [ -x /usr/bin/dircolors ]; then
+	alias ls='ls --color=auto'
+	alias dir='dir --color=auto'
+	alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
 fi
 
 alias cfg-i3="$EDITOR ~/.config/i3/config"
@@ -19,19 +18,19 @@ alias vi=vim
 
 # listing directories
 alias ls='ls --color=auto' # detailed list, show hidden
-alias l='ls -la' # detailed list, show hidden
-alias lh='ls -lah' # detailed list, show hidden, human filesizes
-alias ll='ls -lrth' # detailed list, no hidden
-alias ls.='ls -d .[^.]*' # regular list, only hidden
-alias ll.='ls -ld .[^.]*' # detailed list, only hidden
-alias lsd='ls -d *(-/DN)' # regular list, only directories
+alias l='ls -la'           # detailed list, show hidden
+alias lh='ls -lah'         # detailed list, show hidden, human filesizes
+alias ll='ls -lrth'        # detailed list, no hidden
+alias ls.='ls -d .[^.]*'   # regular list, only hidden
+alias ll.='ls -ld .[^.]*'  # detailed list, only hidden
+alias lsd='ls -d *(-/DN)'  # regular list, only directories
 alias lld='ls -ld *(-/DN)' # detailed list, only directories
 
 # path
 alias path='echo -e ${PATH//:/\\n}'
 
 # directory navigation
-alias -- -='cd -'   # flip to last dir with just '-'
+alias -- -='cd -' # flip to last dir with just '-'
 alias ...='../..'
 alias ....='../../..'
 alias .....='../../../..'
@@ -39,7 +38,7 @@ alias .....='../../../..'
 alias pu='pushd'
 alias po='popd'
 
-alias d='dirs -v'   # list directory stack
+alias d='dirs -v' # list directory stack
 alias cdd="pu +\$(d | fzy | awk '{print \$1}')"
 alias 1='cd -' # jump to 'n' in directory stack...
 alias 2='pu +2'
@@ -92,8 +91,8 @@ alias glo='git log --pretty="oneline"'
 alias glol='git log --graph --oneline --decorate'
 alias gr='git remote'
 alias grs='git remote show'
-alias co='git checkout $(git branch | fzy | sed "s|[ * ]*||")'
-alias cor='git checkout $(git branch -r | fzy | sed -e "s|[ * ]*||" -e "s|origin/||")'
+alias co='git checkout $(git branch | fzf | sed "s|[ * ]*||")'
+alias cor='git checkout $(git branch -r | fzf | sed -e "s|[ * ]*||" -e "s|origin/||")'
 
 # info
 alias battery='acpi -V | sed -n -e 1p -e 4p'
@@ -110,7 +109,6 @@ alias flameshot='flameshot gui -d 3'
 # gnupg alias
 # alias encrypt='gpg -e -r me'
 # alias decrypt='gpg --decrypt'
-
 
 # # screenshots
 # alias sc="scrot 'screenshot-%d%m%Y_%H%M%S.png' -s -e 'mv screenshot* ~/tmp'"
