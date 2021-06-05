@@ -3,9 +3,9 @@
 set -o nounset
 set -o errexit
 
-DMENU="dmenu -l 5 -i -c -bw 3" 
+DMENU="rofi -dmenu" 
 
-chosen=$(echo -e "Restart\nReboot\nLogout\nShutdown" | $DMENU -p "Session")
+chosen=$(echo -e "Restart\nReboot\nLogout\nShutdown" | $DMENU -p "Session: ")
 
 case "$chosen" in
   Restart) echo "restart" >> /tmp/dwm.fifo ;;
