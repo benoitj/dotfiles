@@ -5,11 +5,11 @@ export PATH=$PATH:~/.local/bin
 SSH_ENV="$HOME/.ssh/env"
 
 echo "Initialising new SSH agent..."
-/usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+/usr/bin/ssh-agent | sed 's/^echo/#echo/' >"${SSH_ENV}"
 echo succeeded
 chmod 600 "${SSH_ENV}"
-source "${SSH_ENV}" > /dev/null
-/usr/bin/ssh-add -t 216000;
+source "${SSH_ENV}" >/dev/null
+/usr/bin/ssh-add -t 216000
 
 export KEYID=0x5425347E4304939A
 export GPG_TTY="$(tty)"
@@ -20,9 +20,9 @@ gpgconf --launch gpg-agent
 #udiskie -a -N &
 
 # keyboard config
-#setxkbmap dvorak -option ctrl:nocaps  
+#setxkbmap dvorak -option ctrl:nocaps
 
-sxhkd -m -1 &
+#sxhkd -m -1 &
 
 # authentication agent
 /usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
@@ -47,7 +47,10 @@ autorandr -c
 #systemctl --user is-active --quiet dbus-broker || systemctl --user start --quiet dbus-broker
 
 # configure fifo
-test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
+test -p /tmp/dwm.fifo || (
+    umask 077
+    mkfifo /tmp/dwm.fifo
+)
 
 test -x /usr/bin/dwm && exec dbus-launch /usr/bin/dwm
 test -x /usr/local/bin/dwm && exec dbus-launch /usr/local/bin/dwm
