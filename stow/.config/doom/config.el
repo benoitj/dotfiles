@@ -34,6 +34,7 @@
 
 (setq confirm-kill-emacs nil)
 (setq
+ evil-want-fine-undo t
  evil-vsplit-window-right t
  evil-split-window-below t)
 
