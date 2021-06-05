@@ -49,4 +49,5 @@ autorandr -c
 # configure fifo
 test -p /tmp/dwm.fifo || (umask 077; mkfifo /tmp/dwm.fifo)
 
-exec dbus-launch /usr/bin/dwm
+test -x /usr/bin/dwm && exec dbus-launch /usr/bin/dwm
+test -x /usr/local/bin/dwm && exec dbus-launch /usr/local/bin/dwm
