@@ -1,77 +1,77 @@
 # test
 
 # Basic binds
-super + Return
-	st
-super + d
-	rofi -theme gruvbox-dark -show combi -combi-modi "run,drun" -modi combi
+#super + Return
+#	st
+#super + d
+#	rofi -theme gruvbox-dark -show combi -combi-modi "run,drun" -modi combi
 	#dmenu_run -l 10 -c -bw 3 -F -i
 #super + Tab
 #	rofi -show window
 
 # FIXME: implement in dwm directly
-super + shift + e
-	~/.local/bin/session-menu
+#super + shift + e
+#	~/.local/bin/session-menu
 
 # Multimedia
 
 # mixer super + m
-super + m
-	st -c "Mixer" -e pulsemixer
+#super + m
+#	st -c "Mixer" -e pulsemixer
 
 #; super + plus
-XF86AudioRaiseVolume
-	pamixer --allow-boost -i 15
-#; super + shift + plus
-shift + XF86AudioRaiseVolume
-	pamixer --allow-boost -i 5
-
-#; super + minus
-XF86AudioLowerVolume
-	pamixer --allow-boost -d 15
-#; super + shift + minus
-shift + XF86AudioLowerVolume
-	pamixer --allow-boost -d 5
-
-#; super + shift + m
-XF86AudioMute
-	pamixer --allow-boost -t
-
-# FIXME: implement with dbus
-XF86AudioPlay
-	mpc -q toggle
-
-# FIXME: implement with dbus
-XF86Audio{Prev,Next}
-	mpc -q {prev,next}
+#XF86AudioRaiseVolume
+#	pamixer --allow-boost -i 15
+##; super + shift + plus
+#shift + XF86AudioRaiseVolume
+#	pamixer --allow-boost -i 5
+#
+##; super + minus
+#XF86AudioLowerVolume
+#	pamixer --allow-boost -d 15
+##; super + shift + minus
+#shift + XF86AudioLowerVolume
+#	pamixer --allow-boost -d 5
+#
+##; super + shift + m
+#XF86AudioMute
+#	pamixer --allow-boost -t
+#
+## FIXME: implement with dbus
+#XF86AudioPlay
+#	mpc -q toggle
+#
+## FIXME: implement with dbus
+#XF86Audio{Prev,Next}
+#	mpc -q {prev,next}
 
 #### Apps
 ####
 
-super + grave
-	ec
+##super + grave
+##	ec
+##
+##super + s
+##	rofi-surfraw
 
-super + s
-	surfraw-rofi
+#super + shift + Print
+#	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b -s
 
-super + shift + Print
-	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b -s
-
-super + Print
-	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b -u
+#super + Print
+#	sleep 1 && mkdir -p ~/Pictures/screenshots && cd ~/Pictures/screenshots && scrot -b -u
 
 # TODO
 #super + p
 #	~/.config/scripts/dmenu/passmenu13
 
-super + F1
-	st -e ranger
+#super + F1
+#	st -e ranger
 
-super + F8
-	~/.local/bin/keyboard-layout
+#super + F8
+#	~/.local/bin/keyboard-layout
 
-super + F7
-	~/.local/bin/displayselect
+#super + F7
+#	~/.local/bin/displayselect
 
 #super + r
 #	$TERMINAL -e $FILE
