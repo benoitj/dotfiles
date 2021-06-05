@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/usr/bin/rofi -theme gruvbox-dark "$@"
