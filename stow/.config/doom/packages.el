@@ -70,3 +70,4 @@
 ;;(package! org-bom)
 ;;(package! guix)
 ;;(package! modus-themes :recipe (:type git :host github :repo "protesilaos/modus-themes"))
+(package! magit-section)
