@@ -5,7 +5,7 @@ set -e
 launch_tv() {
 	selected="$(curl -s HDHR-1050AAD8/lineup.json | jq '.[] | (.GuideNumber + " "+ .GuideName)' | sed -e 's/"//g' | rofi -dmenu)"
 
-	url="$(curl -s HDHR-1050AAD8/lineup.json | jq '.[] | select(.GuideNumber == "'${selected%% *}'")| .URL' | sed -e 's/"//g')"
+	url="$(curl -s HDHR-1050AAD8/lineup.json | jq '.[] | select(.GuideNumber == "'${selected%% *}'")| .URL' | sed -e 's/"//g')?transcode=heavy"
 
 	mpv "$url"
 }
