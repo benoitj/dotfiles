@@ -80,6 +80,8 @@
      :head "#+title: ${title}\n"
      :unnarrowed t)))
 
+(setq tls-program '("gnutls-cli -p %p %h"))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
