@@ -24,9 +24,10 @@
       doom-big-font (font-spec :family "Fira Code Nerd Font" :size 36)
       doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 
-(use-package! notmuch
-  :config
-  (set-popup-rule! "^\\*notmuch" :ignore t))
+(if (executable-find "notmuch")
+    (use-package! notmuch
+      :config
+      (set-popup-rule! "^\\*notmuch" :ignore t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; UI
@@ -79,6 +80,8 @@
      :file-name "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t)"
      :head "#+title: ${title}\n"
      :unnarrowed t)))
+
+(setq doom-modeline-display-default-persp-name t)
 
 (setq tls-program '("gnutls-cli -p %p %h"))
 
