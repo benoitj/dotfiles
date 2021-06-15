@@ -81,6 +81,11 @@
      :head "#+title: ${title}\n"
      :unnarrowed t)))
 
+(after! 'org-roam
+  (custom-set-faces
+   '((org-roam-link org-roam-link-current)
+     :foreground "#e24888" :underline t)))
+
 (setq doom-modeline-display-default-persp-name t)
 
 (setq tls-program '("gnutls-cli -p %p %h"))
