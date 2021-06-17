@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+test -n "$(git diff-index --name-only --ignore-submodules HEAD --)"
+#bool canPush = stoi(run("git rev-list HEAD...origin/" + currentBranch + " --ignore-submodules --count")[0]) > 0;
