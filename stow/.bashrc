@@ -4,8 +4,8 @@ set +o noclobber
 
 # If not running interactively, don't do anything
 case $- in
-*i*) ;;
-*) return ;;
+	*i*) ;;
+	*) return ;;
 esac
 
 if ! shopt -oq posix; then
@@ -88,14 +88,6 @@ shopt -s cdable_vars
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-#export GPG_TTY="$(tty)"
-#export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-#gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
-
-#test
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-
 PATH="/home/benoit/perl5/bin${PATH:+:${PATH}}"
 export PATH
 PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
@@ -110,9 +102,58 @@ export PERL_MM_OPT
 alias grep='grep --color=auto'
 alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
 
-#export KEYID=0x5425347E4304939A
-#export GPG_TTY="$(tty)"
-#export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-#gpgconf --launch gpg-agent
-#
-eval "$(starship init bash)"
+promptCommand() {
+	local P='$'
+
+	local r='\[\e[91m\]'
+	local g='\[\e[37m\]'
+	local h='\[\e[34m\]'
+	local u='\[\e[95m\]'
+	local p='\[\e[92m\]'
+	local w='\[\e[96m\]'
+	local b='\[\e[36m\]'
+	local x='\[\e[0m\]'
+
+	if test "${EUID}" == 0; then
+		P='#'
+		u=$r
+		p=$u
+	fi
+
+	local dir
+	if test "$PWD" = "$HOME"; then
+		dir='~'
+	else
+		dir="${PWD##*/}"
+		if test "${dir}" = _; then
+			dir=${PWD#*${PWD%/*/_}}
+			dir=${dir#/}
+		elif test "${dir}" = work; then
+			dir=${PWD#*${PWD%/*/work}}
+			dir=${dir#/}
+		fi
+	fi
+
+	local B=$(git branch --show-current 2>/dev/null)
+	test "$dir" = "$B" && B='.'
+	local countme="$USER@$(hostname):$dir($B)\$ "
+
+	test -n "$B" -a -n "$(git status -s 2>/dev/null)" && b=$r
+	test -n "$B" && B="$g on $b$B$g"
+
+	local short="$u\u$g@$h\h$g:$w$dir$B $p$P$x "
+	local long="$g╔ $u\u$g@$h\h$g:$w$dir$B\n$g╚ $p$P$x "
+	local double="$g╔ $u\u$g@$h\h$g:$w$dir\n$g║ $B\n$g╚ $p$P$x "
+
+	if test ${#countme} -gt "${PROMPT_MAX:-120}"; then
+		PS1="$double"
+	elif test ${#countme} -gt "${PROMPT_LONG:-80}"; then
+		PS1="$long"
+	else
+		PS1="$short"
+	fi
+}
+
+PROMPT_COMMAND="promptCommand"
+
+#eval "$(starship init bash)"
