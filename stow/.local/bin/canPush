@@ -3,5 +3,6 @@
 set -e
 
 currentBranch="$(git rev-parse --abbrev-ref HEAD)"
+countOfPushes="$(git rev-list HEAD...origin/"""$currentBranch""" --ignore-submodules --count 2>/dev/null)"
 
-test "$(git rev-list HEAD...origin/"""$currentBranch""" --ignore-submodules --count)" -gt 0 || exit 1
+test -n "$countOfPushes" -a "$countOfPushes" -gt 0 || exit 1
