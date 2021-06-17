@@ -139,6 +139,7 @@ promptCommand() {
 	local countme="$USER@$(hostname):$dir($B)\$ "
 
 	test -n "$B" -a -n "$(git status -s 2>/dev/null)" && b=$r
+	test -n "$B" && canPush && b=$r
 	test -n "$B" && B="$g on $b$B$g"
 
 	local short="$u\u$g@$h\h$g:$w$dir$B $p$P$x "
