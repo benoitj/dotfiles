@@ -146,9 +146,9 @@ promptCommand() {
 	local long="$g╔ $u\u$g@$h\h$g:$w$dir$B\n$g╚ $p$P$x "
 	local double="$g╔ $u\u$g@$h\h$g:$w$dir\n$g║ $B\n$g╚ $p$P$x "
 
-	if test ${#countme} -gt "${PROMPT_MAX:-120}"; then
+	if test ${#countme} -gt "${PROMPT_MAX:-95}"; then
 		PS1="$double"
-	elif test ${#countme} -gt "${PROMPT_LONG:-80}"; then
+	elif test ${#countme} -gt "${PROMPT_LONG:-50}"; then
 		PS1="$long"
 	else
 		PS1="$short"
