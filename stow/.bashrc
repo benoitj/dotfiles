@@ -1,12 +1,111 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-set +o noclobber
+# --------------- PATH ----------------
+pathappend() {
+	for ARG in "$@"; do
+		test -d "${ARG}" || continue
+		PATH=${PATH//:${ARG}:/:}
+		PATH=${PATH/#${ARG}:/}
+		PATH=${PATH/%:${ARG}/}
+		export PATH="${PATH:+"${PATH}:"}${ARG}"
+	done
+}
 
-# If not running interactively, don't do anything
+pathprepend() {
+	for ARG in "$@"; do
+		test -d "${ARG}" || continue
+		PATH=${PATH//:${ARG}:/:}
+		PATH=${PATH/#${ARG}:/}
+		PATH=${PATH/%:${ARG}/}
+		export PATH="${ARG}${PATH:+":${PATH}"}"
+	done
+}
+
+pathprepend ~/.local/bin \
+	~/go/bin \
+	~/node_modules/.bin \
+	~/perl5/bin
+
+# --------------- Environment variables ----------------
+export _JAVA_AWT_WM_NONREPARENTING=1
+export DMENU=dmenu
+export EDITOR="vim"
+export LANG=en_US.UTF-8
+export TERMINAL=st
+
+export PATH_CFG="$HOME/.config"
+export PATH_DOC="$HOME/Documents"
+export PATH_DOT="$HOME/src/dotfiles"
+export PATH_SRC="$HOME/src"
+
+export PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/home/benoit/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
+
+# --------------- stop here if non-interactive ----------------
 case $- in
-	*i*) ;;
+	*i*) ;; # interactive
 	*) return ;;
 esac
+
+# --------------- CDPATH expansion ----------------
+
+export CDPATH=".:~:$PATH_CFG:$PATH_DOC:$PATH_SRC"
+
+# --------------- history setup ----------------
+
+# history size
+HISTSIZE=500000
+HISTFILESIZE=100000
+HISTFILE="$HOME/.cache/bash_history"
+HISTCONTROL=erasedups:ignoreboth
+
+# history time is iso format
+HISTTIMEFORMAT='%F %T '
+
+# -------------- bash shell options ------------------
+
+shopt -s autocd
+shopt -s cdable_vars
+shopt -s cdspell
+shopt -s checkwinsize
+shopt -s cmdhist
+shopt -s dirspell
+shopt -s dotglob
+shopt -s expand_aliases
+shopt -s extglob
+shopt -s globstar
+shopt -s histappend
+
+set -o vi
+set +o noclobber
+# prevent overwrite on redirection
+# Use >| to force
+#set -o noclobber
+
+# -------------- Pager ------------------
+if test -x /usr/bin/lesspipe; then
+	export LESSOPEN="| /usr/bin/lesspipe %s"
+	export LESSCLOSE="/usr/bin/lesspipe %s %s"
+fi
+
+export LESS_TERMCAP_mb="[35m" # magenta
+export LESS_TERMCAP_md="[96m" # light cyan
+export LESS_TERMCAP_me=""      # "0m"
+export LESS_TERMCAP_se=""      # "0m"
+export LESS_TERMCAP_so="[94m" # blue
+export LESS_TERMCAP_ue=""      # "0m"
+export LESS_TERMCAP_us="[4m"  # underline
+
+# -------------- setup colors ------------------
+test -x /usr/bin/dircolors &&
+	test -r $HOME/.config/bash/dircolors &&
+	eval "$(dircolors -b $HOME/.config/bash/dircolors)" ||
+	eval "$(dircolors -b)"
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -23,25 +122,11 @@ if [[ -d ~/.config/bash/bash_functions.d ]]; then
 fi
 ### basic options
 
-# prevent overwrite on redirection
-# Use >| to force
-set -o noclobber
-set -o vi
-
-# update window size after every command
-shopt -s checkwinsize
-
 # history expansion with space
 # !!<space> replace with last command. !2<space> replace with second history
 bind Space:magic-space
 
-# Resursize globbing with **
-shopt -s globstar 2>/dev/null
-
-# case insensitive globing
-shopt -s nocaseglob
-
-#### tab completion
+# --------------- tab completion ---------------
 
 # case insensitive file completion
 bind "set completion-ignore-case on"
@@ -55,52 +140,22 @@ bind "set show-all-if-ambiguous on"
 # add trailing / on completion of dir symlink
 bind "set mark-symlinked-directories on"
 
-#### history
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# save multiline commands as one
-shopt -s cmdhist
-
 # incremental history with up/down
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 bind '"\e[C": forward-char'
 bind '"\e[D": backward-char'
 
-#### directory navigation
-
-# prepend "cd"
-shopt -s autocd 2>/dev/null
-
-# corret typos on tab completion
-shopt -s dirspell 2>/dev/null
-
-# correct typos on directories supplied to cd
-shopt -s cdspell 2>/dev/null
-
-# directory aliases
-shopt -s cdable_vars
-
 #### Tools configuration
-
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-PATH="/home/benoit/perl5/bin${PATH:+:${PATH}}"
-export PATH
-PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL5LIB
-PERL_LOCAL_LIB_ROOT="/home/benoit/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_LOCAL_LIB_ROOT
-PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
-export PERL_MB_OPT
-PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
-export PERL_MM_OPT
-
 alias grep='grep --color=auto'
 alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
+
+# --------------- PROMPT  --------------
+# trim long paths in the prompt
+export PROMPT_DIRTRIM=2
 
 promptCommand() {
 	local P='$'
@@ -120,35 +175,21 @@ promptCommand() {
 		p=$u
 	fi
 
-	local dir
-	if test "$PWD" = "$HOME"; then
-		dir='~'
-	else
-		dir="${PWD##*/}"
-		if test "${dir}" = _; then
-			dir=${PWD#*${PWD%/*/_}}
-			dir=${dir#/}
-		elif test "${dir}" = work; then
-			dir=${PWD#*${PWD%/*/work}}
-			dir=${dir#/}
-		fi
-	fi
-
 	local B=$(git branch --show-current 2>/dev/null)
-	test "$dir" = "$B" && B='.'
-	local countme="$USER@$(hostname):$dir($B)\$ "
+	test "$dir" = "\W"
+	local countme="$B"
 
 	test -n "$B" -a -n "$(git status -s 2>/dev/null)" && b=$r
 	test -n "$B" && canPush && b=$r
 	test -n "$B" && B="$g on $b$B$g"
 
-	local short="$u\u$g@$h\h$g:$w$dir$B $p$P$x "
-	local long="$g╔ $u\u$g@$h\h$g:$w$dir$B\n$g╚ $p$P$x "
-	local double="$g╔ $u\u$g@$h\h$g:$w$dir\n$g║ $B\n$g╚ $p$P$x "
+	local short="$u\u$g@$h\h$g:$w\w$B $p$P$x "
+	local long="$g╔ $u\u$g@$h\h$g:$w\w$B\n$g╚ $p$P$x "
+	local double="$g╔ $u\u$g@$h\h$g:$w\w\n$g║ $B\n$g╚ $p$P$x "
 
-	if test ${#countme} -gt "${PROMPT_MAX:-95}"; then
+	if test ${#countme} -gt "${PROMPT_MAX:-15}"; then
 		PS1="$double"
-	elif test ${#countme} -gt "${PROMPT_LONG:-50}"; then
+	elif test ${#countme} -gt "${PROMPT_LONG:-5}"; then
 		PS1="$long"
 	else
 		PS1="$short"
@@ -156,5 +197,3 @@ promptCommand() {
 }
 
 PROMPT_COMMAND="promptCommand"
-
-#eval "$(starship init bash)"
