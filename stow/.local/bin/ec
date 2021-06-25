@@ -1,8 +1,8 @@
 #!/bin/sh
 
-. "$HOME/.bashrc"
+. "${HOME}/.bashrc"
 
-#if ! emacsclient -e 0 >&/dev/null
-#then emacs --daemon
-#fi
+if ! emacsclient -e 0 >&/dev/null; then
+    emacs --daemon
+fi
 emacsclient -c "$@"
