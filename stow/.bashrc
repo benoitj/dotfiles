@@ -2,29 +2,29 @@
 
 # --------------- PATH ----------------
 pathappend() {
-	for ARG in "$@"; do
-		test -d "${ARG}" || continue
-		PATH=${PATH//:${ARG}:/:}
-		PATH=${PATH/#${ARG}:/}
-		PATH=${PATH/%:${ARG}/}
-		export PATH="${PATH:+"${PATH}:"}${ARG}"
-	done
+    for ARG in "$@"; do
+        test -d "${ARG}" || continue
+        PATH=${PATH//:${ARG}:/:}
+        PATH=${PATH/#${ARG}:/}
+        PATH=${PATH/%:${ARG}/}
+        export PATH="${PATH:+"${PATH}:"}${ARG}"
+    done
 }
 
 pathprepend() {
-	for ARG in "$@"; do
-		test -d "${ARG}" || continue
-		PATH=${PATH//:${ARG}:/:}
-		PATH=${PATH/#${ARG}:/}
-		PATH=${PATH/%:${ARG}/}
-		export PATH="${ARG}${PATH:+":${PATH}"}"
-	done
+    for ARG in "$@"; do
+        test -d "${ARG}" || continue
+        PATH=${PATH//:${ARG}:/:}
+        PATH=${PATH/#${ARG}:/}
+        PATH=${PATH/%:${ARG}/}
+        export PATH="${ARG}${PATH:+":${PATH}"}"
+    done
 }
 
 pathprepend ~/.local/bin \
-	~/go/bin \
-	~/node_modules/.bin \
-	~/perl5/bin
+    ~/go/bin \
+    ~/node_modules/.bin \
+    ~/perl5/bin
 
 # --------------- Environment variables ----------------
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -45,8 +45,8 @@ export PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
 
 # --------------- stop here if non-interactive ----------------
 case $- in
-	*i*) ;; # interactive
-	*) return ;;
+    *i*) ;; # interactive
+    *) return ;;
 esac
 
 # --------------- CDPATH expansion ----------------
@@ -86,8 +86,8 @@ set +o noclobber
 
 # -------------- Pager ------------------
 if test -x /usr/bin/lesspipe; then
-	export LESSOPEN="| /usr/bin/lesspipe %s"
-	export LESSCLOSE="/usr/bin/lesspipe %s %s"
+    export LESSOPEN="| /usr/bin/lesspipe %s"
+    export LESSCLOSE="/usr/bin/lesspipe %s %s"
 fi
 
 export LESS_TERMCAP_mb="[35m" # magenta
@@ -100,25 +100,25 @@ export LESS_TERMCAP_us="[4m"  # underline
 
 # -------------- setup colors ------------------
 test -x /usr/bin/dircolors &&
-	test -r $HOME/.config/bash/dircolors &&
-	eval "$(dircolors -b $HOME/.config/bash/dircolors)" ||
-	eval "$(dircolors -b)"
+    test -r $HOME/.config/bash/dircolors &&
+    eval "$(dircolors -b $HOME/.config/bash/dircolors)" ||
+    eval "$(dircolors -b)"
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 if ! shopt -oq posix; then
-	if [ -f /usr/share/bash-completion/bash_completion ]; then
-		. /usr/share/bash-completion/bash_completion
-	elif [ -f /etc/bash_completion ]; then
-		. /etc/bash_completion
-	fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
 test -f ~/.config/bash/aliases && source ~/.config/bash/aliases
 
 if [[ -d ~/.config/bash/bash_functions.d ]]; then
-	for f in ~/.config/bash/bash_functions.d/*; do source $f; done
+    for f in ~/.config/bash/bash_functions.d/*; do source $f; done
 fi
 ### basic options
 
@@ -158,42 +158,45 @@ alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
 export PROMPT_DIRTRIM=2
 
 promptCommand() {
-	local P='$'
+    local lastStatus=$?
+    local P='$'
 
-	local r='\[\e[91m\]'
-	local g='\[\e[37m\]'
-	local h='\[\e[34m\]'
-	local u='\[\e[95m\]'
-	local p='\[\e[92m\]'
-	local w='\[\e[96m\]'
-	local b='\[\e[36m\]'
-	local x='\[\e[0m\]'
+    local r='\[\e[91m\]'
+    local g='\[\e[37m\]'
+    local h='\[\e[34m\]'
+    local u='\[\e[95m\]'
+    local p='\[\e[92m\]'
+    local w='\[\e[96m\]'
+    local b='\[\e[36m\]'
+    local x='\[\e[0m\]'
 
-	if test "${EUID}" == 0; then
-		P='#'
-		u=$r
-		p=$u
-	fi
+    if test "${lastStatus}" != 0; then
+        p=$r
+    fi
 
-	local B=$(git branch --show-current 2>/dev/null)
-	test "$dir" = "\W"
-	local countme="$B"
+    if test "${EUID}" == 0; then
+        u=$r
+    fi
 
-	test -n "$B" -a -n "$(git status -s 2>/dev/null)" && b=$r
-	test -n "$B" && canPush && b=$r
-	test -n "$B" && B="$g on $b$B$g"
+    local B=$(git branch --show-current 2>/dev/null)
+    test "$dir" = "\W"
+    local countme="$B"
 
-	local short="$u\u$g@$h\h$g:$w\w$B $p$P$x "
-	local long="$g╔ $u\u$g@$h\h$g:$w\w$B\n$g╚ $p$P$x "
-	local double="$g╔ $u\u$g@$h\h$g:$w\w\n$g║ $B\n$g╚ $p$P$x "
+    test -n "$B" -a -n "$(git status -s 2>/dev/null)" && b=$r
+    test -n "$B" && canPush && b=$r
+    test -n "$B" && B="$g on $b$B$g"
 
-	if test ${#countme} -gt "${PROMPT_MAX:-15}"; then
-		PS1="$double"
-	elif test ${#countme} -gt "${PROMPT_LONG:-5}"; then
-		PS1="$long"
-	else
-		PS1="$short"
-	fi
+    local short="$u\u$g@$h\h$g:$w\w$B $p$P$x "
+    local long="$g╔ $u\u$g@$h\h$g:$w\w$B\n$g╚ $p$P$x "
+    local double="$g╔ $u\u$g@$h\h$g:$w\w\n$g║ $B\n$g╚ $p$P$x "
+
+    if test ${#countme} -gt "${PROMPT_MAX:-15}"; then
+        PS1="$double"
+    elif test ${#countme} -gt "${PROMPT_LONG:-5}"; then
+        PS1="$long"
+    else
+        PS1="$short"
+    fi
 }
 
 PROMPT_COMMAND="promptCommand"
