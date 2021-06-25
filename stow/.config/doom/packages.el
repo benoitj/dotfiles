@@ -72,3 +72,5 @@
 ;;(package! modus-themes :recipe (:type git :host github :repo "protesilaos/modus-themes"))
 (package! magit-section)
 (package! erc)
+(package! bbdb)
+(package! elpher)
