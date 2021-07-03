@@ -90,6 +90,15 @@
 
 (setq tls-program '("gnutls-cli -p %p %h"))
 
+;;; dont show closed topics by default
+;;; but show 5 when forge-toggle-closed-visibility is called
+(setq forge-topic-list-limit '(60 . -5))
+
+
+(setq auth-sources '("~/.authinfo.gpg"))
+(setq auth-source-gpg-encrypt-to '("benoit@benoitj.ca"))
+(setq auth-source-debug t)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
