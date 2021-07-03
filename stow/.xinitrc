@@ -43,6 +43,8 @@ autorandr -c
 # status bar
 /usr/bin/dwmstatus &
 
+syncthing --no-browser &
+
 #systemctl --user is-enabled --quiet dbus-broker || systemctl --user enable --quiet dbus-broker
 #systemctl --user is-active --quiet dbus-broker || systemctl --user start --quiet dbus-broker
 
