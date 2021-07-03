@@ -42,6 +42,7 @@ export PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
 export PERL_LOCAL_LIB_ROOT="/home/benoit/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
 export PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
 export PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:/home/benoit/.local/share/flatpak/exports/share"
 
 # --------------- stop here if non-interactive ----------------
 case $- in
