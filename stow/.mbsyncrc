@@ -1,55 +1,80 @@
+################################
+# Accounts
+################################
 
-
-
-# migadu
-
-IMAPAccount migadu
-Host imap.migadu.com
-Port 993
-User server@benlab.ca
-PassCmd "pass show migadu.com_events | head -1"
-SSLType IMAPS
-
-IMAPStore migadu-remote
-Account migadu
-
-MailDirStore migadu-local
-Path ~/Mail/server@benlab.ca/
-Inbox ~/Mail/server@benlab.ca/Inbox
-Trash ~/Mail/server@benlab.ca/Trash
-SubFolders Verbatim
-
-channel migadu
-Master :migadu-remote:
-Slave :migadu-local:
-Patterns *
-SyncState *
-Create Both
-Expunge Both
-Remove Both
-CopyArrivalDate yes
-
-# mailbox.org
-
-IMAPAccount mailbox
-Host imap.mailbox.org
+# benoit@benoitj.ca
+IMAPAccount benoit@benoitj
+Host mail.benoitj.ca
 Port 993
 User benoit@benoitj.ca
 PassCmd "pass show mailbox.org | head -1"
 SSLType IMAPS
 
-IMAPStore mailbox-remote
-Account mailbox
+# benoit@benlab.ca
+IMAPAccount benoit@benlab
+Host mail.benlab.ca
+Port 993
+User benoit@benlab.ca
+PassCmd "pass show webmail.benlab.ca/benoit | head -1"
+SSLType IMAPS
 
-MailDirStore mailbox-local
-Path ~/Mail/mailbox.org/
-Inbox /home/benoit/Mail/mailbox.org/Inbox
-Trash /home/benoit/Mail/mailbox.org/Trash
+# benoit.m.joly@gmail.com
+IMAPAccount gmail
+Host imap.gmail.com
+Port 993
+User benoit.m.joly@gmail.com
+PassCmd "pass show mbsync.google | head -1"
+SSLType IMAPS
+
+###############################
+# Remote Storage
+###############################
+
+# benoit@benlab
+IMAPStore benoit@benlab-remote
+Account benoit@benlab
+
+# benoit@benoitj.ca
+IMAPStore benoit@benoitj-remote
+Account benoit@benoitj
+
+# benoit.m.joly@gmail.com
+IMAPStore gmail-remote
+Account gmail
+
+
+###############################
+# Local Storage
+###############################
+
+# local storage for benoit@benlab
+MailDirStore benoit@benlab-local
+Path ~/Mail/benoit@benlab.ca/
+Inbox ~/Mail/benoit@benlab.ca/Inbox
+Trash ~/Mail/benoit@benlab.ca/Trash
 SubFolders Verbatim
 
-channel mailbox
-Master :mailbox-remote:
-Slave :mailbox-local:
+# local storage for benoit@benlab
+MailDirStore benoit@benoitj-local
+Path ~/Mail/benoit@benoitj.ca/
+Inbox /home/benoit/Mail/benoit@benoitj.ca/Inbox
+Trash /home/benoit/Mail/benoit@benoitj.ca/Trash
+SubFolders Verbatim
+
+# local storage for gmail
+MailDirStore gmail-local
+Path ~/Mail/benoit.m.joly@gmail.com/
+Inbox /home/benoit/Mail/benoit.m.joly@gmail.com/Inbox
+Trash /home/benoit/Mail/benoit.m.joly@gmail.com/Trash
+SubFolders Verbatim
+
+###############################
+# Sync channels
+###############################
+
+channel benoit@benlab
+Far :benoit@benlab-remote:
+Near :benoit@benlab-local:
 Patterns *
 SyncState *
 Create Both
@@ -57,6 +82,23 @@ Expunge Both
 Remove Both
 CopyArrivalDate yes
 
-# Exclude everything under the internal [Gmail] folder, except the interesting folders
+channel benoit@benoitj
+Far :benoit@benoitj-remote:
+Near :benoit@benoitj-local:
+Patterns *
+SyncState *
+Create Both
+Expunge Both
+Remove Both
+CopyArrivalDate yes
+
+#channel gmail
+#Far :gmail-remote:
+#Near :gmail-local:
+#Patterns *
+#SyncState *
+#Create Both
+#Expunge Both
+#Remove Both
+#CopyArrivalDate yes
 #Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
-# Or include everything
