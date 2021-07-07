@@ -31,7 +31,7 @@ path=/home/benoit/Mail
 [user]
 name=Benoit Joly
 primary_email=benoit@benoitj.ca
-other_email=benoit.m.joly@gmail.com;
+other_email=benoit.m.joly@gmail.com;benoit@benlab.ca
 
 # Configuration for "notmuch new"
 #
