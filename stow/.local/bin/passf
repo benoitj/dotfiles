@@ -5,7 +5,9 @@
 
 set -e
 
-pass_name="$1" && test ! -z "$pass_name"
-field="$2" && test ! -z "$field"
+pass_name="$1" && test -n "$pass_name"
+field="$2" && test -n "$field"
 
-pass show "$pass_name" | tail -n +3 | recsel -P "$field"
+value="$(pass show "$pass_name" | tail -n +3 | recsel -P "$field")"
+
+test -n "$value" && echo "$value"
