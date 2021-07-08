@@ -1,0 +1,11 @@
+#!/bin/sh
+# call with $0 <pass-name> <field>
+# where pass-name is the password name within pass
+# and field is the the field value to extract
+
+set -e
+
+pass_name="$1" && test ! -z "$pass_name"
+field="$2" && test ! -z "$field"
+
+pass show "$pass_name" | tail -n +3 | recsel -P "$field"
