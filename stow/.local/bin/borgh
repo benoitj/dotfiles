@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+BORG_PASSPHRASE="$(passp borg-backup)"
+BORG_REPO="$(passf borg-backup url)"
+export BORG_PASSPHRASE BORG_REPO
+
+borg "$@"
