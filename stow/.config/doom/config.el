@@ -71,7 +71,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/src/notebook/")
+(setq org-directory "~/src/todos/")
+(setq org-roam-directory "~/src/notebook/")
 
 (setq ivy-use-selectable-prompt t)
 
