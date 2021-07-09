@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+test -d ~/.config/doom-emacs || git clone https://github.com/hlissner/doom-emacs ~/.config/doom-emacs
+test -d ~/.config/emacs || git clone https://github.com/plexus/chemacs2.git ~/.config/emacs

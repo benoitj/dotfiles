@@ -151,6 +151,7 @@ bind '"\e[D": backward-char'
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+alias chezmoi="chezmoi -S ~/src/chezmoi-dotfiles"
 alias grep='grep --color=auto'
 alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
 

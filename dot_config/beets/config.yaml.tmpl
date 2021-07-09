@@ -1,4 +1,4 @@
-directory: {{ .shared_music }}
+directory: ~/Music
 library: ~/.cache/beets/library.db
 statefile: ~/.cache/beets/state.pickle
 
@@ -7,6 +7,9 @@ paths:
     singleton: Non-Album/$artist/$title
     comp: Compilations/$album%aunique{}/$track. $artist - $title
     albumtype:soundtrack: Soundtracks/$album/$track. $artist - $title
+
+import:
+  move: true
 
 #plugins: absubmit badfiles fuzzy missing random mbsync
 plugins: chroma acousticbrainz fetchart embedart lastgenre lyrics replaygain edit info
