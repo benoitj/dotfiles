@@ -129,6 +129,9 @@
 (after! notmuch
   (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; window
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (after! ace-window
   (setq aw-keys '(?a ?o ?e ?u ?h ?t ?s ?/ ? l)
         aw-scope 'frame
@@ -136,3 +139,12 @@
 
 ;; use ace-window instead of evil-window-next
 (map! :leader :desc "ace-window" "w w" #'ace-window)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; emacs-lisp-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(map! :map emacs-lisp-mode-map :localleader :desc "repl" "r" #'ielm)
+
+(provide 'config)
+;;; config ends here
