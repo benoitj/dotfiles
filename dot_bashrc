@@ -44,6 +44,19 @@ export PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
 export PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
 export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:/home/benoit/.local/share/flatpak/exports/share"
 
+# --------------- GUIX Environment variables ----------------
+# only on foreign distro
+GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+export GUIX_LOCPATH
+
+GUIX_EXTRA_PROFILES="$HOME/.config/guix/profiles"
+export GUIX_EXTRA_PROFILES
+for guix_profile_root_path in "$GUIX_EXTRA_PROFILES/*"; do
+    guix_profile_path="$guix_profile_root_path/etc/profile"
+    echo "profile: $guix_profile_path"
+    test -f "$guix_profile_path" && source "$guix_profile_path"
+done
+
 # --------------- stop here if non-interactive ----------------
 case $- in
     *i*) ;; # interactive
@@ -151,7 +164,6 @@ bind '"\e[D": backward-char'
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-alias chezmoi="chezmoi -S ~/src/chezmoi-dotfiles"
 alias grep='grep --color=auto'
 alias gpg-agent-update="gpg-connect-agent updatestartuptty /bye > /dev/null"
 
