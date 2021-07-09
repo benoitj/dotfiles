@@ -1,6 +1,0 @@
-[submodule "doom-emacs"]
-	path = stow/.config/doom-emacs
-	url = https://github.com/hlissner/doom-emacs
-[submodule "chemacs2"]
-	path = stow/.config/emacs
-	url = https://github.com/plexus/chemacs2.git
