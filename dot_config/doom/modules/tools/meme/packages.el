@@ -3,5 +3,8 @@
 
 (package! imgur)
 
-(package! meme
- :recipe (:type git :host github :repo "larsmagne/meme"))
+(package! meme :recipe
+  (:host github
+   :repo "larsmagne/meme"
+   :files ("*.el" "images"))
+  :pin "77b0f76")
