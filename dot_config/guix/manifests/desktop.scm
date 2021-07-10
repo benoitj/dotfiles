@@ -13,23 +13,23 @@
 ;;  ;;     (,my-qutebrowser "out")))
   (specifications->manifest
    '(
-;;     "alsa-plugins:out" ;; required by qutebrowser to play audio
-;;     "alsa-plugins:pulseaudio" ;; required by qutebrowser to play audio. missing LD_LIBRARY_PATH
-;;     "alsa-utils"
-;;     "pulsemixer"
-;;     "pamixer"
-;;     "gst-plugins-base"
-;;     "gst-plugins-good"
-;;     "gst-plugins-bad"
-;;     "gst-plugins-ugly"
-;;     "gstreamer"
-;;
+     "alsa-plugins:out" ;; required by qutebrowser to play audio
+     "alsa-plugins:pulseaudio" ;; required by qutebrowser to play audio. missing LD_LIBRARY_PATH
+     "alsa-utils"
+     "pulsemixer"
+     "pamixer"
+     "gst-plugins-base"
+     "gst-plugins-good"
+     "gst-plugins-bad"
+     "gst-plugins-ugly"
+     "gstreamer"
+
 ;;     ;; wm / xtools
-;;     "arandr"
-;;     "xrandr"
-;;     "autorandr"
-;;     "compton"
-;;     "dunst"
+     "arandr"
+     "xrandr"
+     "autorandr"
+     "compton"
+     "dunst"
      "fontconfig"
      "font-adobe-source-code-pro"
      "font-dejavu"
@@ -38,20 +38,19 @@
      "font-abattis-cantarell"
      "font-hack"
      "font-openmoji"
-;;     "libnotify"
-;;     "sxhkd"
-;;     "unclutter"
-;;     "wmctrl"
-;;     "xclip"
-;;     "xdotool"
-;;     "xsel"
-;;     "flatpak"
-;;     "rofi"
-;;     "xrdb"
-;;     "setxkbmap"
-;;     "xdg-utils"
-;;     "xdg-user-dirs"
+     "libnotify"
+     "rofi"
+     "setxkbmap"
+     "unclutter"
+     "wmctrl"
+     "xclip"
+     "xdg-utils"
+     "xdg-user-dirs"
+     "xdotool"
+     "xrdb"
+     "xsel"
 ;;
+;;    "flatpak"
 ;;     "scrot"
 ;;     ;; "slip" dmenu / scrot
 ;;     "mate-polkit"
@@ -156,8 +155,9 @@
 ;;     "git:send-email"
 ;;     "stow"
 ;;     "vim"
-;;     "password-store"
+     "password-store"
 ;;     "browserpass-native" ;; requires to register in firefox using: make -C $(guix build browserpass-native)/lib/browserpass hosts-firefox-user
+     "go-github.com-howeyc-gopass"
 ;;     "python-tldextract"
 ;;     "python"
 ;;     "go"
