@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
 # --------------- PATH ----------------
@@ -51,11 +52,14 @@ export GUIX_LOCPATH
 
 GUIX_EXTRA_PROFILES="$HOME/.config/guix/profiles"
 export GUIX_EXTRA_PROFILES
-for guix_profile_root_path in "$GUIX_EXTRA_PROFILES/*"; do
-    guix_profile_path="$guix_profile_root_path/etc/profile"
-    echo "profile: $guix_profile_path"
-    test -f "$guix_profile_path" && source "$guix_profile_path"
+for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
+    profile_name="${guix_extra_profile_path##*/}"
+    GUIX_PROFILE="$GUIX_EXTRA_PROFILES/$profile_name/$profile_name"
+    source "$GUIX_PROFILE/etc/profile"
 done
+
+GUIX_PROFILE="$HOME/.guix-profile"
+source "$GUIX_PROFILE/etc/profile"
 
 # --------------- stop here if non-interactive ----------------
 case $- in
