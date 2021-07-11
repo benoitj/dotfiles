@@ -10,4 +10,4 @@ field="$2" && test -n "$field"
 
 value="$(pass show "$pass_name" | tail -n +3 | recsel -P "$field")"
 
-test -n "$value" && echo "$value"
+test -n "$value" && printf "%s" "$value"
