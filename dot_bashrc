@@ -118,7 +118,7 @@ export LESS_TERMCAP_us="[4m"  # underline
 
 # -------------- setup colors ------------------
 test -x /usr/bin/dircolors &&
-    test -r $HOME/.config/bash/dircolors &&
+    test -r "$HOME/.config/bash/dircolors" &&
     eval "$(dircolors -b $HOME/.config/bash/dircolors)" ||
     eval "$(dircolors -b)"
 
@@ -132,6 +132,17 @@ if ! shopt -oq posix; then
         . /etc/bash_completion
     fi
 fi
+
+for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
+    profile_name="${guix_extra_profile_path##*/}"
+    comp_path="$GUIX_EXTRA_PROFILES/$profile_name/$profile_name/etc/bash_completion.d"
+    if test -d "$comp_path"; then
+        for comp_file in $comp_path/*; do
+            # shellcheck source=/dev/null
+            source "$comp_file"
+        done
+    fi
+done
 
 test -f ~/.config/bash/aliases && source ~/.config/bash/aliases
 
