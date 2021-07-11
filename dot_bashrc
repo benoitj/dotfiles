@@ -125,6 +125,8 @@ test -x /usr/bin/dircolors &&
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# -------------- setup completion ------------------
+
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion
@@ -143,6 +145,11 @@ for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
         done
     fi
 done
+
+complete -o filenames -F _pass passp
+complete -o filenames -F _pass passf
+
+# -------------- setup aliases ------------------
 
 test -f ~/.config/bash/aliases && source ~/.config/bash/aliases
 
