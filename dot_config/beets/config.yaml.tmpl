@@ -33,7 +33,7 @@ fetchart:
   auto: yes
   sources: wikipedia fanarttv coverart albumart itunes amazon filesystem
   cover_names: cover front art album folder back
-  fanarttv_key: {{ .fanarttv_key }}
+  fanarttv_key: {{ pass "fanart.tv/key" }}
 
 embedart:
   auto: yes
