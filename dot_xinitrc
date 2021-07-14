@@ -22,31 +22,14 @@ gpgconf --launch gpg-agent
 # keyboard config
 #setxkbmap dvorak -option ctrl:nocaps
 
-#sxhkd -m -1 &
+xrdb ~/.Xresources
+
+autorandr -c
 
 # authentication agent
 /usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
 
-# notifications
-dunst &
-
-#compositor
-compton &
-
-xrdb ~/.Xresources
-
-# hide mous after x time
-unclutter &
-
-autorandr -c
-
-# status bar
-/usr/bin/dwmstatus &
-
-syncthing --no-browser &
-
-#systemctl --user is-enabled --quiet dbus-broker || systemctl --user enable --quiet dbus-broker
-#systemctl --user is-active --quiet dbus-broker || systemctl --user start --quiet dbus-broker
+shepherd
 
 # configure fifo
 test -p /tmp/dwm.fifo || (

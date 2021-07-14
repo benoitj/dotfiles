@@ -4,52 +4,81 @@
 ;;    #:respawn? #t
 ;;    #:start (make-system-constructor "gpg-connect-agent /bye")
 ;;    #:stop (make-system-destructor "gpgconf --kill gpg-agent")))
-;;
-;;(define mcron
-;;  (make <service>
-;;    #:provides '(mcron)
-;;    #:respawn? #t
-;;    #:start (make-forkexec-constructor '("mcron"))
-;;    #:stop  (make-kill-destructor)))
-;;
-;;(define syncthing
-;;  (make <service>
-;;    #:provides '(syncthing)
-;;    #:respawn? #t
-;;    #:start (make-forkexec-constructor '("syncthing" "-no-browser"))
-;;    #:stop  (make-kill-destructor)))
 
-(define goimapnotify
+;;/usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
+
+(register-services
   (make <service>
-    #:provides '(goimapnotify)
+    #:provides '(compton)
     #:respawn? #t
-    #:start (make-forkexec-constructor '("goimapnotify" "-conf" "/home/benoit/.config/goimapnotify/config.json"))
-    #:stop  (make-kill-destructor)))
+    #:start (make-forkexec-constructor '("compton"))
+    #:stop  (make-kill-destructor))
 
-(define spotifyd
+
   (make <service>
-    #:provides '(spotifyd)
+    #:provides '(dunst)
     #:respawn? #t
-    #:start (make-forkexec-constructor '("spotifyd" "--no-daemon"))
-    #:stop  (make-kill-destructor)))
+    #:start (make-forkexec-constructor '("dunst"))
+    #:stop  (make-kill-destructor))
 
-(define emacs
+  (make <service>
+    #:provides '(dwmstatus)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("dwmstatus"))
+    #:stop  (make-kill-destructor))
+
   (make <service>
     #:provides '(emacs)
     #:respawn? #t
     #:start (make-forkexec-constructor '("emacs" "--fg-daemon"))
-    #:stop  (make-kill-destructor)))
+    #:stop  (make-kill-destructor))
 
-(define pulseaudio
+  (make <service>
+    #:provides '(goimapnotify)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("goimapnotify" "-conf" "/home/benoit/.config/goimapnotify/config.json"))
+    #:stop  (make-kill-destructor))
+
   (make <service>
     #:provides '(pulseaudio)
     #:respawn? #t
     #:start (make-forkexec-constructor '("pulseaudio"))
+    #:stop  (make-kill-destructor))
+
+  (make <service>
+    #:provides '(syncthing)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("syncthing" "--no-browser"))
+    #:stop  (make-kill-destructor))
+
+  (make <service>
+    #:provides '(unclutter)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("unclutter"))
     #:stop  (make-kill-destructor)))
 
 ;(register-services gpg-agent mcron syncthing pulseaudio)
-(register-services pulseaudio goimapnotify spotifyd emacs)
+;(register-services
+; compton
+; dunst
+; dwmstatus
+; emacs
+; goimapnotify
+; polkit
+; pulseaudio
+; syncthing
+; unclutter
+; )
 (action 'shepherd 'daemonize)
 
 ;; Start user services
-(for-each start '(pulseaudio goimapnotify spotifyd))
+(for-each start '(
+                  compton
+                  dunst
+                  dwmstatus
+                  ;emacs
+                  goimapnotify
+                  ;pulseaudio
+                  syncthing
+                  unclutter
+                  ))
