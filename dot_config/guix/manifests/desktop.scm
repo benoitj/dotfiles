@@ -15,7 +15,7 @@
      "gst-plugins-bad"
      "gst-plugins-ugly"
      "gstreamer"
-  )))
+     )))
 
 (define x-wm-manifest
   (specifications->manifest
@@ -73,8 +73,10 @@
      "maim"
      "make"
      "maven"
+     "mcron"
      "mpv"
      "mupdf"
+     "nss-certs"
      "openjdk@11"
      "openjdk@11:jdk"
      "plantuml"
@@ -114,34 +116,33 @@
 
 (concatenate-manifests
  (list
-;;  (packages->manifest
-;;   `((,my-dmenu "out")
-;;     (,my-st "out")
-;;     (,my-dwm "out")
-;;     (,my-dwmstatus "out")))
-;;  ;;     (,my-qutebrowser "out")))
+  ;;  (packages->manifest
+  ;;   `((,my-dmenu "out")
+  ;;     (,my-st "out")
+  ;;     (,my-dwm "out")
+  ;;     (,my-dwmstatus "out")))
+  ;;  ;;     (,my-qutebrowser "out")))
   audio-manifest
   x-wm-manifest
   tools-manifest
   tools-extra-manifest
-
   (specifications->manifest
    '(
 
-;;
-;;    "flatpak"
-;;     ;; need a replacement. brings the whole gnome desktop: "cheese"
-;;
-;;     ;;   "clojure-lsp-bin"
-;;     ;;   "docker"
-;;
-;;     ;; why these tools
-;;     ;;"perl-authen-sasl"
-;;     ;;"perl-net-smtp-ssl"
-;;     ;;"perl-mime-tools"
-;;
-;;     ;; browsers
-;;     "qutebrowser"
+     ;;
+     ;;    "flatpak"
+     ;;     ;; need a replacement. brings the whole gnome desktop: "cheese"
+     ;;
+     ;;     ;;   "clojure-lsp-bin"
+     ;;     ;;   "docker"
+     ;;
+     ;;     ;; why these tools
+     ;;     ;;"perl-authen-sasl"
+     ;;     ;;"perl-net-smtp-ssl"
+     ;;     ;;"perl-mime-tools"
+     ;;
+     ;;     ;; browsers
+     ;;     "qutebrowser"
      ))))
 
 ;; others

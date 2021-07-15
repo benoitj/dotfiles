@@ -36,7 +36,13 @@
   (make <service>
     #:provides '(goimapnotify)
     #:respawn? #t
-    #:start (make-forkexec-constructor '("goimapnotify" "-conf" "/home/benoit/.config/goimapnotify/config.json"))
+    #:start (make-forkexec-constructor '("goimapnotify" "-debug" "-conf" "/home/benoit/.config/goimapnotify/config.json"))
+    #:stop  (make-kill-destructor))
+
+  (make <service>
+    #:provides '(mcron)
+    #:respawn? #t
+    #:start (make-forkexec-constructor '("mcron"))
     #:stop  (make-kill-destructor))
 
   (make <service>
@@ -78,6 +84,7 @@
                   dwmstatus
                   ;emacs
                   goimapnotify
+                  mcron
                   ;pulseaudio
                   syncthing
                   unclutter
