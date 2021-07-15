@@ -31,7 +31,7 @@ pathprepend ~/.local/bin \
 export _JAVA_AWT_WM_NONREPARENTING=1
 export DMENU=dmenu
 export EDITOR="vim"
-export LANG=en_US.UTF-8
+export LANG=en_CA.UTF-8
 export TERMINAL=st
 
 export PATH_CFG="$HOME/.config"
