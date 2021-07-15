@@ -1,11 +1,9 @@
 {
-  "host": "imap.mailbox.org",
+  "host": "mail.benoitj.ca",
   "port": 993,
   "tls": true,
   "username": "benoit@benoitj.ca",
   "passwordCmd": "pass show mailbox.org | head -1",
   "onNewMail": "mail-sync.sh && notify-send 'New email'",
-  "boxes": [
-    "Inbox"
-  ]
+  "boxes": ["Inbox"]
 }
