@@ -11,6 +11,7 @@
      (:name "flagged" :query "tag:flagged" :key "f")
      (:name "sent" :query "tag:sent" :key "s")
      (:name "drafts" :query "tag:draft" :key "d")))
+ '(org-agenda-files '("~/src/gpg-yubikey-manager/todo.org"))
  '(package-selected-packages '(org-plus-contrib htmlize lorem-ipsum))
  '(safe-local-variable-values
    '((eval modify-syntax-entry 43 "'")
