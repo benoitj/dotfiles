@@ -22,23 +22,23 @@ if [ ! ${#} -ge 2 ]; then
 fi
 
 # tools
-_EMACSCLIENT=$HOME/.guix-extra-profiles/desktop/desktop/bin/emacsclient
-_BASENAME=/home/benoit/.guix-extra-profiles/base/base/bin/basename
-_CP=/home/benoit/.guix-extra-profiles/base/base/bin/cp
-_MKTEMP=/home/benoit/.guix-extra-profiles/base/base/bin/mktemp
+_EMACSCLIENT="emacsclient"
+_BASENAME="basename"
+_CP="cp"
+_MKTEMP="mktemp"
 # args
 _LOCAL=${1}
 _REMOTE=${2}
-if [ "${3}" ] ; then
+if [ "${3}" ]; then
     _MERGED=${3}
 else
     _MERGED=${_REMOTE}
 fi
-if [ "${4}" ] && [ -r "${4}" ] ; then
+if [ "${4}" ] && [ -r "${4}" ]; then
     _BASE=${4}
     _EDIFF=ediff-merge-files-with-ancestor
     _EVAL="${_EDIFF} \"${_LOCAL}\" \"${_REMOTE}\" \"${_BASE}\" nil \"${_MERGED}\""
-elif [ "${_REMOTE}" = "${_MERGED}" ] ; then
+elif [ "${_REMOTE}" = "${_MERGED}" ]; then
     _EDIFF=ediff
     _EVAL="${_EDIFF} \"${_LOCAL}\" \"${_REMOTE}\""
 else
