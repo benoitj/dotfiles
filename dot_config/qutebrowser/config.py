@@ -133,9 +133,9 @@ config.bind('<z><u><l>', 'spawn --userscript qute-pass --username-target secret 
 config.bind('<z><p><l>', 'spawn --userscript qute-pass --username-target secret --username-pattern "username: (.+)" --password-only')
 config.bind('<z><o><l>', 'spawn --userscript qute-pass --otp-only')
 
-c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
-c.colors.webpage.darkmode.grayscale.all = True
-c.colors.webpage.darkmode.grayscale.images = 0.5
-c.colors.webpage.darkmode.policy.images = 'never'
-c.colors.webpage.darkmode.policy.page = 'smart'
+#c.colors.webpage.darkmode.enabled = True
+#c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
+#c.colors.webpage.darkmode.grayscale.all = True
+#c.colors.webpage.darkmode.grayscale.images = 0.5
+#c.colors.webpage.darkmode.policy.images = 'never'
+#c.colors.webpage.darkmode.policy.page = 'smart'
