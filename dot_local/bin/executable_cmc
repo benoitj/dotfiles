@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# chezmoi
+cmc() {
+    chezmoi diff |
+        grep -- ^--- |
+        sed -e 's/^--- a\///' |
+        grep -v /dev/null
+
+}
+
+cmc

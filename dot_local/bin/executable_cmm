@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+cmm() {
+    pushd .
+    cd ~
+    cmc | xargs -r chezmoi merge
+    popd
+}
+
+cmm

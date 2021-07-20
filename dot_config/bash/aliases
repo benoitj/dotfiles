@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ -x /usr/bin/dircolors ]; then
-	alias ls='ls --color=auto'
-	alias dir='dir --color=auto'
-	alias vdir='vdir --color=auto'
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-	alias grep='grep --color=auto'
-	alias fgrep='fgrep --color=auto'
-	alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 alias cfg-i3="$EDITOR ~/.config/i3/config"
@@ -61,16 +61,6 @@ alias mounted="mount |column -t"
 # size
 alias du='du -shc'
 alias df='df -h'
-
-# chezmoi
-alias cmc="chezmoi diff -f git | grep -- ^--- | sed -e 's/^--- a\///' | grep -v /dev/null"
-
-cmm() {
-	pushd .
-	cd ~
-	cmc | xargs -r chezmoi merge
-	popd
-} && export -f cmm
 
 # git
 alias gs='git status'
