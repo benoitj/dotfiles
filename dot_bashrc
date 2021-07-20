@@ -1,6 +1,24 @@
 #!/usr/bin/env bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+# --------------- Environment variables ----------------
+export _JAVA_AWT_WM_NONREPARENTING=1
+export DMENU=dmenu
+export EDITOR="vim"
+export LANG=en_CA.UTF-8
+export TERMINAL=st
+
+export PATH_CFG="$HOME/.config"
+export PATH_DOC="$HOME/Documents"
+export PATH_DOT="$HOME/src/dotfiles"
+export PATH_SRC="$HOME/src"
+
+export PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="/home/benoit/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:/home/benoit/.local/share/flatpak/exports/share"
+
 # --------------- PATH ----------------
 pathappend() {
     for ARG in "$@"; do
@@ -27,24 +45,6 @@ pathprepend ~/.local/bin \
     ~/node_modules/.bin \
     ~/perl5/bin
 
-# --------------- Environment variables ----------------
-export _JAVA_AWT_WM_NONREPARENTING=1
-export DMENU=dmenu
-export EDITOR="vim"
-export LANG=en_CA.UTF-8
-export TERMINAL=st
-
-export PATH_CFG="$HOME/.config"
-export PATH_DOC="$HOME/Documents"
-export PATH_DOT="$HOME/src/dotfiles"
-export PATH_SRC="$HOME/src"
-
-export PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL_LOCAL_LIB_ROOT="/home/benoit/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_MB_OPT="--install_base \"/home/benoit/perl5\""
-export PERL_MM_OPT="INSTALL_BASE=/home/benoit/perl5"
-export XDG_DATA_DIRS="${XDG_DATA_DIRS}:/var/lib/flatpak/exports/share:/home/benoit/.local/share/flatpak/exports/share"
-
 # --------------- GUIX Environment variables ----------------
 # only on foreign distro
 GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
@@ -60,6 +60,8 @@ done
 
 GUIX_PROFILE="$HOME/.guix-profile"
 source "$GUIX_PROFILE/etc/profile"
+
+source /etc/profile.d/nix.sh
 
 # --------------- stop here if non-interactive ----------------
 case $- in
