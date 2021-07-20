@@ -3,6 +3,13 @@
 (use-modules
  (bj desktop))
 
+;;(define myown-manifest
+;;  (packages->manifest
+;;   ((my-st "out"))))
+    ;;(my-dwm "out")
+    ;;(my-dwmstatus "out"))))
+;;  (my-qutebrowser "out")))
+
 (define audio-manifest
   (specifications->manifest
    '("alsa-plugins:out" ;; required by qutebrowser to play audio
@@ -50,8 +57,27 @@
 (define tools-manifest
   (specifications->manifest
    '(
+     "aspell"
+     "aspell-dict-en"
+     "aspell-dict-fr"
+     "atool"
+     "autoconf"
+     "automake"
+     "bash-completion"
+     "bc"
+     "bind"
+     "binutils"
+     "bluez"
+     ;; TODO contains bluetooth-player, advtest, etc.."bluez-tools"
+     "bsd-games" ;; mainly for banner
+     ;;"chezmoi"
+     "clang"
      "clojure"
      "cmake"
+     "cowsay"
+     ;; TODO docker 1:20.10.7-1
+     ;; TODO docker-compose 1.29.2-1
+     "dos2unix"
      "fd"
      "feh"
      "gcc-toolchain"
@@ -60,6 +86,7 @@
      "go"
      "go-gitlab.com-shackra-goimapnotify"
      ;; gopls
+     ;;"gnupg"
      "graphviz"
      "guile"
      "flameshot"
@@ -79,6 +106,7 @@
      "nss-certs"
      "openjdk@11"
      "openjdk@11:jdk"
+     "password-store"
      "plantuml"
      "poppler"
      "python-tldextract"
@@ -101,31 +129,12 @@
      "zathura-pdf-mupdf"
      "zathura-djvu")))
 
-(define tools-extra-manifest
-  (specifications->manifest
-   '(
-     "password-store"
-     "browserpass-native" ;; requires to register in firefox using: make -C $(guix build browserpass-native)/lib/browserpass hosts-firefox-user
-     "isync"
-     "git:send-email"
-     "msmtp"
-     "notmuch"
-     "transmission" ;; out and gui
-     "youtube-dl"
-     )))
 
 (concatenate-manifests
  (list
-  ;;  (packages->manifest
-  ;;   `((,my-dmenu "out")
-  ;;     (,my-st "out")
-  ;;     (,my-dwm "out")
-  ;;     (,my-dwmstatus "out")))
-  ;;  ;;     (,my-qutebrowser "out")))
   audio-manifest
   x-wm-manifest
   tools-manifest
-  tools-extra-manifest
   (specifications->manifest
    '(
 
