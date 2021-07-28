@@ -20,8 +20,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 14)
-      doom-big-font (font-spec :family "Fira Code Nerd Font" :size 36)
+(setq doom-font (font-spec :family "Fira Code" :size 14)
+      doom-big-font (font-spec :family "Fira Code" :size 36)
       doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 
 (if (executable-find "notmuch")
@@ -73,6 +73,7 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/src/todos/")
 (setq org-roam-directory "~/src/notebook/")
+(setq org-id-locations-file "~/src/notebook/.orgids")
 
 (setq ivy-use-selectable-prompt t)
 
@@ -82,10 +83,11 @@
      :head "#+title: ${title}\n"
      :unnarrowed t)))
 
-(after! 'org-roam
-  (custom-set-faces
-   '((org-roam-link org-roam-link-current)
-     :foreground "#e24888" :underline t)))
+;; TODO: how to enable this with org-roam v2
+;;(after! 'org-roam
+;;  (custom-set-faces
+;;   '((org-roam-link org-roam-link-current)
+;;     :foreground "#e24888" :underline t)))
 
 (setq doom-modeline-display-default-persp-name t)
 
