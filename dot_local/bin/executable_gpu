@@ -18,3 +18,7 @@ for profile in $profiles; do
 
     guix package -L ~/.config/guix/packages/ --profile="$profilePath/$profileName" --manifest="$HOME/.config/guix/manifests/$profileName.scm"
 done
+
+if command -v doom &>/dev/null; then
+    doom env
+fi
