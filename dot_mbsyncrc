@@ -47,25 +47,25 @@ Account gmail
 # Local Storage
 ###############################
 
-# local storage for benoit@benlab
+# local storage for benoit@benlab.ca
 MailDirStore benoit@benlab-local
 Path ~/Mail/benoit@benlab.ca/
 Inbox ~/Mail/benoit@benlab.ca/Inbox
 Trash ~/Mail/benoit@benlab.ca/Trash
 SubFolders Verbatim
 
-# local storage for benoit@benlab
+# local storage for benoit@benoitj.ca
 MailDirStore benoit@benoitj-local
 Path ~/Mail/benoit@benoitj.ca/
-Inbox /home/benoit/Mail/benoit@benoitj.ca/Inbox
-Trash /home/benoit/Mail/benoit@benoitj.ca/Trash
+Inbox ~/Mail/benoit@benoitj.ca/Inbox
+Trash ~/Mail/benoit@benoitj.ca/Trash
 SubFolders Verbatim
 
 # local storage for gmail
 MailDirStore gmail-local
 Path ~/Mail/benoit.m.joly@gmail.com/
-Inbox /home/benoit/Mail/benoit.m.joly@gmail.com/Inbox
-Trash /home/benoit/Mail/benoit.m.joly@gmail.com/Trash
+Inbox ~/Mail/benoit.m.joly@gmail.com/Inbox
+Trash ~/Mail/benoit.m.joly@gmail.com/Trash
 SubFolders Verbatim
 
 ###############################
