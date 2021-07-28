@@ -20,7 +20,6 @@
 	guitool = ediff
 [merge]
 	tool = ediff
-# TODO re-enable
 [commit]
 	gpgsign = true
 [github]
