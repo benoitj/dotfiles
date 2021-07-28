@@ -6,7 +6,7 @@
 (define audio-manifest
   (specifications->manifest
    '("abcde"
-     "beets"
+     ;;"beets"
      ;; TODO borgmatic 1.5.15-1
      "cdparanoia"
      "chromaprint"
@@ -26,7 +26,7 @@
      ;; TODO cnijfilter2-mg7500 5.00-1
      ;; TODO"czkawka"
      "isync"
-     "git:send-email"
+;;     "git:send-email"
      "msmtp"
      "notmuch"
      "transmission" ;; out and gui

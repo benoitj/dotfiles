@@ -82,7 +82,9 @@
      "feh"
      "gcc-toolchain"
      "ghc"
-     "git"
+;;     "git"
+;;     "git:subtree"
+;;     "git:gui"
      "go"
      "go-gitlab.com-shackra-goimapnotify"
      ;; gopls
