@@ -77,11 +77,9 @@
 
 (setq ivy-use-selectable-prompt t)
 
-(setq org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
-     "%?"
-     :file-name "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t)"
-     :head "#+title: ${title}\n"
-     :unnarrowed t)))
+(setq org-roam-capture-templates '(("d" "default" plain "%?" :if-new
+  (file+head "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t).org" "#+title: ${title}\n")
+  :unnarrowed t)))
 
 ;; TODO: how to enable this with org-roam v2
 ;;(after! 'org-roam
