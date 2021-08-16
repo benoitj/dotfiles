@@ -82,10 +82,18 @@ servers = (
 
   },
   {
-    address = "{{ output "passf" "crafter-znc" "host" }}";
-    chatnet = "crafter-znc";
+    address = "{{ output "passf" "crafter.mx" "host" }}";
+    chatnet = "crafter-znc-libera";
     port = "3110";
-    password = "{{ pass "crafter-znc" }}";
+    password = "{{ pass "crafter.mx" }}";
+    use_tls = "yes";
+    tls_verify = "no";
+  },
+  {
+    address = "{{ output "passf" "crafter.mx" "host" }}";
+    chatnet = "crafter-znc-oftc";
+    port = "3110";
+    password = "{{ pass "crafter.mx" }}";
     use_tls = "yes";
     tls_verify = "no";
   }
@@ -170,7 +178,8 @@ chatnets = {
     nick = "benoitj";
     autosendcmd = "/msg nickserv identify {{ pass "libera.chat/benoitj" }}";
   };
-  "crafter-znc" = { type = "IRC"; username = "benoitj"; };
+  "crafter-znc-libera" = { type = "IRC"; username = "benoitj/libera"; };
+  "crafter-znc-oftc" = { type = "IRC"; username = "benoitj/oftc"; };
 };
 
 channels = (
