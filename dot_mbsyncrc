@@ -51,21 +51,21 @@ Account gmail
 MailDirStore benoit@benlab-local
 Path ~/Mail/benoit@benlab.ca/
 Inbox ~/Mail/benoit@benlab.ca/Inbox
-Trash ~/Mail/benoit@benlab.ca/Trash
+Trash Trash
 SubFolders Verbatim
 
 # local storage for benoit@benoitj.ca
 MailDirStore benoit@benoitj-local
 Path ~/Mail/benoit@benoitj.ca/
 Inbox ~/Mail/benoit@benoitj.ca/Inbox
-Trash ~/Mail/benoit@benoitj.ca/Trash
+Trash Trash
 SubFolders Verbatim
 
 # local storage for gmail
 MailDirStore gmail-local
 Path ~/Mail/benoit.m.joly@gmail.com/
 Inbox ~/Mail/benoit.m.joly@gmail.com/Inbox
-Trash ~/Mail/benoit.m.joly@gmail.com/Trash
+Trash Trash
 SubFolders Verbatim
 
 ###############################
