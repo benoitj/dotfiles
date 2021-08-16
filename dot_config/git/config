@@ -22,6 +22,8 @@
 	tool = ediff
 [commit]
 	gpgsign = true
+[tag]
+	gpgsign = true
 [github]
 	user = benoitj
 [gitea "codeberg.org/api/v1"]
