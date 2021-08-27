@@ -26,8 +26,9 @@
      ;; TODO cnijfilter2-mg7500 5.00-1
      ;; TODO"czkawka"
      "isync"
-;;     "git:send-email"
+     ;;     "git:send-email"
      "msmtp"
+     "myrepos"
      "notmuch"
      "transmission" ;; out and gui
      "youtube-dl"
