@@ -1,0 +1,27 @@
+
+[src/dotfiles]
+checkout = git clone 'git@github.com:benoitj/dotfiles.git' 'dotfiles'
+
+[src/_others/keyoxidizer]
+checkout = git clone 'https://codeberg.org/shom/keyoxidizer' 'keyoxidizer'
+
+[src/_others/browserpass-extension]
+checkout = git clone 'https://github.com/browserpass/browserpass-extension.git' 'browserpass-extension'
+
+[src/_others/guix]
+checkout = git clone 'https://git.savannah.gnu.org/git/guix' 'guix'
+
+[src/_others/hellabot]
+checkout = git clone 'https://github.com/whyrusleeping/hellabot' 'hellabot'
+
+[src/_others/ncspot]
+checkout = git clone 'https://github.com/hrkfdn/ncspot' 'ncspot'
+
+[src/_others/nonguix]
+checkout = git clone 'https://gitlab.com/nonguix/nonguix' 'nonguix'
+
+[src/_others/qute-keepassxc]
+checkout = git clone 'https://github.com/ususdei/qute-keepassxc' 'qute-keepassxc'
+
+[src/_others/tessdata]
+checkout = git clone 'https://github.com/tesseract-ocr/tessdata' 'tessdata'
