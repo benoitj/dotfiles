@@ -20,10 +20,12 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +childframe)          ; the ultimate code completion backend
-       (ivy               ; a search engine for love and life
-        +icons
-        +prescient)
+;;       (company +childframe)          ; the ultimate code completion backend
+;;       (ivy               ; a search engine for love and life
+;;        +icons
+;;        +prescient)
+       (vertico
+        +icons)
 
        :ui
        deft              ; notational velocity for Emacs
@@ -159,7 +161,7 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org
-        +roam
+        +roam2
         +hugo
         +noter
         +pandoc
