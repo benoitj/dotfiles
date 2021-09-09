@@ -66,6 +66,11 @@
 (setq display-line-numbers-type t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; projectile
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq projectile-project-search-path `("~/src" ,(if (f-exists-p "~/src/_others") "~/src/_others")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -73,6 +78,7 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/src/todos/")
 (setq org-roam-directory "~/src/notebook/")
+(setq org-roam-dailies-directory "../journal/")
 (setq org-id-locations-file "~/src/notebook/.orgids")
 
 (setq ivy-use-selectable-prompt t)
