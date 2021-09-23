@@ -6,13 +6,12 @@
 set -o nounset
 set -o errexit
 
-DMENU="dmenu -l 10 -i"
+DMENU="rofi -dmenu -l 10 -i"
 BROWSER="qutebrowser"
 
 url="$1"
 
-if [[ "${#1}" -gt 30 ]];
-then
+if [[ "${#1}" -gt 30 ]]; then
   visual="${url:0:20}"..."${1: -7}"
 else
   visual="$url"
@@ -27,7 +26,7 @@ case "$x" in
   wget) wget "$url" ;;
   feh) feh "$url" ;;
   w3m) st w3m "$url" ;;
-  "mpv (float)") mpv --geometry=+0-0 --autofit=30%  --title="mpvfloat" "$url" ;;
+  "mpv (float)") mpv --geometry=+0-0 --autofit=30% --title="mpvfloat" "$url" ;;
   yt-dl-video) tsp youtube-dl "$1" ;;
   yt-dl-audio) tsp youtube-dl -x "$1" ;;
 esac
