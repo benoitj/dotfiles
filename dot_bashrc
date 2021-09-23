@@ -6,11 +6,12 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export DMENU=dmenu
 export EDITOR="vim"
 export LANG=en_CA.UTF-8
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export TERMINAL=st
 
 export PATH_CFG="$HOME/.config"
 export PATH_DOC="$HOME/Documents"
-export PATH_DOT="$HOME/src/dotfiles"
+export PATH_DOT="$HOME/src/projects/dotfiles"
 export PATH_SRC="$HOME/src"
 
 export PERL5LIB="/home/benoit/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
