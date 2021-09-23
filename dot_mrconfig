@@ -1,27 +1,51 @@
 
-[src/dotfiles]
+[src/projects/dotfiles]
 checkout = git clone 'git@github.com:benoitj/dotfiles.git' 'dotfiles'
 
-[src/_others/keyoxidizer]
+[src/others/keyoxidizer]
 checkout = git clone 'https://codeberg.org/shom/keyoxidizer' 'keyoxidizer'
 
-[src/_others/browserpass-extension]
+[src/others/browserpass-extension]
 checkout = git clone 'https://github.com/browserpass/browserpass-extension.git' 'browserpass-extension'
 
-[src/_others/guix]
+[src/others/guix]
 checkout = git clone 'https://git.savannah.gnu.org/git/guix' 'guix'
 
-[src/_others/hellabot]
+[src/others/hellabot]
 checkout = git clone 'https://github.com/whyrusleeping/hellabot' 'hellabot'
 
-[src/_others/ncspot]
+[src/others/ncspot]
 checkout = git clone 'https://github.com/hrkfdn/ncspot' 'ncspot'
 
-[src/_others/nonguix]
+[src/others/nonguix]
 checkout = git clone 'https://gitlab.com/nonguix/nonguix' 'nonguix'
 
-[src/_others/qute-keepassxc]
+[src/others/qute-keepassxc]
 checkout = git clone 'https://github.com/ususdei/qute-keepassxc' 'qute-keepassxc'
 
-[src/_others/tessdata]
+[src/others/tessdata]
 checkout = git clone 'https://github.com/tesseract-ocr/tessdata' 'tessdata'
+
+[src/others/dotemacs-alphapapa]
+checkout = git clone 'https://github.com/alphapapa/ap.el' 'dotemacs-alphapapa'
+
+[.config/doom-emacs]
+checkout = git clone 'https://github.com/hlissner/doom-emacs' 'doom-emacs'
+
+[.config/emacs]
+checkout = git clone 'https://github.com/plexus/chemacs2.git' 'emacs'
+
+[src/others/emacs-0x0]
+checkout = git clone 'https://gitlab.com/willvaughn/emacs-0x0' 'emacs-0x0'
+
+[src/others/emms]
+checkout = git clone 'https://git.savannah.gnu.org/git/emms.git/' 'emms'
+
+[src/others/flatwhatson-guix-channel]
+checkout = git clone 'https://github.com/flatwhatson/guix-channel' 'flatwhatson-guix-channel'
+
+[src/others/shom-keyoxidizer]
+checkout = git clone 'https://codeberg.org/shom/keyoxidizer' 'shom-keyoxidizer'
+
+[src/others/systemcrafters.github.io]
+checkout = git clone 'git@github.com:benoitj/systemcrafters.github.io.git' 'systemcrafters.github.io'
