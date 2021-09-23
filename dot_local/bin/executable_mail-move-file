@@ -1,0 +1,12 @@
+#!/bin/bash
+
+NOEXEC="${NOEXEC:-}"
+
+safeMove() {
+    sourceFile="$1"
+    destFolder="$2"
+
+    printf "source: %s dest: %s\n" "$sourceFile" "$destFolder"
+}
+
+test -z "$NOEXEC" && safeMove "$@"
