@@ -1,0 +1,28 @@
+[Unit]
+Description=borgmatic backup
+Wants=network-online.target
+After=network-online.target
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+
+# Lower CPU and I/O priority.
+Nice=19
+CPUSchedulingPolicy=batch
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+IOWeight=100
+
+Restart=no
+LogRateLimitIntervalSec=0
+
+# Delay start to prevent backups running during boot.
+ExecStartPre=sleep 5m
+# Test for private files. Should cause failure config file doesn't exist
+ExecStartPre=/usr/bin/test -f /home/benoit/.config/borgmatic/config.yml
+ExecStart=systemd-inhibit --who="benoit" --why="Prevent interrupting scheduled backup" /usr/bin/borgmatic --verbosity 1 
+
+# Restart on failure. Keep trying to create backup.
+RestartSec=10m
+Restart=on-failure
