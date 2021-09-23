@@ -117,3 +117,4 @@ alias reconfigure='sudo -E guix system reconfigure ~/.config/guix/system/config.
 alias ncspot="TERM=xterm ncspot"
 
 alias tesseract="TESSDATA_PREFIX=$HOME/src/others/tessdata tesseract"
+alias borgmatic="borgmatic --verbosity=1"
