@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+with-emacs.sh -d ~/.config/emacs.new
