@@ -1,5 +1,5 @@
 [.config/emacs]
-checkout = git clone 'https://github.com/hlissner/doom-emacs' 'doom-emacs'
+checkout = git clone 'https://github.com/hlissner/doom-emacs' 'emacs'
 
 ##############################################
 # Project repos (mine)
