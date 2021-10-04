@@ -30,17 +30,17 @@
 ;; garbage collection tuning
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst b-100MB (* 100 1000 1000))
-(defconst b-20MB (* 20 1000 1000))
+(defconst bj-100MB (* 100 1000 1000))
+(defconst bj-20MB (* 20 1000 1000))
 
 ;; The default is 800 kilobytes.  Measured in bytes.
-(setq gc-cons-threshold b-100MB)
-(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold b-20MB)))
+(setq gc-cons-threshold bj-100MB)
+(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold bj-20MB)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; monitor performance
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun b-display-startup-time ()
+(defun bj-display-startup-time ()
   "Displays time to load and gc metrics."
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
@@ -48,7 +48,7 @@
                     (time-subtract after-init-time before-init-time)))
            gcs-done))
 
-(add-hook 'emacs-startup-hook #'b-display-startup-time)
+(add-hook 'emacs-startup-hook #'bj-display-startup-time)
 
 (message "test")
 
@@ -84,6 +84,123 @@
   (use-package-always-ensure nil)
   (use-package-verbose t)
   (straight-use-package-by-default t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; UI configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq inhibit-startup-message t)
+
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 10)        ; Give some breathing room
+
+(menu-bar-mode -1)            ; Disable the menu bar
+
+;; Set up the visible bell
+(setq visible-bell t)
+
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+;; Disable line numbers for some modes
+;; TODO: split by modes using use-package
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Theme
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package modus-themes
+  :demand t
+  :init
+  ;; Add all your customizations prior to loading the themes
+  ;;(setq modus-themes-slanted-constructs t
+  ;;     modus-themes-bold-constructs nil)
+
+  ;; Load the theme files before enabling a theme (else you get an error).
+  (modus-themes-load-themes)
+  :config
+  ;; Load the theme of your choice:
+  (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fonts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defmacro bj-run-now-or-on-make-frame-hook (&rest body)
+  "Macro created to run now on setup hooks when running as a daemon.
+BODY is the symbol or expression to run."
+  `(if (daemonp)
+       (add-hook 'server-after-make-frame-hook (lambda () ,@body))
+     (progn ,@body)))
+
+(setq bj-default-font-size 120)
+(setq bj-fixed-font-name "Fira Code Retina")
+(setq bj-variable-font-name "Cantarell")
+
+(setq bj-frame-transparency '(90 . 90))
+(set-frame-parameter (selected-frame) 'alpha bj-frame-transparency)
+(add-to-list 'default-frame-alist `(alpha . ,bj-frame-transparency))
+;; TODO: seem overly complex
+(defcustom
+  bj-font-size bj-default-font-size "My default font size.")
+
+(defun bj-set-frame-font-size (&optional font-size)
+  "change frame font size to font-size.
+      If no font-size specified, reset to default."
+  (let ((font-size
+         (or font-size
+             (car (get 'bj-font-size 'standard-value)))))
+    (customize-set-variable 'bj-font-size font-size)
+    (set-face-attribute 'default nil :font bj-fixed-font-name :height font-size)
+
+    ;; Set the fixed pitch face
+    (set-face-attribute 'fixed-pitch nil :font bj-fixed-font-name :height font-size)
+
+    (set-face-attribute 'variable-pitch nil :font bj-variable-font-name :height font-size :weight 'regular)))
+
+(defun bj-increase-frame-font ()
+  "Increase font by 1"
+  (interactive)
+  (bj-set-frame-font-size (+ bj-font-size 10)))
+
+(defun bj-decrease-frame-font ()
+  "Decrease font by 1"
+  (interactive)
+  (bj-set-frame-font-size (- bj-font-size 10)))
+
+(defun bj-reset-frame-font ()
+  "Reset font size to default"
+  (interactive)
+  (bj-set-frame-font-size bj-default-font-size))
+
+(with-eval-after-load 'hydra
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("+" bj-increase-frame-font "in")
+    ("-" bj-decrease-frame-font "out")
+    ("0" bj-reset-frame-font "reset")
+    ("q" nil "finished" :exit t))
+
+  (bj-leader-keys
+   "ts" '(hydra-text-scale/body :which-key "scale text")))
+
+(bj-run-now-or-on-make-frame-hook (bj-reset-frame-font))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; keep things clean
@@ -138,12 +255,12 @@
   (global-evil-visualstar-mode t))
 
 ;; General <space> configuration
-(defun b-open-dot-emacs ()
+(defun bj-open-dot-emacs ()
   "Open Emacs init.el."
   (interactive)
   (find-file (expand-file-name "~/src/projects/dotfiles/dot_config/emacs.new/init.el")))
 
-(defun bj/open-dotfiles ()
+(defun bj-open-dotfiles ()
   "Open dotfiles in dired."
   (interactive)
   (find-file (expand-file-name "~/src/projects/dotfiles/")))
@@ -151,20 +268,20 @@
 (use-package general
   :after evil
   :config
-  (general-create-definer b-leader-keys
+  (general-create-definer bj-leader-keys
     :states '(normal insert visual emacs)
     :prefix "SPC"
     :global-prefix "M-SPC")
-  (general-create-definer b-local-leader-keys
+  (general-create-definer bj-local-leader-keys
     :prefix "SPC m"
     :global-prefix "M-SPC m")
 
-  (b-local-leader-keys
+  (bj-local-leader-keys
       :states '(normal insert)
       :keymaps 'org-mode-map
       "t" '(org-todo :which-key "toggle todo"))
 
-  (b-leader-keys
+  (bj-leader-keys
    "b" '(:ignore t :which-key "buffers")
    "bb" '(switch-to-buffer :which-key "buffers")
    "bi" '(ibuffer :which-key "ibuffer")
@@ -187,6 +304,33 @@
    "wo" '(delete-other-windows :which-key "delete others")
    "ws" '(split-window-below :which-key "split horiz")
    "wv" '(split-window-right :which-key "split vert")))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; window/buffer management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package ace-window
+  :demand t
+  :custom
+  (aw-keys '(?a ?o ?e ?u ?i ?h ?t ?n ?s))
+  :init
+  (global-set-key [remap other-window] 'ace-window)
+  (custom-set-faces
+   '(aw-leading-char-face
+     ((t (:inherit ace-jump-face-foreground :height 3.0))))))
+;; TODO: setup contextual buffer list (? bufler)
+;; TODO: various window/frame setup (?perspective or tab-bar)
+;; TODO: save and restore buffers and workspace (?burly)
+;; (desktop-save-mode t)
+;; (add-hook 'desktop-after-read-hook 'bj-reset-theme-hook)
+;; (save-place-mode t)
+;; TODO: popup management (?popper)
+;; TODO: window placement
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; scrolling and navigation
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq scroll-conservatively 101)
 
 ;;; init.el ends here
 (custom-set-variables
