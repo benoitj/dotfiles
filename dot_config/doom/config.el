@@ -84,8 +84,8 @@
 (setq org-roam-dailies-directory "../journal/")
 (setq org-id-locations-file "~/src/projects/notebook/.orgids")
 
-(add-to-list 'org-capture-templates `("mm" "Media To Watch" entry
-                                      (file+olp ,(concat org-directory "/media.org") "to-watch") "* %^{title}\n:PROPERTIES:\n:Title:%\\1\n:Recommended by: %^{rec}\n\n:END:\n:LOGBOOK:\n- Added %u\n:END:"))
+;;(add-to-list 'org-capture-templates `("mm" "Media To Watch" entry
+ ;;                                     (file+olp ,(concat org-directory "/media.org") "to-watch") "* %^{title}\n:PROPERTIES:\n:Title:%\\1\n:Recommended by: %^{rec}\n\n:END:\n:LOGBOOK:\n- Added %u\n:END:"))
 
 (setq ivy-use-selectable-prompt t)
 
