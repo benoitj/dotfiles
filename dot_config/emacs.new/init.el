@@ -190,6 +190,25 @@ BODY is the symbol or expression to run."
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; history and undo
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; History
+(setq savehist-file "~/.config/emacs.new/savehist"
+      history-length t
+      history-delete-duplicates t
+      savehist-save-minibuffer-history 1
+      savehist-additional-variables
+      '(kill-ring
+	search-ring
+  	regexp-search-ring)
+      recentf-max-saved-items 50)
+
+(savehist-mode 1)
+(recentf-mode 1)
+
+;; TODO: undo
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -264,9 +283,10 @@ BODY is the symbol or expression to run."
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
-   "fd" '(:ignore t :which-key "dotfiles")
-   "fdd" '(bj/open-dotfiles :which-key "dotfiles")
-   "fde" '(bj/open-dot-emacs :which-key "emacs")
+;; TODO:   "fd" '(:ignore t :which-key "dotfiles")
+   "fr" '(recentf-open-files :which-key "recent")
+   "fdd" '(bj-open-dotfiles :which-key "dotfiles")
+   "fde" '(bj-open-dot-emacs :which-key "emacs")
    "h" '(:keymap help-map :which-key "help")
    "m" '(:ignore t :which-key "mode")
    "q" '(:ignore t :which-key "quit")
@@ -280,7 +300,7 @@ BODY is the symbol or expression to run."
    "wv" '(split-window-right :which-key "split vert")))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;e;;
 ;; window/buffer management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ace-window
@@ -305,6 +325,59 @@ BODY is the symbol or expression to run."
 ;; scrolling and navigation
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq scroll-conservatively 101)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; project/file management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package projectile)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; vertical completion
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package vertico
+  ;; TODO: can we defer until first input?
+  :demand t
+  :init
+  (vertico-mode)
+  :config
+  (setq vertico-cycle t)
+  ) 
+
+(use-package orderless
+  :after vertico
+  :custom (completion-styles '(orderless)))
+
+(use-package consult
+  :general
+  (general-define-key
+					;    [remap apropos]                       #'consult-apropos
+					;    [remap bookmark-jump]                 #'consult-bookmark
+					;    [remap evil-show-marks]               #'consult-mark
+					;    [remap evil-show-jumps]               #'+vertico/jump-list
+					;    [remap goto-line]                     #'consult-goto-line
+					;    [remap imenu]                         #'consult-imenu
+					;    [remap locate]                        #'consult-locate
+					;    [remap load-theme]                    #'consult-theme
+					;    [remap man]                           #'consult-man
+   [remap recentf-open-files]            #'consult-recent-file
+   [remap switch-to-buffer]              #'consult-buffer
+					;    [remap switch-to-buffer-other-window] #'consult-buffer-other-window
+					;    [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
+					;    [remap yank-pop]                      #'consult-yank-pop
+   ))
+;; TODO: [remap persp-switch-to-buffer]        #'+vertico/switch-workspace-buffer)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; VC
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package magit
+  :general
+  (bj-leader-keys
+    "g" '(:ignore t :which-key "git")
+    "gg" '(magit-status :which-key "status")))
+
 
 ;;; init.el ends here
 (custom-set-variables
