@@ -394,11 +394,66 @@ BODY is the symbol or expression to run."
 (use-package hydra)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; terminal
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package vterm
+  :general
+  (bj-leader-keys
+    "ot"  '(:ignore t :which-key "term")
+    "ott" '(vterm :which-key "vterm")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Editor
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; fix up/down case word by going to the beginning of the word
+(defadvice upcase-word (before upcase-word-advice activate)
+  (unless (looking-back "\\b" nil)
+    (backward-word)))
+
+(defadvice downcase-word (before downcase-word-advice activate)
+  (unless (looking-back "\\b" nil)
+    (backward-word)))
+
+(defadvice capitalize-word (before capitalize-word-advice activate)
+  (unless (looking-back "\\b" nil)
+    (backward-word)))
+
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode)
+  :custom
+  (hl-todo-color-background t) 
+  :custom-face
+  (hl-todo ((t (:bold t :foreground "#111111"))))
+  :general
+  (bj-leader-keys
+    "nt"  '(:ignore t :which-key "todos")
+    "ntn"  '(hl-todo-next :which-key "next")
+    "ntp"  '(hl-todo-previous :which-key "prev")
+    "st" '(hl-todo-occur :which-key "todos")))
+
+;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(use-package "use-package")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Editor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode))
+
+;; TODO: undo
 
 ;;; init.el ends here
 (custom-set-variables
