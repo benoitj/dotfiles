@@ -24,8 +24,6 @@
 
 (add-hook 'emacs-startup-hook #'bj-display-startup-time)
 
-(message "test")
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; package management setup
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -283,14 +281,20 @@ BODY is the symbol or expression to run."
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
-;; TODO:   "fd" '(:ignore t :which-key "dotfiles")
+;;TODO:   "fd" '(:ignore t :which-key "dotfiles")
    "fr" '(recentf-open-files :which-key "recent")
    "fdd" '(bj-open-dotfiles :which-key "dotfiles")
    "fde" '(bj-open-dot-emacs :which-key "emacs")
    "h" '(:keymap help-map :which-key "help")
+   "ha" '(apropos :which-key "apropos")
+   "hM" '(man :which-key "man")
    "m" '(:ignore t :which-key "mode")
+   "n" '(:ignore t :which-key "navigate")
+   "ni" '(imenu :which-key "imenu")
    "q" '(:ignore t :which-key "quit")
    "qq" '(kill-emacs :which-key "kill emacs")
+   "s"  '(:ignore t :which-key "search")
+   "sl" '(locate :which-key "locate")
    "t"  '(:ignore t :which-key "toggles")
    "w" '(:ignore t :which-key "windows")
    "ww" '(other-window :which-key "switch")
@@ -352,22 +356,24 @@ BODY is the symbol or expression to run."
 (use-package consult
   :general
   (general-define-key
-					;    [remap apropos]                       #'consult-apropos
-					;    [remap bookmark-jump]                 #'consult-bookmark
-					;    [remap evil-show-marks]               #'consult-mark
-					;    [remap evil-show-jumps]               #'+vertico/jump-list
-					;    [remap goto-line]                     #'consult-goto-line
-					;    [remap imenu]                         #'consult-imenu
-					;    [remap locate]                        #'consult-locate
-					;    [remap load-theme]                    #'consult-theme
-					;    [remap man]                           #'consult-man
+   [remap apropos]                       #'consult-apropos
    [remap recentf-open-files]            #'consult-recent-file
    [remap switch-to-buffer]              #'consult-buffer
-					;    [remap switch-to-buffer-other-window] #'consult-buffer-other-window
-					;    [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
-					;    [remap yank-pop]                      #'consult-yank-pop
+   [remap bookmark-jump]                 #'consult-bookmark
+   [remap evil-show-marks]               #'consult-mark
+   [remap evil-show-jumps]               #'+vertico/jump-list
+   [remap goto-line]                     #'consult-goto-line
+   [remap imenu]                         #'consult-imenu
+   [remap locate]                        #'consult-locate
+   [remap load-theme]                    #'consult-theme
+   [remap man]                           #'consult-man
+   [remap switch-to-buffer-other-window] #'consult-buffer-other-window
+   [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
+   [remap yank-pop]                      #'consult-yank-pop
    ))
-;; TODO: [remap persp-switch-to-buffer]        #'+vertico/switch-workspace-buffer)
+
+;; setup embark to export to occur
+;; TODO: https://karthinks.com/software/fifteen-ways-to-use-embark/
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; VC
@@ -376,8 +382,23 @@ BODY is the symbol or expression to run."
   :general
   (bj-leader-keys
     "g" '(:ignore t :which-key "git")
+    "gd" '(magit-file-dispatch :which-key "file dispatch")
     "gg" '(magit-status :which-key "status")))
 
+(use-package magit-todos
+  :hook (magit-mode . magit-todos-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Hydras
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package hydra)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Editor
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode))
 
 ;;; init.el ends here
 (custom-set-variables
