@@ -335,7 +335,20 @@ BODY is the symbol or expression to run."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; project/file management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package projectile)
+(use-package project
+  :general
+  (bj-leader-keys
+    "p" '(:ignore t :which-key "project")
+    "pd" '(project-dired :which-key "dired")
+    "pp" '(project-switch-project :which-key "switch")
+    "pf" '(project-find-file :which-key "find file")
+    "<SPC>" '(project-find-file :which-key "project files"))
+  :config
+  (eval-after-load 'consult
+     (setq consult-project-root-function
+        (lambda ()
+          (when-let (project (project-current))
+            (car (project-roots project)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; vertical completion
@@ -375,6 +388,68 @@ BODY is the symbol or expression to run."
 ;; setup embark to export to occur
 ;; TODO: https://karthinks.com/software/fifteen-ways-to-use-embark/
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; company
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package company
+  :demand t
+;;  :hook (after-init . global-company-mode)
+  :custom
+  (company-require-match #'company-explicit-action-p)
+  (company-minimum-prefix-length 3)
+  (company-idle-delay 0.2)
+  (company-tooltip-align-annotation t)
+  (company-auto-complete-chars nil)
+  (company-frontends '(company-pseudo-tooltip-frontend
+		       company-echo-metadata-frontend))
+  :bind
+  (([remap completion-at-point]  . company-manual-begin)
+   ([remap completion-symbol]  . company-manual-begin)  
+   
+   :map company-active-map
+   ("M-n" . nil)
+   ("M-p" . nil)
+   ("<tab>" . company-complete-selection)
+   ("TAB" . company-complete-selection)
+   ("SPC" . nil)
+   ("C-n" . company-select-next)
+   ("C-p" . company-select-previous)
+   :map company-active-map
+   :filter (company-explicit-action-p)
+   ("<return>" . company-complete-selection)
+   ("RET"  . company-complete-selection))
+
+  :bind*
+  (("M-TAB" . company-manual-begin))
+  :config
+  (global-company-mode))
+
+;; provide partial matches in completion like with intellij
+(use-package company-flx
+  :after company
+  :config
+  (company-flx-mode +1))
+
+;;;; quickhelp popup like with autocomplete
+(use-package company-quickhelp
+  :after company
+  :config
+  (setq company-quickhelp-delay 3)
+  :commands (company-quickhelp-mode)
+  :init
+  (company-quickhelp-mode nil))
+
+; TODO: what is it used for
+(use-package pos-tip
+    :commands (pos-tip-show))
+
+ ;; FIXME: somehow company-box does not have proper icons loaded
+;(use-package company-box
+;  :after (company all-the-icons)
+;  :hook (company-mode . company-box-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; VC
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -387,6 +462,34 @@ BODY is the symbol or expression to run."
 
 (use-package magit-todos
   :hook (magit-mode . magit-todos-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun bj-find-in-notes ()
+  "Find a file under `org-directory'"
+  (interactive)
+  (unless (bound-and-true-p org-directory)
+    (require 'org))
+  (consult-find org-directory))
+
+(use-package org
+  :general
+  (bj-leader-keys
+    "n" '(:ignore t :which-key "notes")
+    "na" '(org-agenda :which-key "agenda")
+    "nn" '(org-capture :which-key "capture")
+    "nf" '(bj-find-in-notes :which-key "find notes"))
+    
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'org-mode-map
+   "t" '(org-todo :which-key "toggle todo"))
+  :custom
+  (org-directory "~/src/private/todos"))
+
+
+;; TODO: org-noter?
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Hydras
@@ -431,29 +534,33 @@ BODY is the symbol or expression to run."
     "ntp"  '(hl-todo-previous :which-key "prev")
     "st" '(hl-todo-occur :which-key "todos")))
 
-;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(use-package "use-package")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(use-package undo-tree
+  ;; TODO: find a better way to defer it
+  :defer 15
+  :config
+  (global-undo-tree-mode))
 
-
+(use-package rainbow-delimiters
+  :hook
+  ((emacs-lisp-mode . rainbow-delimiters-mode)
+   (clojure-mode . rainbow-delimiters-mode)))
+   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Editor
+;; Fun
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package hl-todo
-  :hook (prog-mode . hl-todo-mode))
+(use-package meme
+  :straight
+  (meme :host github
+	 :repo "larsmagne/meme"
+	 :files ("*.el" "images"))
+  :general
+  (bj-leader-keys
+    "oM"  '(:ignore t :which-key "meme")
+    "oMM"  '(meme :which-key "meme")
+    "oMf"  '(meme-file :which-key "meme-file")))
 
-;; TODO: undo
+(use-package imgur)
 
 ;;; init.el ends here
 (custom-set-variables
