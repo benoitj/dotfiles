@@ -344,6 +344,14 @@ BODY is the symbol or expression to run."
     "pf" '(project-find-file :which-key "find file")
     "<SPC>" '(project-find-file :which-key "project files"))
   :config
+  (cl-defgeneric project-root (project)
+    "Return root directory of the current project.
+
+It usually contains the main build file, dependencies
+configuration file, etc. Though neither is mandatory.
+
+The directory name must be absolute."
+      (car project))
   (eval-after-load 'consult
      (setq consult-project-root-function
         (lambda ()
@@ -462,6 +470,14 @@ BODY is the symbol or expression to run."
 
 (use-package magit-todos
   :hook (magit-mode . magit-todos-mode))
+
+(use-package git-link
+  :general
+  (bj-leader-keys
+    "gl" '(:ignore t :which-key "links")
+    "gll" '(git-link :which-key "file")
+    "glc" '(git-link-commit :which-key "commit")
+    "glh" '(git-link-homepage :which-key "homepage")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org
