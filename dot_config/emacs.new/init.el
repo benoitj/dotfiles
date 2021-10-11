@@ -17,9 +17,7 @@
 (defun bj-display-startup-time ()
   "Displays time to load and gc metrics."
   (message "Emacs loaded in %s with %d garbage collections."
-           (format "%.2f seconds"
-                   (float-time
-                    (time-subtract after-init-time before-init-time)))
+           (format "%s" (emacs-init-time))
            gcs-done))
 
 (add-hook 'emacs-startup-hook #'bj-display-startup-time)
@@ -204,8 +202,6 @@ BODY is the symbol or expression to run."
 (savehist-mode 1)
 (recentf-mode 1)
 
-;; TODO: undo
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -330,7 +326,12 @@ BODY is the symbol or expression to run."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq scroll-conservatively 101)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; searching
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package wgrep
+  :commands wgrep-change-to-wgrep-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; project/file management
@@ -339,9 +340,18 @@ BODY is the symbol or expression to run."
   :general
   (bj-leader-keys
     "p" '(:ignore t :which-key "project")
+    "pa" '(project-async-shell-command :which-key "async cmd")
+    "pb" '(project-switch-to-buffer :which-key "buffers")
+    "pC" '(project-shell-command :which-key "command")
+    "pc" '(project-compile :which-key "compile")
     "pd" '(project-dired :which-key "dired")
-    "pp" '(project-switch-project :which-key "switch")
     "pf" '(project-find-file :which-key "find file")
+    "pk" '(project-kill-buffers :which-key "kill buffers")
+    "pp" '(project-switch-project :which-key "switch")
+    "pr" '(project-query-replace-regexp :which-key "replace")
+    "pt" '(project-shell :which-key "terminal")
+    ;; replaced by deadgrep due to editable buffer not working
+    ;; "sp" '(project-find-regexp :which "regexp search")
     "<SPC>" '(project-find-file :which-key "project files"))
   :config
   (cl-defgeneric project-root (project)
@@ -391,11 +401,49 @@ The directory name must be absolute."
    [remap switch-to-buffer-other-window] #'consult-buffer-other-window
    [remap switch-to-buffer-other-frame]  #'consult-buffer-other-frame
    [remap yank-pop]                      #'consult-yank-pop
-   ))
+   )
+  (bj-leader-keys
+    "ss" '(consult-ripgrep :which-key "ripgrep")))
 
-;; setup embark to export to occur
 ;; TODO: https://karthinks.com/software/fifteen-ways-to-use-embark/
 
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)     
+   ("C-," . embark-export)   
+   ("C-;" . embark-dwim)   
+   ("C-h B" . embark-bindings))
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+;; Enable richer annotations like ivy-helpful
+(use-package marginalia
+  :after vertico
+  :init
+  (marginalia-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; company
@@ -520,6 +568,11 @@ The directory name must be absolute."
   (bj-leader-keys
     "ot"  '(:ignore t :which-key "term")
     "ott" '(vterm :which-key "vterm")))
+
+(use-package multi-vterm
+  :general
+  (bj-leader-keys
+    "pt"  '(multi-vterm-project :which-key "vterm")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Editor
