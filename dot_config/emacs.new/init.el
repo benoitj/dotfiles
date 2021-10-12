@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-;;; * garbage collection tuning
+;;;* garbage collection tuning
 (defconst bj-100MB (* 100 1000 1000))
 (defconst bj-20MB (* 20 1000 1000))
 
@@ -8,12 +8,7 @@
 (setq gc-cons-threshold bj-100MB)
 (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold bj-20MB)))
 
-;;; * move custom config to a file
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-;;; * monitor performance
+;;;* monitor performance
 (defun bj-display-startup-time ()
   "Displays time to load and gc metrics."
   (message "Emacs loaded in %s with %d garbage collections."
@@ -22,7 +17,20 @@
 
 (add-hook 'emacs-startup-hook #'bj-display-startup-time)
 
-;;; * package management setup
+;;;* keep things clean - part 1
+(setq user-emacs-directory "~/.cache/emacs")
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;; no-littering doesn't set this by default so we must place
+;; auto save files in the same path as it uses for sessions
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+
+;;;* package management setup
 (require 'package)
 (cl-pushnew '("melpa" . "https://melpa.org/packages/") package-archives :test #'equal)
 (package-initialize)
@@ -53,8 +61,11 @@
   (use-package-verbose t)
   (straight-use-package-by-default t))
 
-;;; * UI configuration
-;;; ** Basic UI configuration
+;;;* keep things clean - part 2
+(use-package no-littering
+  :demand t)
+;;;* UI configuration
+;;;** Basic UI configuration
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)        ; Disable visible scrollbar
@@ -88,7 +99,7 @@
   (which-key-mode)
   (setq which-key-idle-delay 1))
 
-;;; ** Theme
+;;;** Theme
 (use-package modus-themes
   :demand t
   :init
@@ -103,7 +114,7 @@
   (modus-themes-load-vivendi)
   :bind ("<f5>" . modus-themes-toggle))
 
-;;; ** Fonts
+;;;** Fonts
 (defmacro bj-run-now-or-on-make-frame-hook (&rest body)
   "Macro created to run now on setup hooks when running as a daemon.
 BODY is the symbol or expression to run."
@@ -164,19 +175,10 @@ BODY is the symbol or expression to run."
 
 (bj-run-now-or-on-make-frame-hook (bj-reset-frame-font))
 
-;;; * keep things clean
-(setq user-emacs-directory "~/.cache/emacs")
-
-(use-package no-littering
+;;;** icons
+(use-package all-the-icons
   :demand t)
-
-;; no-littering doesn't set this by default so we must place
-;; auto save files in the same path as it uses for sessions
-(setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-
-;;; * history and undo
-;; History
+;;;* history
 (setq savehist-file "~/.config/emacs.new/savehist"
       history-length t
       history-delete-duplicates t
@@ -190,8 +192,8 @@ BODY is the symbol or expression to run."
 (savehist-mode 1)
 (recentf-mode 1)
 
-;;; * Bindings
-;;; ** evil
+;;;* Bindings
+;;;** evil
 (use-package evil
   :demand t
   :init
@@ -237,7 +239,7 @@ BODY is the symbol or expression to run."
   (interactive)
   (find-file (expand-file-name "~/src/projects/dotfiles/")))
 
-;;; ** general
+;;;** general
 (use-package general
   :after evil
   :config
@@ -286,11 +288,11 @@ BODY is the symbol or expression to run."
    "ws" '(split-window-below :which-key "split horiz")
    "wv" '(split-window-right :which-key "split vert")))
 
-;;; ** Hydras
+;;;** Hydras
 (use-package hydra)
 
 
-;;; * window/buffer management
+;;;* window/buffer management
 (use-package ace-window
   :demand t
   :custom
@@ -309,14 +311,28 @@ BODY is the symbol or expression to run."
 ;; TODO: popup management (?popper)
 ;; TODO: window placement
 
-;;; * scrolling and navigation
+;;;* scrolling and navigation
 (setq scroll-conservatively 101)
 
-;;; * searching
+;;;* searching
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode)
 
-;;; * project/file management
+;;;* file management
+(use-package all-the-icons-dired
+  :after all-the-icons
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired
+  :straight nil
+  :config
+  (require 'dired-x)
+  (setq dired-recursive-copies (quote always)) ; “always” means no asking
+  (setq dired-recursive-deletes (quote top)) ; “top” means ask once
+  (put 'dired-find-alternate-file 'disabled nil)
+  (setq dired-dwim-target t))
+
+;;;* project management
 (use-package project
   :general
   (bj-leader-keys
@@ -331,8 +347,6 @@ BODY is the symbol or expression to run."
     "pp" '(project-switch-project :which-key "switch")
     "pr" '(project-query-replace-regexp :which-key "replace")
     "pt" '(project-shell :which-key "terminal")
-    ;; replaced by deadgrep due to editable buffer not working
-    ;; "sp" '(project-find-regexp :which "regexp search")
     "<SPC>" '(project-find-file :which-key "project files"))
   :config
   (cl-defgeneric project-root (project)
@@ -349,7 +363,7 @@ The directory name must be absolute."
           (when-let (project (project-current))
             (car (project-roots project)))))))
 
-;;; * vertical completion
+;;;* vertical completion
 (use-package vertico
   ;; TODO: can we defer until first input?
   :demand t
@@ -424,7 +438,7 @@ The directory name must be absolute."
   :init
   (marginalia-mode))
 
-;;; * company
+;;;* company
 
 (use-package company
   :demand t
@@ -483,26 +497,54 @@ The directory name must be absolute."
 ;  :after (company all-the-icons)
 ;  :hook (company-mode . company-box-mode))
 
-;;; * VC
-(use-package magit
+;;;* Editor
+;;;** fix up/down case word by going to the beginning of the word
+(defadvice upcase-word (before upcase-word-advice activate)
+  (unless (looking-back "\\b" nil)
+    (backward-word)))
+
+(defadvice downcase-word (before downcase-word-advice activate)
+  (unless (looking-back "\\b" nil)
+    (backward-word)))
+
+(defadvice capitalize-word (before capitalize-word-advice activate)
+  (unless (looking-back "\\b" nil)
+    (backward-word)))
+
+;;;** highlight todos
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode)
+  :custom
+  (hl-todo-color-background t) 
+  :custom-face
+  (hl-todo ((t (:bold t :foreground "#111111"))))
   :general
   (bj-leader-keys
-    "g" '(:ignore t :which-key "git")
-    "gd" '(magit-file-dispatch :which-key "file dispatch")
-    "gg" '(magit-status :which-key "status")))
+    "nt"  '(:ignore t :which-key "todos")
+    "ntn"  '(hl-todo-next :which-key "next")
+    "ntp"  '(hl-todo-previous :which-key "prev")
+    "st" '(hl-todo-occur :which-key "todos")))
+;;;** Undo
+(use-package undo-tree
+  ;; TODO: find a better way to defer it
+  :demand t
+  :config
+  (global-undo-tree-mode))
 
-(use-package magit-todos
-  :hook (magit-mode . magit-todos-mode))
+;;;** delimiters highligth
+(use-package rainbow-delimiters
+  :hook
+  ((emacs-lisp-mode . rainbow-delimiters-mode)
+   (clojure-mode . rainbow-delimiters-mode)))
 
-(use-package git-link
-  :general
-  (bj-leader-keys
-    "gl" '(:ignore t :which-key "links")
-    "gll" '(git-link :which-key "file")
-    "glc" '(git-link-commit :which-key "commit")
-    "glh" '(git-link-homepage :which-key "homepage")))
 
-;;; * Org
+;;;** editorconfig
+(use-package editorconfig
+  :hook (prog-mode . editorconfig-mode))
+
+   
+;;;* Lang
+;;;** Org
 (defun bj-find-in-notes ()
   "Find a file under `org-directory'"
   (interactive)
@@ -528,7 +570,33 @@ The directory name must be absolute."
 ;; TODO: org-noter?
 
 
-;;; * terminal
+;;;* Tools
+;;;** VC
+(use-package magit
+  :general
+  (bj-leader-keys
+    "g" '(:ignore t :which-key "git")
+    "gf" '(magit-file-dispatch :which-key "file dispatch")
+    "gg" '(magit-status :which-key "status")))
+
+(use-package magit-todos
+  :hook (magit-mode . magit-todos-mode))
+
+(use-package git-link
+  :general
+  (bj-leader-keys
+    "gl" '(:ignore t :which-key "links")
+    "gll" '(git-link :which-key "file")
+    "glc" '(git-link-commit :which-key "commit")
+    "glh" '(git-link-homepage :which-key "homepage")))
+
+;;;** terminal
+
+(use-package eshell
+  :general
+  (bj-leader-keys
+    "ote" '(eshell :which-key "eshell")))
+
 (use-package vterm
   :general
   (bj-leader-keys
@@ -540,45 +608,7 @@ The directory name must be absolute."
   (bj-leader-keys
     "pt"  '(multi-vterm-project :which-key "vterm")))
 
-;;; * Editor
-;; fix up/down case word by going to the beginning of the word
-(defadvice upcase-word (before upcase-word-advice activate)
-  (unless (looking-back "\\b" nil)
-    (backward-word)))
-
-(defadvice downcase-word (before downcase-word-advice activate)
-  (unless (looking-back "\\b" nil)
-    (backward-word)))
-
-(defadvice capitalize-word (before capitalize-word-advice activate)
-  (unless (looking-back "\\b" nil)
-    (backward-word)))
-
-(use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
-  :custom
-  (hl-todo-color-background t) 
-  :custom-face
-  (hl-todo ((t (:bold t :foreground "#111111"))))
-  :general
-  (bj-leader-keys
-    "nt"  '(:ignore t :which-key "todos")
-    "ntn"  '(hl-todo-next :which-key "next")
-    "ntp"  '(hl-todo-previous :which-key "prev")
-    "st" '(hl-todo-occur :which-key "todos")))
-
-(use-package undo-tree
-  ;; TODO: find a better way to defer it
-  :demand t
-  :config
-  (global-undo-tree-mode))
-
-(use-package rainbow-delimiters
-  :hook
-  ((emacs-lisp-mode . rainbow-delimiters-mode)
-   (clojure-mode . rainbow-delimiters-mode)))
-   
-;;; * Fun
+;;;* Fun
 (use-package meme
   :straight
   (meme :host github
@@ -592,10 +622,11 @@ The directory name must be absolute."
 
 (use-package imgur)
 
-;;; * LOCAL-VARIABLES
+;;;* LOCAL-VARIABLES
+;; FIXME: for some reasons, putting a space between ;;; and * does not work
 ;; Local Variables:
-;; outline-regexp: ";;; \\*+"
-;; page-delimiter: ";;; \\**"
+;; outline-regexp: ";;;\\*+"
+;; page-delimiter: ";;;\\**"
 ;; eval:(outline-minor-mode 1)
 ;; eval:(outline-hide-sublevels 5)
 ;; End:
