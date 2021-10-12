@@ -1,9 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; garbage collection tuning
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;; * garbage collection tuning
 (defconst bj-100MB (* 100 1000 1000))
 (defconst bj-20MB (* 20 1000 1000))
 
@@ -11,16 +8,12 @@
 (setq gc-cons-threshold bj-100MB)
 (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold bj-20MB)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; move custom config to a file
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * move custom config to a file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; monitor performance
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * monitor performance
 (defun bj-display-startup-time ()
   "Displays time to load and gc metrics."
   (message "Emacs loaded in %s with %d garbage collections."
@@ -29,9 +22,7 @@
 
 (add-hook 'emacs-startup-hook #'bj-display-startup-time)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; package management setup
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * package management setup
 (require 'package)
 (cl-pushnew '("melpa" . "https://melpa.org/packages/") package-archives :test #'equal)
 (package-initialize)
@@ -62,10 +53,8 @@
   (use-package-verbose t)
   (straight-use-package-by-default t))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; UI configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;; * UI configuration
+;;; ** Basic UI configuration
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)        ; Disable visible scrollbar
@@ -99,9 +88,7 @@
   (which-key-mode)
   (setq which-key-idle-delay 1))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Theme
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; ** Theme
 (use-package modus-themes
   :demand t
   :init
@@ -116,9 +103,7 @@
   (modus-themes-load-vivendi)
   :bind ("<f5>" . modus-themes-toggle))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Fonts
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; ** Fonts
 (defmacro bj-run-now-or-on-make-frame-hook (&rest body)
   "Macro created to run now on setup hooks when running as a daemon.
 BODY is the symbol or expression to run."
@@ -179,9 +164,7 @@ BODY is the symbol or expression to run."
 
 (bj-run-now-or-on-make-frame-hook (bj-reset-frame-font))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; keep things clean
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * keep things clean
 (setq user-emacs-directory "~/.cache/emacs")
 
 (use-package no-littering
@@ -192,9 +175,7 @@ BODY is the symbol or expression to run."
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; history and undo
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * history and undo
 ;; History
 (setq savehist-file "~/.config/emacs.new/savehist"
       history-length t
@@ -209,11 +190,8 @@ BODY is the symbol or expression to run."
 (savehist-mode 1)
 (recentf-mode 1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Bindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; evil
+;;; * Bindings
+;;; ** evil
 (use-package evil
   :demand t
   :init
@@ -259,6 +237,7 @@ BODY is the symbol or expression to run."
   (interactive)
   (find-file (expand-file-name "~/src/projects/dotfiles/")))
 
+;;; ** general
 (use-package general
   :after evil
   :config
@@ -281,6 +260,7 @@ BODY is the symbol or expression to run."
    "bi" '(ibuffer :which-key "ibuffer")
    "bd" '(kill-current-buffer :which-key "kill current")
    "bD" '(kill-buffer :which-key "kill")
+   "br" '(revert-buffer :which-key "revert")
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
@@ -306,10 +286,11 @@ BODY is the symbol or expression to run."
    "ws" '(split-window-below :which-key "split horiz")
    "wv" '(split-window-right :which-key "split vert")))
 
+;;; ** Hydras
+(use-package hydra)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;e;;
-;; window/buffer management
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; * window/buffer management
 (use-package ace-window
   :demand t
   :custom
@@ -328,21 +309,14 @@ BODY is the symbol or expression to run."
 ;; TODO: popup management (?popper)
 ;; TODO: window placement
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; scrolling and navigation
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * scrolling and navigation
 (setq scroll-conservatively 101)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; searching
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;; * searching
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; project/file management
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * project/file management
 (use-package project
   :general
   (bj-leader-keys
@@ -375,9 +349,7 @@ The directory name must be absolute."
           (when-let (project (project-current))
             (car (project-roots project)))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; vertical completion
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * vertical completion
 (use-package vertico
   ;; TODO: can we defer until first input?
   :demand t
@@ -452,9 +424,7 @@ The directory name must be absolute."
   :init
   (marginalia-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; company
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * company
 
 (use-package company
   :demand t
@@ -513,9 +483,7 @@ The directory name must be absolute."
 ;  :after (company all-the-icons)
 ;  :hook (company-mode . company-box-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; VC
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * VC
 (use-package magit
   :general
   (bj-leader-keys
@@ -534,9 +502,7 @@ The directory name must be absolute."
     "glc" '(git-link-commit :which-key "commit")
     "glh" '(git-link-homepage :which-key "homepage")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Org
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * Org
 (defun bj-find-in-notes ()
   "Find a file under `org-directory'"
   (interactive)
@@ -559,17 +525,10 @@ The directory name must be absolute."
   :custom
   (org-directory "~/src/private/todos"))
 
-
 ;; TODO: org-noter?
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Hydras
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package hydra)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; terminal
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * terminal
 (use-package vterm
   :general
   (bj-leader-keys
@@ -581,9 +540,7 @@ The directory name must be absolute."
   (bj-leader-keys
     "pt"  '(multi-vterm-project :which-key "vterm")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Editor
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; * Editor
 ;; fix up/down case word by going to the beginning of the word
 (defadvice upcase-word (before upcase-word-advice activate)
   (unless (looking-back "\\b" nil)
@@ -612,7 +569,7 @@ The directory name must be absolute."
 
 (use-package undo-tree
   ;; TODO: find a better way to defer it
-  :defer 15
+  :demand t
   :config
   (global-undo-tree-mode))
 
@@ -621,10 +578,7 @@ The directory name must be absolute."
   ((emacs-lisp-mode . rainbow-delimiters-mode)
    (clojure-mode . rainbow-delimiters-mode)))
    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Fun
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;; * Fun
 (use-package meme
   :straight
   (meme :host github
@@ -637,3 +591,11 @@ The directory name must be absolute."
     "oMf"  '(meme-file :which-key "meme-file")))
 
 (use-package imgur)
+
+;;; * LOCAL-VARIABLES
+;; Local Variables:
+;; outline-regexp: ";;; \\*+"
+;; page-delimiter: ";;; \\**"
+;; eval:(outline-minor-mode 1)
+;; eval:(outline-hide-sublevels 5)
+;; End:
