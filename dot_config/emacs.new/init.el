@@ -24,10 +24,6 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;; no-littering doesn't set this by default so we must place
-;; auto save files in the same path as it uses for sessions
-(setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 
 ;;;* package management setup
@@ -63,7 +59,12 @@
 
 ;;;* keep things clean - part 2
 (use-package no-littering
-  :demand t)
+  :demand t
+  :config
+  ;; no-littering doesn't set this by default so we must place
+  ;; auto save files in the same path as it uses for sessions
+  (setq auto-save-file-name-transforms
+	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 ;;;* UI configuration
 ;;;** Basic UI configuration
 (setq inhibit-startup-message t)
@@ -616,7 +617,6 @@ The directory name must be absolute."
 
 ;;;** org roam
 (use-package org-roam
-    :after org
     :init
     (setq org-roam-directory (expand-file-name "~/src/projects/notebook/"))
     :general
