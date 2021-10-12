@@ -544,7 +544,7 @@ The directory name must be absolute."
 
    
 ;;;* Lang
-;;;** Org
+;;;** Org basic
 (defun bj-find-in-notes ()
   "Find a file under `org-directory'"
   (interactive)
@@ -586,10 +586,61 @@ The directory name must be absolute."
               "* MAYBE %?\n")
              ("l" "Log" entry (file+olp+datetree ,(expand-file-name "log.org" org-directory) "Log")
               (file ,(expand-file-name "templates/logtemplate.org" org-directory))))))
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (plantuml . t))))
 
-;; TODO: org-noter?
+(with-eval-after-load 'org
+  (require 'org-tempo)
+    (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+    (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
+    (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+    (add-to-list 'org-structure-template-alist '("py" . "src python"))
+    (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+    (add-to-list 'org-structure-template-alist '("json" . "src json")))
 
+(use-package org-superstar
+  :hook (org-mode . (lambda() (org-superstar-mode 1)))
+  :config
+  (setq org-hide-leading-stars nil)
+  (setq org-superstar-leading-bullet ?\s)
+  (setq org-indent-mode-turns-on-hiding-stars nil)
+  (setq inhibit-compacting-font-caches t))
+ 
 
+; TODO: org-noter?
+
+;;;** org roam
+(use-package org-roam
+    :after org
+    :init
+    (setq org-roam-directory (expand-file-name "~/src/projects/notebook/"))
+    :general
+    (bj-leader-keys
+     "nr" '(:ignore t :which-key "random note")
+     "nra" '(org-roam-node-random :which-key "random note")
+     "nrf" '(org-roam-node-find :which-key "find file")
+     "nrg" '(org-roam-graph :which-key "graph")
+     "nri" '(org-roam-node-insert :which-key "insert")
+     "nrr" '(org-roam-buffer-toggle-display :which-key "Toggle roam")
+     "nrR" '(org-roam-buffer-display-dedicated :which-key "Launch roam")
+     "nrs" '(org-roam-db-sync :which-key "Sync DB"))
+    :config
+    (defun bj-org-id-update-org-roam-files ()
+      "Update Org-ID locations for all Org-roam files."
+      (interactive)
+      (org-id-update-id-locations (org-roam-list-files)))
+
+    (defun bj-org-id-update-id-current-file ()
+      "Scan the current buffer for Org-ID locations and update them."
+      (interactive)
+      (org-id-update-id-locations (list (buffer-file-name (current-buffer))))))
+
+;;;** org babel
 ;;;* Tools
 ;;;** VC
 (use-package magit
