@@ -557,7 +557,10 @@ The directory name must be absolute."
   (bj-leader-keys
     "n" '(:ignore t :which-key "notes")
     "na" '(org-agenda :which-key "agenda")
+    "nl" '(org-store-link :which-key "store link")
     "nn" '(org-capture :which-key "capture")
+    "nN" '(org-capture-goto-target :which-key "goto capture")
+    "nt" '(org-todo-list :which-key "todos")
     "nf" '(bj-find-in-notes :which-key "find notes"))
     
   (bj-local-leader-keys
@@ -565,7 +568,24 @@ The directory name must be absolute."
    :keymaps 'org-mode-map
    "t" '(org-todo :which-key "toggle todo"))
   :custom
-  (org-directory "~/src/private/todos"))
+  (org-directory "~/src/private/todos")
+  (org-agenda-files `(,(expand-file-name "todo.org" org-directory)))
+  (org-refile-targets `((,(expand-file-name "todo.org" org-directory) :maxlevel . 3)
+                        (,(expand-file-name "somedaymaybe.org" org-directory) :level . 1)))
+  (org-refile-allow-creating-parent-nodes t)
+  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+  (org-return-follows-link t)
+  (org-capture-templates
+           `(("t" "Task" entry (file+headline ,(expand-file-name "todo.org" org-directory) "Inbox")
+              "* TODO %?\n")
+             ("p" "Project" entry (file+headline ,(expand-file-name "todo.org" org-directory) "Projects")
+              (file ,(expand-file-name "templates/newprojecttemplate.org" org-directory)))
+             ("s" "Someday" entry (file+headline ,(expand-file-name "someday.org" org-directory) "Someday / Maybe")
+              "* SOMEDAY %?\n")
+             ("m" "Maybe" entry (file+headline ,(expand-file-name "someday.org" org-directory) "Someday / Maybe")
+              "* MAYBE %?\n")
+             ("l" "Log" entry (file+olp+datetree ,(expand-file-name "log.org" org-directory) "Log")
+              (file ,(expand-file-name "templates/logtemplate.org" org-directory))))))
 
 ;; TODO: org-noter?
 
