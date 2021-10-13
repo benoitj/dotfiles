@@ -641,6 +641,12 @@ The directory name must be absolute."
       (org-id-update-id-locations (list (buffer-file-name (current-buffer))))))
 
 ;;;** org babel
+;;;** markdown
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("\\.md\\'" . gfm-mode)
+	 ("\\.markdown\\'" . gfm-mode))
+  :init (setq markdown-command "markdown"))
 ;;;* Tools
 ;;;** VC
 (use-package magit
@@ -679,6 +685,8 @@ The directory name must be absolute."
   (bj-leader-keys
     "pt"  '(multi-vterm-project :which-key "vterm")))
 
+;;;** mail
+;; TODO: setup notmuch and other tools. see https://sqrtminusone.xyz/configs/mail/
 ;;;* Fun
 (use-package meme
   :straight
