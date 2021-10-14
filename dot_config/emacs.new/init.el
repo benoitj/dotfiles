@@ -687,6 +687,33 @@ The directory name must be absolute."
 
 ;;;** mail
 ;; TODO: setup notmuch and other tools. see https://sqrtminusone.xyz/configs/mail/
+
+(use-package notmuch
+  :custom
+  (notmuch-saved-searches
+   '((:name "inbox" :query "tag:inbox not tag:trash and date:7d..today" :sort-order newest-first :key "i")
+     (:name "inbox (all)" :query "tag:inbox not tag:trash" :key "I")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "s")
+     (:name "drafts" :query "tag:draft" :key "d")))
+
+  :general
+  (bj-leader-keys
+    "om" '(notmuch-hello :which-key "mail"))
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'notmuch-show-mode-map
+   "b" '(notmuch-show-browse-urls :which-key "browse urls"))
+    
+  :config
+  (setq
+   user-full-name "Benoit Joly"
+   user-mail-address "benoit@benoitj.ca"
+   user-mail-addresses '("benoit@benoitj.ca" "benoit.m.joly@gmail.com" "bjoly666@gmail.com")))
+
+;(after! notmuch
+;  (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
+
 ;;;* Fun
 (use-package meme
   :straight
