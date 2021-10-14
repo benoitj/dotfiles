@@ -437,7 +437,10 @@ The directory name must be absolute."
 (use-package marginalia
   :after vertico
   :init
-  (marginalia-mode))
+  (marginalia-mode)
+  :config
+  (add-to-list 'marginalia-annotator-registry
+	       '(symbol-help marginalia-annotate-variable )))
 
 ;;;* company
 
