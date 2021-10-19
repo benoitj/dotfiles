@@ -180,17 +180,17 @@ BODY is the symbol or expression to run."
 (use-package all-the-icons
   :demand t)
 ;;;* history
-;;(setq savehist-file (expand-file-name "savehist" user-emacs-directory)
-;;      history-length t
-;;      history-delete-duplicates t
-;;      savehist-save-minibuffer-history 1
-;;      savehist-additional-variables
-;;      '(kill-ring
-;;	search-ring
-;;  	regexp-search-ring)
-;;      recentf-max-saved-items 50)
-;;
-;;(savehist-mode 1)
+(setq savehist-file (expand-file-name "savehist" user-emacs-directory)
+      history-length t
+      history-delete-duplicates t
+      savehist-save-minibuffer-history 1
+      savehist-additional-variables
+      '(kill-ring
+	search-ring
+  	regexp-search-ring)
+      recentf-max-saved-items 50)
+
+(savehist-mode 1)
 (recentf-mode 1)
 
 ;;;* Bindings
