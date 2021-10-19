@@ -31,6 +31,9 @@ checkout = git clone 'git@git.sr.ht:~benoit/docker-emacs' 'docker-emacs'
 [src/projects/dockerfiles.bak]
 checkout = git clone 'git@bitbucket.org:benoitjoly/dockerfiles.git' 'dockerfiles.bak'
 
+[src/projects/dotfiles]
+checkout = git clone 'git@github.com:benoitj/dotfiles.git' 'dotfiles'
+
 [src/projects/dwm]
 checkout = git clone 'git@github.com:benoitj/dwm.git' 'dwm'
 
@@ -97,11 +100,15 @@ push = echo "Disabled"
 [src/others/browserpass-extension]
 checkout = git clone 'https://github.com/browserpass/browserpass-extension.git' 'browserpass-extension'
 
-[src/projects/dotfiles]
-checkout = git clone 'git@github.com:benoitj/dotfiles.git' 'dotfiles'
+
+[src/others/dotfiles-daviwil]
+checkout = git clone 'https://github.com/daviwil/dotfiles' 'dotfiles-daviwil'
 
 [src/others/dotemacs-alphapapa]
 checkout = git clone 'https://github.com/alphapapa/ap.el' 'dotemacs-alphapapa'
+
+[src/others/dotemacs-karthink]
+checkout = git clone 'https://github.com/karthink/.emacs.d' 'dotemacs-karthink'
 
 [src/others/emacs-0x0]
 checkout = git clone 'https://gitlab.com/willvaughn/emacs-0x0' 'emacs-0x0'
