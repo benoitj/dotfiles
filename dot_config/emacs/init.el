@@ -81,6 +81,7 @@
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
+(global-hl-line-mode)
 
 ;; Disable line numbers for some modes
 ;; TODO: split by modes using use-package
@@ -192,6 +193,8 @@ BODY is the symbol or expression to run."
 
 (savehist-mode 1)
 (recentf-mode 1)
+;; TODO (desktop-save-mode t)
+;; TODO (save-place-mode t)
 
 ;;;* Bindings
 ;;;** evil
@@ -334,10 +337,6 @@ BODY is the symbol or expression to run."
   (setq dired-dwim-target t))
 
 ;;;* project management
-;;(use-package projectile
-;;  :general
-; ; (bj-leader-keys
-;;    "p" '(:keymap projectile-command-map))) 
 
 (use-package project
   :general
@@ -523,10 +522,6 @@ The directory name must be absolute."
 ;;;** highlight todos
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
-  :custom
-  (hl-todo-color-background t) 
-  :custom-face
-  (hl-todo ((t (:bold t :foreground "#111111"))))
   :general
   (bj-leader-keys
     "nt"  '(:ignore t :which-key "todos")
@@ -724,6 +719,7 @@ The directory name must be absolute."
 ;(after! notmuch
 ;  (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
 
+;;;** TODO rss
 ;;;* Fun
 (use-package meme
   :straight
