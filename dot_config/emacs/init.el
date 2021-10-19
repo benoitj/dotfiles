@@ -180,17 +180,17 @@ BODY is the symbol or expression to run."
 (use-package all-the-icons
   :demand t)
 ;;;* history
-(setq savehist-file "~/.config/emacs.new/savehist"
-      history-length t
-      history-delete-duplicates t
-      savehist-save-minibuffer-history 1
-      savehist-additional-variables
-      '(kill-ring
-	search-ring
-  	regexp-search-ring)
-      recentf-max-saved-items 50)
-
-(savehist-mode 1)
+;;(setq savehist-file (expand-file-name "savehist" user-emacs-directory)
+;;      history-length t
+;;      history-delete-duplicates t
+;;      savehist-save-minibuffer-history 1
+;;      savehist-additional-variables
+;;      '(kill-ring
+;;	search-ring
+;;  	regexp-search-ring)
+;;      recentf-max-saved-items 50)
+;;
+;;(savehist-mode 1)
 (recentf-mode 1)
 
 ;;;* Bindings
@@ -233,7 +233,7 @@ BODY is the symbol or expression to run."
 (defun bj-open-dot-emacs ()
   "Open Emacs init.el."
   (interactive)
-  (find-file (expand-file-name "~/src/projects/dotfiles/dot_config/emacs.new/init.el")))
+  (find-file (expand-file-name "~/src/projects/dotfiles/dot_config/emacs/init.el")))
 
 (defun bj-open-dotfiles ()
   "Open dotfiles in dired."
@@ -334,6 +334,11 @@ BODY is the symbol or expression to run."
   (setq dired-dwim-target t))
 
 ;;;* project management
+;;(use-package projectile
+;;  :general
+; ; (bj-leader-keys
+;;    "p" '(:keymap projectile-command-map))) 
+
 (use-package project
   :general
   (bj-leader-keys
@@ -644,6 +649,8 @@ The directory name must be absolute."
       (org-id-update-id-locations (list (buffer-file-name (current-buffer))))))
 
 ;;;** org babel
+;;;** TODO: lsp
+;;;** TODO: lsp java
 ;;;** markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
