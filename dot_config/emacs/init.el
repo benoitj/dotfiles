@@ -244,9 +244,14 @@ BODY is the symbol or expression to run."
 (use-package general
   :after evil
   :config
+  (general-define-key
+   :keymaps 'override
+   :states '(normal visual motion)
+   "SPC" nil)
   (general-create-definer bj-leader-keys
     :states '(normal insert visual emacs)
     :prefix "SPC"
+    :prefix-map 'leader-map
     :global-prefix "M-SPC")
   (general-create-definer bj-local-leader-keys
     :prefix "SPC m"
@@ -334,13 +339,14 @@ BODY is the symbol or expression to run."
 
 (use-package dired
   :straight nil
+  :init
+  (general-def 'normal dired-mode-map "SPC" leader-map)
   :config
   (require 'dired-x)
   (setq dired-recursive-copies (quote always)) ; “always” means no asking
   (setq dired-recursive-deletes (quote top)) ; “top” means ask once
   (put 'dired-find-alternate-file 'disabled nil)
   (setq dired-dwim-target t))
-
 ;;;* project management
 
 (use-package project
