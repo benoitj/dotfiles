@@ -170,17 +170,14 @@ BODY is the symbol or expression to run."
     ("+" bj-increase-frame-font "in")
     ("-" bj-decrease-frame-font "out")
     ("0" bj-reset-frame-font "reset")
-    ("q" nil "finished" :exit t))
-
-  (bj-leader-keys
-   "ts" '(hydra-text-scale/body :which-key "scale text")))
+    ("q" nil "finished" :exit t)))
 
 (bj-run-now-or-on-make-frame-hook (bj-reset-frame-font))
 
 ;;;** icons
 (use-package all-the-icons
   :demand t)
-;;;* history
+;;;* history and session management
 (setq savehist-file (expand-file-name "savehist" user-emacs-directory)
       history-length t
       history-delete-duplicates t
@@ -293,7 +290,15 @@ BODY is the symbol or expression to run."
    "wv" '(split-window-right :which-key "split vert")))
 
 ;;;** Hydras
-(use-package hydra)
+(use-package hydra
+   :after general
+   :general
+(bj-leader-keys
+  "ts" '(hydra-text-scale/body :which-key "scale text"))
+   )
+
+
+
 
 
 ;;;* window/buffer management
@@ -369,6 +374,9 @@ The directory name must be absolute."
             (car (project-roots project)))))))
 
 ;;;* vertical completion
+
+(setq read-file-name-completion-ignore-case t)
+
 (use-package vertico
   ;; TODO: can we defer until first input?
   :demand t
@@ -652,6 +660,18 @@ The directory name must be absolute."
   :mode (("\\.md\\'" . gfm-mode)
 	 ("\\.markdown\\'" . gfm-mode))
   :init (setq markdown-command "markdown"))
+;;;** docker
+(use-package dockerfile-mode
+  :mode (("Dockerfile\\'" . dockerfile-mode)))
+(use-package docker-compose-mode
+  :mode (("docker-compose.yml\\'" . docker-compose-mode)
+	 ("docker-compose.yaml\\'" . docker-compose-mode)))
+;;;** epub
+(use-package nov
+  :mode (("\\.epub\\'" . nov-mode))
+  :init
+  (evil-set-initial-state 'nov-mode 'emacs))
+
 ;;;* Tools
 ;;;** VC
 (use-package magit
@@ -660,6 +680,9 @@ The directory name must be absolute."
     "g" '(:ignore t :which-key "git")
     "gf" '(magit-file-dispatch :which-key "file dispatch")
     "gg" '(magit-status :which-key "status")))
+
+(use-package magit-annex
+  :after magit)
 
 (use-package magit-todos
   :hook (magit-mode . magit-todos-mode))
