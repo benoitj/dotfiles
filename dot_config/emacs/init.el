@@ -287,6 +287,7 @@ BODY is the symbol or expression to run."
    "s"  '(:ignore t :which-key "search")
    "sl" '(locate :which-key "locate")
    "t"  '(:ignore t :which-key "toggles")
+   "u"  '(universal-argument :which-key "C-u")
    "w" '(:ignore t :which-key "windows")
    "ww" '(other-window :which-key "switch")
    "wd" '(delete-window :which-key "delete")
@@ -346,7 +347,20 @@ BODY is the symbol or expression to run."
   (setq dired-recursive-copies (quote always)) ; “always” means no asking
   (setq dired-recursive-deletes (quote top)) ; “top” means ask once
   (put 'dired-find-alternate-file 'disabled nil)
-  (setq dired-dwim-target t))
+  (setq dired-dwim-target t)
+  (setq dired-kill-when-opening-new-dired-buffer t))
+
+
+(use-package dired+
+  :ensure t
+  :init
+      (progn
+        ;; Details toggling is bound to "(" in `dired-mode' by default
+	(setq diredp-hide-details-propagate-flag t)
+        (setq diredp-hide-details-initially-flag nil))
+  :config
+  (setq dired-omit-verbose nil))
+
 ;;;* project management
 
 (use-package project
