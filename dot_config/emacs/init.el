@@ -223,6 +223,10 @@ BODY is the symbol or expression to run."
   :custom
   (evil-collection-outline-bind-tab-p nil)
   :config
+;;  (define-key magit-mode-map "@" nil)
+;;  (define-key magit-status-mode-map "@" nil)
+;;  (define-key magit-mode-map "@" 'magit-annex-dispatch-or-init)
+;;  (define-key magit-status-mode-map "@" 'magit-annex-dispatch-or-init)
   (evil-collection-init))
 (use-package evil-visualstar
   :after evil
@@ -268,14 +272,15 @@ BODY is the symbol or expression to run."
    "bi" '(ibuffer :which-key "ibuffer")
    "bd" '(kill-current-buffer :which-key "kill current")
    "bD" '(kill-buffer :which-key "kill")
+   "bm" '(bookmark-jump :which-key "bookmark jump")
+   "bM" '(:ignore t :which-key "bookmark...")
+   "bMd" '(bookmark-delete :which-key "delete")
+   "bMs" '(bookmark-set :which-key "set")
    "br" '(revert-buffer :which-key "revert")
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
-;;TODO:   "fd" '(:ignore t :which-key "dotfiles")
    "fr" '(recentf-open-files :which-key "recent")
-   "fdd" '(bj-open-dotfiles :which-key "dotfiles")
-   "fde" '(bj-open-dot-emacs :which-key "emacs")
    "h" '(:keymap help-map :which-key "help")
    "ha" '(apropos :which-key "apropos")
    "hM" '(man :which-key "man")
@@ -318,6 +323,7 @@ BODY is the symbol or expression to run."
    '(aw-leading-char-face
      ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 ;; TODO: setup contextual buffer list (? bufler)
+;;(use-package bufler)
 ;; TODO: various window/frame setup (?perspective or tab-bar)
 ;; TODO: save and restore buffers and workspace (?burly)
 ;; (desktop-save-mode t)
