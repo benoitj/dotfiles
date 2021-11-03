@@ -212,6 +212,7 @@ BODY is the symbol or expression to run."
   ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
+  (evil-set-initial-state 'bufler-list-mode 'emacs)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
 
@@ -322,8 +323,14 @@ BODY is the symbol or expression to run."
   (custom-set-faces
    '(aw-leading-char-face
      ((t (:inherit ace-jump-face-foreground :height 3.0))))))
-;; TODO: setup contextual buffer list (? bufler)
-;;(use-package bufler)
+
+(use-package bufler
+  :after evil
+  :general
+  (general-define-key
+   [remap switch-to-buffer]      #'bufler-switch-buffer
+   [remap ibuffer]               #'bufler-list))
+
 ;; TODO: various window/frame setup (?perspective or tab-bar)
 ;; TODO: save and restore buffers and workspace (?burly)
 ;; (desktop-save-mode t)
@@ -421,7 +428,6 @@ The directory name must be absolute."
   (general-define-key
    [remap apropos]                       #'consult-apropos
    [remap recentf-open-files]            #'consult-recent-file
-   [remap switch-to-buffer]              #'consult-buffer
    [remap bookmark-jump]                 #'consult-bookmark
    [remap evil-show-marks]               #'consult-mark
    [remap evil-show-jumps]               #'+vertico/jump-list
