@@ -707,6 +707,8 @@ The directory name must be absolute."
 ;;;* Tools
 ;;;** VC
 (use-package magit
+  :config
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
   :general
   (bj-leader-keys
     "g" '(:ignore t :which-key "git")
