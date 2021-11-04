@@ -85,12 +85,19 @@
 
 ;; Disable line numbers for some modes
 ;; TODO: split by modes using use-package
-(dolist (mode '(org-mode-hook
+(dolist (mode '(text-mode-hook
                 term-mode-hook
                 shell-mode-hook
                 treemacs-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(add-hook 'org-mode-hook (lambda() (auto-fill-mode -1)))
+
+(add-hook 'text-mode-hook (lambda () ((abbrev-mode)
+				      (auto-fill-mode)
+				      (setq fill-column 80))))
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -212,7 +219,6 @@ BODY is the symbol or expression to run."
   ;; (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   ;; (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
-  (evil-set-initial-state 'bufler-list-mode 'emacs)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal))
 
@@ -269,7 +275,7 @@ BODY is the symbol or expression to run."
 
   (bj-leader-keys
    "b" '(:ignore t :which-key "buffers")
-   "bb" '(switch-to-buffer :which-key "buffers")
+   "bB" '(switch-to-buffer :which-key "switch")
    "bi" '(ibuffer :which-key "ibuffer")
    "bd" '(kill-current-buffer :which-key "kill current")
    "bD" '(kill-buffer :which-key "kill")
@@ -328,15 +334,36 @@ BODY is the symbol or expression to run."
   :after evil
   :general
   (general-define-key
-   [remap switch-to-buffer]      #'bufler-switch-buffer
-   [remap ibuffer]               #'bufler-list))
+   [remap ibuffer]               #'bufler-list)
+  :config
+  (evil-set-initial-state 'bufler-list-mode 'emacs)
+  (bufler-mode))
 
 ;; TODO: various window/frame setup (?perspective or tab-bar)
 ;; TODO: save and restore buffers and workspace (?burly)
 ;; (desktop-save-mode t)
 ;; (add-hook 'desktop-after-read-hook 'bj-reset-theme-hook)
-;; (save-place-mode t)
+(save-place-mode t)
 ;; TODO: popup management (?popper)
+(use-package popper
+  :ensure t ; or :straight t
+  :general
+  (bj-leader-keys
+    "."   '(popper-toggle-latest :which-key "popup toggle")
+    "bp"  '(:ignore t :which-key "popup")
+    "bpl" '(popper-toggle-latest :which-key "latest")
+    "bpp" '(popper-cycle :which-key "cycle")
+    "bpt" '(popper-toggle-type :which-key "toggle type"))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
+
 ;; TODO: window placement
 
 ;;;* scrolling and navigation
@@ -379,6 +406,7 @@ BODY is the symbol or expression to run."
 (use-package project
   :general
   (bj-leader-keys
+    "bb" '(project-switch-to-buffer :which-key "switch within project")
     "p" '(:ignore t :which-key "project")
     "pa" '(project-async-shell-command :which-key "async cmd")
     "pb" '(project-switch-to-buffer :which-key "buffers")
@@ -390,6 +418,7 @@ BODY is the symbol or expression to run."
     "pp" '(project-switch-project :which-key "switch")
     "pr" '(project-query-replace-regexp :which-key "replace")
     "pt" '(project-shell :which-key "terminal")
+    ","  '(project-switch-to-buffer :which-key "project buffers")
     "<SPC>" '(project-find-file :which-key "project files"))
   :config
   (cl-defgeneric project-root (project)
