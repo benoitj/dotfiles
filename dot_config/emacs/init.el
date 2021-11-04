@@ -92,11 +92,10 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(add-hook 'org-mode-hook (lambda() (auto-fill-mode -1)))
+;(add-hook 'org-mode-hook (lambda() (auto-fill-mode -1)))
 
-(add-hook 'text-mode-hook (lambda () ((abbrev-mode)
-				      (auto-fill-mode)
-				      (setq fill-column 80))))
+;(add-hook 'text-mode-hook (lambda () ((auto-fill-mode)
+;				      (setq fill-column 80))))
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -284,6 +283,7 @@ BODY is the symbol or expression to run."
    "bMd" '(bookmark-delete :which-key "delete")
    "bMs" '(bookmark-set :which-key "set")
    "br" '(revert-buffer :which-key "revert")
+   "c" '(:ignore t :which-key "code")
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
@@ -344,9 +344,9 @@ BODY is the symbol or expression to run."
 ;; (desktop-save-mode t)
 ;; (add-hook 'desktop-after-read-hook 'bj-reset-theme-hook)
 (save-place-mode t)
-;; popup management
+;;** popup management
 (use-package popper
-  :ensure t
+  :defer nil
   :general
   (bj-leader-keys
     "."   '(popper-toggle-latest :which-key "popup toggle")
@@ -358,6 +358,7 @@ BODY is the symbol or expression to run."
   (setq popper-reference-buffers
         '("\\*Messages\\*"
           "Output\\*$"
+	  "*YASnippet Tables*"
           "\\*Async Shell Command\\*"
           help-mode
           compilation-mode))
@@ -366,7 +367,7 @@ BODY is the symbol or expression to run."
 
 ;; TODO: window placement
 
-;;fullscreen ish behavior from karthinks
+;;** fullscreen ish behavior from karthinks
  (defvar bj-window-configuration nil
     "Current window configuration.
 Intended for use by `bj-window-single-toggle'.")
@@ -644,6 +645,24 @@ The directory name must be absolute."
   :hook (prog-mode . editorconfig-mode))
 
    
+;;;** snippets
+(use-package yasnippet
+  :defer nil
+  :general
+  (bj-leader-keys
+    "cs" '(:ignore t :which-key "snippets")
+    "csi" '(yas-insert-snippet :which-key "insert")
+    "csl" '(yas-describe-tables :which-key "list")
+    "csn" '(yas-new-snippet :which-key "new")
+    "csv" '(yas-visit-snippet-file :which-key "visit"))
+  :config
+  (setq yas-snippet-dirs `(,(expand-file-name "snippets" "~/.config/emacs") yasnippet-snippets-dir))
+  (yas-global-mode))
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
+;;;** TODO file templates
 ;;;* Lang
 ;;;** Org basic
 (defun bj-find-in-notes ()
