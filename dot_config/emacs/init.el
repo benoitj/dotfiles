@@ -344,15 +344,15 @@ BODY is the symbol or expression to run."
 ;; (desktop-save-mode t)
 ;; (add-hook 'desktop-after-read-hook 'bj-reset-theme-hook)
 (save-place-mode t)
-;; TODO: popup management (?popper)
+;; popup management
 (use-package popper
-  :ensure t ; or :straight t
+  :ensure t
   :general
   (bj-leader-keys
     "."   '(popper-toggle-latest :which-key "popup toggle")
     "bp"  '(:ignore t :which-key "popup")
     "bpl" '(popper-toggle-latest :which-key "latest")
-    "bpp" '(popper-cycle :which-key "cycle")
+    "bpp" '(popper-cycle :which-key "cycle") ;; NOTE: k before M-n kills the popup
     "bpt" '(popper-toggle-type :which-key "toggle type"))
   :init
   (setq popper-reference-buffers
@@ -365,6 +365,34 @@ BODY is the symbol or expression to run."
   (popper-echo-mode +1))
 
 ;; TODO: window placement
+
+;;fullscreen ish behavior from karthinks
+ (defvar bj-window-configuration nil
+    "Current window configuration.
+Intended for use by `bj-window-single-toggle'.")
+
+(define-minor-mode bj-monocle-mode
+  "Toggle between multiple windows and single window.
+This is the equivalent of maximising a window.  Tiling window
+managers such as DWM, BSPWM refer to this state as 'monocle'."
+  :lighter " [M]"
+  :global nil
+  (let ((win bj-window-configuration))
+    (if (one-window-p)
+        (when win
+          (set-window-configuration win))
+      (setq bj-window-configuration (current-window-configuration))
+      (when (window-parameter nil 'window-slot)
+        (let ((buf (current-buffer)))
+          (other-window 1)
+          (switch-to-buffer buf)))
+      (delete-other-windows))))
+
+(use-package bj-monocle-mode
+  :straight nil
+  :general
+  (bj-leader-keys
+    "wf" '(bj-monocle-mode :which-key "monocle")))
 
 ;;;* scrolling and navigation
 (setq scroll-conservatively 101)
