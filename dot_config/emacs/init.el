@@ -875,6 +875,19 @@ The directory name must be absolute."
 ;(after! notmuch
 ;  (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
 
+;;;** pomodoro
+(use-package pomm
+  :straight (:host github :repo "SqrtMinusOne/pomm.el")
+  :commands (pomm)
+  :general
+  (bj-leader-keys
+    "tp" '(:ignore t :which-key "pommodoro")
+    "tpp" '(pomm :which-key "pomm")
+    "tpt" '(pomm-pause :which-key "toggle")
+    "tpx" '(pomm-stop :which-key "stop")
+    )
+  :config
+  (pomm-mode-line-mode t))
 ;;;** TODO rss
 ;;;* Fun
 (use-package meme
