@@ -197,7 +197,7 @@ BODY is the symbol or expression to run."
 (savehist-mode 1)
 (recentf-mode 1)
 ;; TODO (desktop-save-mode t)
-;; TODO (save-place-mode t)
+(save-place-mode t)
 
 ;;;* Bindings
 ;;;** evil
@@ -307,6 +307,11 @@ BODY is the symbol or expression to run."
    "ws" '(split-window-below :which-key "split horiz")
    "wv" '(split-window-right :which-key "split vert")))
 
+;;;** other bindings
+
+(bind-key "C-\\" 'iso-transl-ctl-x-8-map)
+
+
 ;;;** Hydras
 (use-package hydra
    :after general
@@ -398,11 +403,15 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
 ;;;* scrolling and navigation
 (setq scroll-conservatively 101)
 
+;; TODO: avy navigation. see karthinks blog
+
+
 ;;;* searching
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode)
 
 ;;;* file management
+;;;** dired
 (use-package all-the-icons-dired
   :after all-the-icons
   :hook (dired-mode . all-the-icons-dired-mode))
@@ -419,7 +428,6 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
   (setq dired-dwim-target t)
   (setq dired-kill-when-opening-new-dired-buffer t))
 
-
 (use-package dired+
   :ensure t
   :init
@@ -430,6 +438,13 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
   :config
   (setq dired-omit-verbose nil))
 
+;;;** auto (save|format|revert)
+(auto-save-visited-mode 1)
+(global-auto-revert-mode 1)
+(use-package format-all
+  :defer nil
+  :config
+  (format-all-mode 1))
 ;;;* project management
 
 (use-package project
@@ -476,6 +491,14 @@ The directory name must be absolute."
   :config
   (setq vertico-cycle t)
   ) 
+
+(use-package vertico-posframe
+  :after vertico
+  :config
+  (setq vertico-posframe-parameters
+	'((left-fringe . 8)
+          (right-fringe . 8)))
+  (vertico-posframe-mode 1))
 
 (use-package orderless
   :after vertico
