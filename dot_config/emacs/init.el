@@ -183,6 +183,10 @@ BODY is the symbol or expression to run."
 ;;;** icons
 (use-package all-the-icons
   :demand t)
+;;;** modeline
+(use-package diminish
+  :defer nil)
+
 ;;;* history and session management
 (setq savehist-file (expand-file-name "savehist" user-emacs-directory)
       history-length t
@@ -222,6 +226,7 @@ BODY is the symbol or expression to run."
   (evil-set-initial-state 'dashboard-mode 'normal))
 
 (use-package evil-collection
+  :diminish evil-collection-unimpaired-mode
   :after evil
   :demand t
   :init
@@ -570,6 +575,7 @@ The directory name must be absolute."
 ;;;* company
 
 (use-package company
+  :diminish company-mode
   :demand t
 ;;  :hook (after-init . global-company-mode)
   :custom
@@ -652,6 +658,7 @@ The directory name must be absolute."
 ;;;** Undo
 (use-package undo-tree
   ;; TODO: find a better way to defer it
+  :diminish undo-tree-mode
   :demand t
   :config
   (global-undo-tree-mode))
@@ -665,12 +672,13 @@ The directory name must be absolute."
 
 ;;;** editorconfig
 (use-package editorconfig
-  :hook (prog-mode . editorconfig-mode))
-
+  :hook (prog-mode . editorconfig-mode)
+  :diminish editorconfig-mode)
    
 ;;;** snippets
 (use-package yasnippet
   :defer nil
+  :hook (yas-minor-mode . (lambda () (diminish 'yas-minor-mode)))
   :general
   (bj-leader-keys
     "cs" '(:ignore t :which-key "snippets")
@@ -681,12 +689,16 @@ The directory name must be absolute."
   :config
   (setq yas-snippet-dirs `(,(expand-file-name "snippets" "~/.config/emacs") yasnippet-snippets-dir))
   (yas-global-mode))
+
 (use-package yasnippet-snippets
   :ensure t
   :after yasnippet)
 
 ;;;** TODO file templates
 ;;;* Lang
+;;;** elisp
+(use-package eldoc
+  :diminish eldoc-mode)
 ;;;** Org basic
 (defun bj-find-in-notes ()
   "Find a file under `org-directory'"
@@ -903,6 +915,7 @@ The directory name must be absolute."
 
 (use-package imgur)
 
+
 ;;;* LOCAL-VARIABLES
 ;; FIXME: for some reasons, putting a space between ;;; and * does not work
 ;; Local Variables:
@@ -910,4 +923,5 @@ The directory name must be absolute."
 ;; page-delimiter: ";;;\\**"
 ;; eval:(outline-minor-mode 1)
 ;; eval:(outline-hide-sublevels 5)
+;; eval:(diminish 'outline-minor-mode)
 ;; End:
