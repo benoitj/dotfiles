@@ -901,6 +901,26 @@ The directory name must be absolute."
     )
   :config
   (pomm-mode-line-mode t))
+;;;** jq json tool
+(use-package jq-mode)
+
+;;;** restclient
+
+(eval-when-compile
+  (require 'cl))
+
+(use-package restclient
+  :straight
+  (restclient :type git :host github
+	      :repo "pashky/restclient.el"
+	      :files ("restclient.el" "restclient-jq.el"))
+  :defer nil
+  :mode (("\\.rest\\'" . restclient-mode))
+  :config
+  (require 'restclient-jq))
+
+
+
 ;;;** TODO rss
 ;;;* Fun
 (use-package meme
