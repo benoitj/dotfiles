@@ -919,7 +919,15 @@ The directory name must be absolute."
   :config
   (require 'restclient-jq))
 
-
+(use-package restclient-test
+  :hook (restclient-mode . restclient-test-mode)
+  :general
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'restclient-mode-map
+   "t" '(:ignore t :which-key "test")
+   "tt" '(restclient-test-buffer :which-key "buffer")
+   "tc" '(restclient-test-current :which-key "current")))
 
 ;;;** TODO rss
 ;;;* Fun
