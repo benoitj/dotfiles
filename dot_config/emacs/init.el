@@ -687,12 +687,13 @@ The directory name must be absolute."
     "csn" '(yas-new-snippet :which-key "new")
     "csv" '(yas-visit-snippet-file :which-key "visit"))
   :config
-  (setq yas-snippet-dirs `(,(expand-file-name "snippets" "~/.config/emacs") yasnippet-snippets-dir))
   (yas-global-mode))
 
 (use-package yasnippet-snippets
   :ensure t
-  :after yasnippet)
+  :after yasnippet
+  :config
+    (setq yas-snippet-dirs `(,(expand-file-name "snippets" "~/.config/emacs") ,yasnippet-snippets-dir)))
 
 ;;;** TODO file templates
 ;;;* Lang
