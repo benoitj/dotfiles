@@ -31,6 +31,8 @@ autorandr -c
 
 shepherd
 
+type VBoxClient-all 2>&1 > /dev/null && VBoxClient-all
+
 # configure fifo
 test -p /tmp/dwm.fifo || (
     umask 077

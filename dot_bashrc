@@ -6,6 +6,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export DMENU=dmenu
 export EDITOR="vim"
 export LANG=en_CA.UTF-8
+export LOCALE=en_US
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 export TERMINAL=st
 
