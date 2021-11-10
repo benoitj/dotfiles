@@ -63,6 +63,7 @@ servers = (
     chatnet = "Undernet";
     port = "6667";
   },
+{{- if ne .chezmoi.username "vagrant" }}
   {
     address = "irc.chat.twitch.tv";
     chatnet = "Twitch";
@@ -71,15 +72,6 @@ servers = (
     use_tls = "yes";
     tls_verify = "no";
     autoconnect = "no";
-  },
-  {
-    address = "irc.libera.chat";
-    chatnet = "libera";
-    port = "6697";
-    use_tls = "yes";
-    tls_verify = "yes";
-    autoconnect = "no";
-
   },
   {
     address = "{{ output "passf" "crafter.mx" "host" }}";
@@ -96,7 +88,17 @@ servers = (
     password = "{{ pass "crafter.mx" }}";
     use_tls = "yes";
     tls_verify = "no";
-  }
+  },
+{{- end }}  
+  {
+    address = "irc.libera.chat";
+    chatnet = "libera";
+    port = "6697";
+    use_tls = "yes";
+    tls_verify = "yes";
+    autoconnect = "no";
+
+  },
 );
 
 chatnets = {
@@ -173,11 +175,13 @@ chatnets = {
     nick = "benoitjo";
     autosendcmd = "/quote CAP REQ :twitch.tv/membership";
   };
+{{- if ne .chezmoi.username "vagrant" }}
   libera = {
     type = "IRC";
     nick = "benoitj";
     autosendcmd = "/msg nickserv identify {{ pass "libera.chat/benoitj" }}";
   };
+{{- end }}  
   "crafter-znc-libera" = { type = "IRC"; username = "benoitj/libera"; };
   "crafter-znc-oftc" = { type = "IRC"; username = "benoitj/oftc"; };
 };

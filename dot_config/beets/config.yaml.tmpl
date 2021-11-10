@@ -1,3 +1,4 @@
+{{- if ne .chezmoi.username "vagrant" }}
 directory: ~/Music
 library: ~/.cache/beets/library.db
 statefile: ~/.cache/beets/state.pickle
@@ -59,3 +60,4 @@ replaygain:
 #        commands:
 #                flac: flac --test --warnings-as-errors --silent
 
+{{- end }}
