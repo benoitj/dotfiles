@@ -1,12 +1,14 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;;;* garbage collection tuning
-(defconst bj-100MB (* 100 1000 1000))
-(defconst bj-20MB (* 20 1000 1000))
+(defconst bj-100MB (* 100 1024 1024))
+(defconst bj-20MB (* 20 1024 1024))
+(defconst bj-1MB (* 1 1024 1024))
 
-;; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold bj-100MB)
-(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold bj-20MB)))
+(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold bj-100MB)))
+
+(setq read-process-output-max bj-1MB)
 
 ;;;* monitor performance
 (defun bj-display-startup-time ()
@@ -95,7 +97,7 @@
 ;(add-hook 'org-mode-hook (lambda() (auto-fill-mode -1)))
 
 ;(add-hook 'text-mode-hook (lambda () ((auto-fill-mode)
-;				      (setq fill-column 80))))
+;				      (setq fill-column 100))))
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -796,8 +798,107 @@ The directory name must be absolute."
       (org-id-update-id-locations (list (buffer-file-name (current-buffer))))))
 
 ;;;** org babel
-;;;** TODO: lsp
-;;;** TODO: lsp java
+;;;** ox hugo
+(use-package ox-hugo
+  :after ox)
+;;;** lsp
+
+
+;(use-package projectile)
+;(use-package flycheck)
+(use-package flycheck
+  :init
+  (add-to-list 'display-buffer-alist
+               `(,(rx bos "*Flycheck errors*" eos)
+                 (display-buffer-reuse-window
+                  display-buffer-in-side-window)
+                 (side            . bottom)
+                 (reusable-frames . visible)
+                 (window-height   . 0.15))))
+
+(use-package lsp-mode
+  :commands (lsp)
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :bind
+  (:map lsp-mode-map
+        (("M-RET" . lsp-execute-code-action)))
+  :config
+  ;;(setq ;;lsp-inhibit-message t
+	;;lsp-completion-enable-additional-text-edit nil
+        ;lsp-eldoc-render-all nil
+        ;lsp-enable-file-watchers nil
+        ;lsp-enable-symbol-highlighting nil
+        ;lsp-headerline-breadcrumb-enable nil
+        ;lsp-highlight-symbol-at-point nil
+        ;lsp-modeline-code-actions-enable nil
+        ;lsp-modeline-diagnostics-enable nil
+   ;;     )
+
+  (setq lsp-idle-delay 0.500)
+  (lsp-enable-which-key-integration t)
+  (bj-leader-keys
+    "cl" '(:keymap lsp-command-map :which-key "lsp"))
+  )
+
+(use-package company-lsp
+  :after (company lsp-mode))
+
+(use-package lsp-ui
+  :config
+  (setq lsp-prefer-flymake nil
+        lsp-ui-doc-delay 5.0
+        ;lsp-ui-sideline-enable nil
+        ;lsp-ui-sideline-show-symbol nil
+	))
+
+(use-package dap-mode :after lsp-mode
+  :custom
+  (dap-java-terminal 'integratedTerminal)
+  (dap-internal-terminal #'dap-internal-terminal-vterm)
+  :config
+  (dap-auto-configure-mode)
+  (add-hook 'compilation-filter-hook
+          (lambda () (ansi-color-apply-on-region (point-min) (point-max)))))
+;(use-package helm-lsp)
+;(use-package helm
+;  :config (helm-mode))
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+
+;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+;;(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+
+;;;** lsp java
+
+(use-package lsp-java
+  :hook ((java-mode . lsp))
+  ;:init
+  ;(setq lsp-java-vmargs
+  ;      (list
+  ;       "-noverify"
+  ;       "-Xmx3G"
+  ;       "-XX:+UseG1GC"
+  ;       "-XX:+UseStringDeduplication"
+  ;       )
+
+        ;; Don't organise imports on save
+        ;lsp-java-save-action-organize-imports nil
+
+        ;; Fetch less results from the Eclipse server
+        ;lsp-java-completion-max-results 20
+
+        ;; Currently (2019-04-24), dap-mode works best with Oracle
+        ;; JDK, see https://github.com/emacs-lsp/dap-mode/issues/31
+        ;;
+        ;; lsp-java-java-path "~/.emacs.d/oracle-jdk-12.0.1/bin/java"
+        ;lsp-java-java-path "/usr/lib/jvm/java-11-openjdk-amd64/bin/java"
+  ;      )
+)
+;  :config
+;  (add-hook 'java-mode-hook #'lsp-defer))
+;;(use-package dap-java :ensure nil)
+
 ;;;** markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -816,6 +917,7 @@ The directory name must be absolute."
   :init
   (evil-set-initial-state 'nov-mode 'emacs))
 
+;;;** TODO: plantuml
 ;;;* Tools
 ;;;** VC
 (use-package magit
@@ -904,6 +1006,15 @@ The directory name must be absolute."
 ;;;** jq json tool
 (use-package jq-mode)
 
+;;;** pastebin 0x0
+(use-package 0x0
+  :straight (0x0 :host gitlab :repo "willvaughn/emacs-0x0")
+  :general
+  (bj-leader-keys
+    "bu" '(:ignore t :which-key "upload")
+    "buf" '(0x0-upload-file :which-key "file")
+    "bup" '(0x0-popup :which-key "popup")
+    "but" '(0x0-upload-text :which-key "text")))
 ;;;** restclient
 
 (eval-when-compile
