@@ -769,12 +769,15 @@ The directory name must be absolute."
   (setq org-indent-mode-turns-on-hiding-stars nil)
   (setq inhibit-compacting-font-caches t))
  
+(use-package org-appear
+  :hook (org-mode-hook . org-appear-mode))
 
 ; TODO: org-noter?
 
 ;;;** org roam
 (use-package org-roam
     :init
+    (setq org-roam-v2-ack t)
     (setq org-roam-directory (expand-file-name "~/src/projects/notebook/"))
     :general
     (bj-leader-keys
