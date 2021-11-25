@@ -18,7 +18,7 @@
    "irssi"
    "isync"
    "profanity"
-   "tig"
+;;   "tig"
 
    ;; devices
    "dosfstools"
@@ -38,32 +38,32 @@
    "sox"
    "twolame"
    "rubberband"
-   "vorbis-tools"
-   ;;"wavegain"
-   ;;"dr14_tmeter"
+    "vorbis-tools"
+    ;;"wavegain"
+    ;;"dr14_tmeter"
 
-   ;; text manipulation / processing
-   "highlight"
-   "pandoc"
-   "dos2unix"
-   "cowsay"
-   "figlet"
-   "recutils" ;; piping tools like recsel
-   "bsd-games"
+    ;; text manipulation / processing
+    "highlight"
+    "pandoc"
+    "dos2unix"
+    "cowsay"
+    "figlet"
+    "recutils" ;; piping tools like recsel
+    "bsd-games"
 
-   ;; file processing
-   "diffutils"
-   "gzip"
-   "findutils"
-   "fzy"
-   "jq"
-   "tree"
-   "mediainfo"
-   "pbzip2" ;; multi core replacement for bzip2/bunzip2
-   "pv"     ;; pipe progress monitor
-   "ranger"
-   "ripgrep"
-   "gnupg"
+    ;; file processing
+    "diffutils"
+    "gzip"
+    "findutils"
+    "fzy"
+    "jq"
+    "tree"
+    "mediainfo"
+    "pbzip2" ;; multi core replacement for bzip2/bunzip2
+    "pv"     ;; pipe progress monitor
+    "ranger"
+    "ripgrep"
+    "gnupg"
    "ncurses"
    "pinentry"
    "pinentry-tty"
