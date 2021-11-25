@@ -133,7 +133,7 @@ BODY is the symbol or expression to run."
      (progn ,@body)))
 
 (setq bj-default-font-size 120)
-(setq bj-fixed-font-name "Fira Code Retina")
+(setq bj-fixed-font-name (concat "FiraCode Nerd Font-12:style=Retina"))
 (setq bj-variable-font-name "Cantarell")
 
 (setq bj-frame-transparency '(90 . 90))
