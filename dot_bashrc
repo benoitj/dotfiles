@@ -47,23 +47,11 @@ pathprepend ~/.local/bin \
     ~/node_modules/.bin \
     ~/perl5/bin
 
-# --------------- GUIX Environment variables ----------------
-# only on foreign distro
-GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
-export GUIX_LOCPATH
+# --------------- NIX Environment variables ----------------
 
-GUIX_EXTRA_PROFILES="$HOME/.config/guix/profiles"
-export GUIX_EXTRA_PROFILES
-for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
-    profile_name="${guix_extra_profile_path##*/}"
-    GUIX_PROFILE="$GUIX_EXTRA_PROFILES/$profile_name/$profile_name"
-    source "$GUIX_PROFILE/etc/profile"
-done
-
-GUIX_PROFILE="$HOME/.guix-profile"
-source "$GUIX_PROFILE/etc/profile"
-
-source /etc/profile.d/nix.sh
+#source /etc/profile.d/nix.sh
+source ~/.nix-profile/etc/profile.d/nix.sh
+source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 
 # --------------- stop here if non-interactive ----------------
 case $- in
