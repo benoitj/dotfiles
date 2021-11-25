@@ -50,7 +50,7 @@ pathprepend ~/.local/bin \
 # --------------- NIX Environment variables ----------------
 
 #source /etc/profile.d/nix.sh
-source ~/.nix-profile/etc/profile.d/nix.sh
+test -f ~/.nix-profile/etc/profile.d/nix.sh && source ~/.nix-profile/etc/profile.d/nix.sh
 source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 
 # --------------- stop here if non-interactive ----------------

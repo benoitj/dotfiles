@@ -68,5 +68,6 @@
     mpv
     mupdf
     nix-bash-completions
+    recutils
   ];
 }
