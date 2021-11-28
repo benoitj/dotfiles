@@ -920,6 +920,9 @@ The directory name must be absolute."
   :init
   (evil-set-initial-state 'nov-mode 'emacs))
 
+;;;** nix
+(use-package nix-mode
+  :mode (("\\.nix\\'" . nix-mode)))
 ;;;** TODO: plantuml
 ;;;* Tools
 ;;;** VC
