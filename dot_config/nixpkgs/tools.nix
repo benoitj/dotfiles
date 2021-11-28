@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
-
+with pkgs;
+let
+  my-python-packages = python-packages: with python-packages; [
+    tldextract
+  ]; 
+  python-with-my-packages = python3.withPackages my-python-packages;
+in
 {
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
@@ -68,6 +74,9 @@
     mpv
     mupdf
     nix-bash-completions
+    python-with-my-packages
     recutils
+    scrot
   ];
+
 }

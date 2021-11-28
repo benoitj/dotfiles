@@ -8,15 +8,10 @@
   home.homeDirectory = "/home/benoit";
 
   home.packages = with pkgs; [
-    # cachix??
     irssi
+    ncspot
+    cups
   ];
-  #nix = {
-  #  binaryCaches = [ "https://nix-community.cachix.org/" ];
-  #  binaryCachePublicKeys = [
-  #    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-  #  ];
-  #};
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -30,6 +25,4 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-
 }
