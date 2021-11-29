@@ -45,7 +45,6 @@ in
 #     ;; TODO docker-compose 1.29.2-1
     curl
     dos2unix
-    emacsGcc
     fd
     feh
     gcc
@@ -79,4 +78,12 @@ in
     scrot
   ];
 
+  programs.emacs = {
+    enable = true;
+    package = emacsGcc;
+    extraPackages = (epkgs: [
+      epkgs.vterm
+      epkgs.org-roam
+    ] );
+  };
 }

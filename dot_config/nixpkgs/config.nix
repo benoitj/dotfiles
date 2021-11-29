@@ -49,7 +49,6 @@ in {
             keepassxc
             leiningen
             libreoffice
-            libvterm
             lynx
             maim
             maven
