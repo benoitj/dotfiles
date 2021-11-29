@@ -28,5 +28,3 @@ dmenu.selforeground : #F8F8F2
 
 St.background: #282A37
 St.font: Hack:pixelsize=14:antialias=true:autohint=true
-
-rofi.font: Fira Code 14
