@@ -854,19 +854,18 @@ The directory name must be absolute."
         ;lsp-ui-sideline-show-symbol nil
 	))
 
+(eval-after-load 'compile
+  (add-hook 'compilation-filter-hook
+          (lambda () (ansi-color-apply-on-region (point-min) (point-max)))))
+
 (use-package dap-mode :after lsp-mode
   :custom
   (dap-java-terminal 'integratedTerminal)
   (dap-internal-terminal #'dap-internal-terminal-vterm)
   :config
-  (dap-auto-configure-mode)
-  (add-hook 'compilation-filter-hook
-          (lambda () (ansi-color-apply-on-region (point-min) (point-max)))))
-;(use-package helm-lsp)
-;(use-package helm
-;  :config (helm-mode))
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+  (dap-auto-configure-mode))
 
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 ;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
@@ -1046,6 +1045,10 @@ The directory name must be absolute."
    "tt" '(restclient-test-buffer :which-key "buffer")
    "tc" '(restclient-test-current :which-key "current")))
 
+;;;** direnv
+(use-package direnv
+  :config
+  (direnv-mode))
 ;;;** TODO rss
 ;;;* Fun
 (use-package meme

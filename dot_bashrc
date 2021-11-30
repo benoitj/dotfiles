@@ -52,7 +52,6 @@ pathprepend ~/.local/bin \
 #source /etc/profile.d/nix.sh
 test -f ~/.nix-profile/etc/profile.d/nix.sh && source ~/.nix-profile/etc/profile.d/nix.sh
 source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-
 # --------------- stop here if non-interactive ----------------
 case $- in
     *i*) ;; # interactive
@@ -228,3 +227,5 @@ promptCommand() {
 }
 
 PROMPT_COMMAND="promptCommand"
+
+eval "$(direnv hook bash)" 
