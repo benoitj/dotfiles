@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 with pkgs;
 let
   my-python-packages = python-packages: with python-packages; [
     tldextract
-  ]; 
+  ];
   python-with-my-packages = python3.withPackages my-python-packages;
 in
 {
@@ -11,7 +11,7 @@ in
     (import (builtins.fetchTarball {
       url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
     }))
-  ]; 
+  ];
 
   home.packages = with pkgs; [
     pass
@@ -41,8 +41,8 @@ in
     clojure
     cmake
     cowsay
-#     ;; TODO docker 1:20.10.7-1
-#     ;; TODO docker-compose 1.29.2-1
+    #     ;; TODO docker 1:20.10.7-1
+    #     ;; TODO docker-compose 1.29.2-1
     curl
     dos2unix
     fd
@@ -84,6 +84,6 @@ in
     extraPackages = (epkgs: [
       epkgs.vterm
       epkgs.org-roam
-    ] );
+    ]);
   };
 }

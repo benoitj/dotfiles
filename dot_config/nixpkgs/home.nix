@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [ ./tools.nix ];
@@ -11,6 +11,7 @@
     irssi
     ncspot
     cups
+    notmuch
   ];
 
   # This value determines the Home Manager release that your
