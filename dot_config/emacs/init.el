@@ -291,6 +291,7 @@ BODY is the symbol or expression to run."
    "bMs" '(bookmark-set :which-key "set")
    "br" '(revert-buffer :which-key "revert")
    "c" '(:ignore t :which-key "code")
+   "ci" '(imenu :which-key "imenu")
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
@@ -300,7 +301,6 @@ BODY is the symbol or expression to run."
    "hM" '(man :which-key "man")
    "m" '(:ignore t :which-key "mode")
    "n" '(:ignore t :which-key "navigate")
-   "ni" '(imenu :which-key "imenu")
    "q" '(:ignore t :which-key "quit")
    "qq" '(kill-emacs :which-key "kill emacs")
    "s"  '(:ignore t :which-key "search")
@@ -740,10 +740,9 @@ The directory name must be absolute."
               (file ,(expand-file-name "templates/newprojecttemplate.org" org-directory)))
              ("s" "Someday" entry (file+headline ,(expand-file-name "someday.org" org-directory) "Someday / Maybe")
               "* SOMEDAY %?\n")
-             ("m" "Maybe" entry (file+headline ,(expand-file-name "someday.org" org-directory) "Someday / Maybe")
-              "* MAYBE %?\n")
              ("l" "Log" entry (file+olp+datetree ,(expand-file-name "log.org" org-directory) "Log")
               (file ,(expand-file-name "templates/logtemplate.org" org-directory))))))
+
 (with-eval-after-load 'org
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -776,6 +775,7 @@ The directory name must be absolute."
 
 ;;;** org roam
 (use-package org-roam
+    :straight nil
     :init
     (setq org-roam-v2-ack t)
     (setq org-roam-directory (expand-file-name "~/src/projects/notebook/"))
