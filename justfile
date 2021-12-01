@@ -4,7 +4,7 @@
 all: format-nix lint-nix update-nix chezmoi hm-switch
 
 chezmoi:
-  chezmoi apply
+  yes quit | chezmoi apply
 
 update-nix:
   nix-channel --update
