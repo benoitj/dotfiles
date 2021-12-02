@@ -62,6 +62,7 @@ in
     gnupg
     graphviz
     gimp
+    jq
     keepassxc
     leiningen
     libmediainfo
