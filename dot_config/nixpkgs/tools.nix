@@ -77,6 +77,7 @@ in
     python-with-my-packages
     recutils
     scrot
+    qutebrowser
   ];
 
   programs.emacs = {
