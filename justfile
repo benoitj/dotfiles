@@ -3,9 +3,11 @@
 
 all: format-nix lint-nix update-nix chezmoi hm-switch
 
+# deploy dotfiles to ~
 chezmoi:
   yes quit | chezmoi apply
 
+# update nix channels
 update-nix:
   nix-channel --update
 
@@ -19,6 +21,7 @@ lint-nix:
   @echo "Linting nix files"
   nix-linter -r .
 	
+# switching current profile from updates
 hm-switch:
   @echo "switching home-manager profile"
   home-manager switch
