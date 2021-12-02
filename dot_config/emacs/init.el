@@ -112,6 +112,7 @@
 ;;;** Theme
 (use-package modus-themes
   :demand t
+  :bind ("<f5>" . modus-themes-toggle)
   :init
   ;; Add all your customizations prior to loading the themes
   ;;(setq modus-themes-slanted-constructs t
@@ -122,7 +123,9 @@
   :config
   ;; Load the theme of your choice:
   (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle))
+
+  (add-hook 'modus-themes-after-load-theme-hook (lambda ()
+						  (set-face-attribute 'mode-line-active nil :inherit 'mode-line))))
 
 ;;;** Fonts
 (defmacro bj-run-now-or-on-make-frame-hook (&rest body)
@@ -186,6 +189,14 @@ BODY is the symbol or expression to run."
 (use-package all-the-icons
   :demand t)
 ;;;** modeline
+
+(use-package doom-modeline
+  :demand t
+  :custom
+  (doom-modeline-modal-icon nil)
+  :config
+  (doom-modeline-mode))
+
 (use-package diminish
   :defer nil)
 
@@ -1047,6 +1058,7 @@ The directory name must be absolute."
 
 ;;;** direnv
 (use-package direnv
+  :demand t
   :config
   (direnv-mode))
 ;;;** TODO rss
