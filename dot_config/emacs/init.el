@@ -135,8 +135,8 @@ BODY is the symbol or expression to run."
        (add-hook 'server-after-make-frame-hook (lambda () ,@body))
      (progn ,@body)))
 
-(setq bj-default-font-size 120)
-(setq bj-fixed-font-name (concat "FiraCode Nerd Font-12:style=Retina"))
+(setq bj-default-font-size 110)
+(setq bj-fixed-font-name (concat "FiraCode Nerd Font-11:style=Retina"))
 (setq bj-variable-font-name "Cantarell")
 
 (setq bj-frame-transparency '(90 . 90))
@@ -343,6 +343,56 @@ BODY is the symbol or expression to run."
 
 
 ;;;* window/buffer management
+;;;** NEXT workspaces
+(use-package perspective
+  :demand t
+  :bind
+  ("S-M-<up>" . 'persp-prev)
+  ("S-M-<down>" . 'persp-next)
+  :general
+  (bj-leader-keys
+    "<tab>" '(:ignore t :which-key "workspaces")
+    "<tab> <tab>" '(persp-switch :which-key "switch")
+    "<tab> b" '(persp-switch-to-buffer :which-key "switch buffer")
+    "<tab> d" '(persp-kill :which-key "kill")
+    "<tab> n" '(persp-new :which-key "new")
+    "<tab> r" '(persp-rename :which-key "rename")
+    "<tab> o" '(persp-kill-others :which-key "kill others"))
+  :config
+  (persp-mode)
+
+  ;; TODO find a cleaner way to do this
+  (defun bj-persp-project-wrapper (f)
+    "This function wraps a project-switch-project-command and switch to a perspective for the project name."
+    (let ((buf (call-interactively f))
+	  (name (file-name-nondirectory (directory-file-name (project-root (project-current))))))
+      (persp-switch name)
+      (persp-set-buffer buf)
+      (switch-to-buffer buf)))
+  (defun bj-project-find-file ()
+    (interactive)
+    (bj-persp-project-wrapper 'project-find-file))
+  (defun bj-project-find-dir ()
+    (interactive)
+    (bj-persp-project-wrapper 'project-find-dir))
+  (defun bj-project-eshell ()
+    (interactive)
+    (bj-persp-project-wrapper 'project-eshell))
+  
+  (setq project-switch-commands '((bj-project-find-file "Find file" "f")
+				  (bj-project-find-dir "Find directory" "d")
+				  (bj-project-eshell "Eshell" "t"))))
+
+;;;** winner mode
+(use-package winner-mode
+  :straight nil
+  :bind
+  ("M-<left>" . 'winner-undo)
+  ("M-<right>" . 'winner-redo)
+  :init
+  (winner-mode))
+
+;;;** ace-window
 (use-package ace-window
   :demand t
   :custom
@@ -418,6 +468,7 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
   (bj-leader-keys
     "wf" '(bj-monocle-mode :which-key "monocle")))
 
+
 ;;;* scrolling and navigation
 (setq scroll-conservatively 101)
 
@@ -477,7 +528,7 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
     "pd" '(project-dired :which-key "dired")
     "pf" '(project-find-file :which-key "find file")
     "pk" '(project-kill-buffers :which-key "kill buffers")
-    "pp" '(project-switch-project :which-key "switch")
+    "pp" '(project-switch-project :which-key "switch") ;
     "pr" '(project-query-replace-regexp :which-key "replace")
     "pt" '(project-shell :which-key "terminal")
     ","  '(project-switch-to-buffer :which-key "project buffers")
@@ -817,7 +868,6 @@ The directory name must be absolute."
   :after ox)
 ;;;** lsp
 
-
 ;(use-package projectile)
 ;(use-package flycheck)
 (use-package flycheck
@@ -851,8 +901,7 @@ The directory name must be absolute."
   (setq lsp-idle-delay 0.500)
   (lsp-enable-which-key-integration t)
   (bj-leader-keys
-    "cl" '(:keymap lsp-command-map :which-key "lsp"))
-  )
+    "cl" '(:keymap lsp-command-map :which-key "lsp")))
 
 (use-package company-lsp
   :after (company lsp-mode))
@@ -870,6 +919,19 @@ The directory name must be absolute."
           (lambda () (ansi-color-apply-on-region (point-min) (point-max)))))
 
 (use-package dap-mode :after lsp-mode
+  :general
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'java-mode-map
+   "t" '(:ignore t :which-key "run tests")
+   "." '(dap-java-run-last-test :which-key "last test")
+   "tt" '(dap-java-run-last-test :which-key "last test")
+   "tc" '(dap-java-run-test-class :which-key "test class")
+   "tm" '(dap-java-run-test-method :which-key "test method")
+   "td" '(:ignore t :which-key "debug")
+   "tdd" '(dap-java-debug :which-key "debug")
+   "tdc" '(dap-java-debug-test-class :which-key "test class")
+   "tdm" '(dap-java-debug-test-method :which-key "test method"))
   :custom
   (dap-java-terminal 'integratedTerminal)
   (dap-internal-terminal #'dap-internal-terminal-vterm)
@@ -912,6 +974,8 @@ The directory name must be absolute."
 ;  (add-hook 'java-mode-hook #'lsp-defer))
 ;;(use-package dap-java :ensure nil)
 
+;;;** clojure
+(use-package cider)
 ;;;** markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
