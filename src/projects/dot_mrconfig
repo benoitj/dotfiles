@@ -33,3 +33,27 @@ checkout = git clone 'git@git.sr.ht:~benoit/docker-emacs' 'docker-emacs'
 
 [dotfiles]
 checkout = git clone 'git@git.sr.ht:~benoit/dotfiles' 'dotfiles'
+
+[dwm]
+checkout = git clone 'git@git.sr.ht:~benoit/dwm' 'dwm'
+
+[dwmstatus]
+checkout = git clone 'git@git.sr.ht:~benoit/dwmstatus' 'dwmstatus'
+
+[gpg-yubikey-manager]
+checkout = git clone 'git@git.sr.ht:~benoit/gpg-yubikey-manager' 'gpg-yubikey-manager'
+
+[my-aur]
+checkout = git clone 'git@git.sr.ht:~benoit/my-aur' 'my-aur'
+
+[my-guix-channel]
+checkout = git clone 'git@git.sr.ht:~benoit/my-guix-channel' 'my-guix-channel'
+
+[nixconfig]
+checkout = git clone 'git@git.sr.ht:~benoit/nixconfig' 'nixconfig'
+
+[notebook]
+checkout = git clone 'git@git.sr.ht:~benoit/notebook' 'notebook'
+
+[openpgpkey.benoitj.ca]
+checkout = git clone 'git@git.sr.ht:~benoit/openpgpkey.benoitj.ca' 'openpgpkey.benoitj.ca'
