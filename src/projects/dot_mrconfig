@@ -1,0 +1,35 @@
+#;;; -*- mode: conf; -*-
+##############################################
+# Project repos (mine)
+#
+# Wanted Policies:
+#  remote origin is private
+#  remote gh is github
+#  remote srht is sourcehut
+##############################################
+[DEFAULT]
+setupmirror = git remote show mirror 2>/dev/null || git remote add mirror "git@github.com:benoitj/$(basename $(pwd)).git"
+push = 
+	 git push --mirror origin 
+	 git push --mirror mirror
+
+[blog.benoitj.ca]
+checkout = git clone 'git@git.sr.ht:~benoit/blog.benoitj.ca' 'blog.benoitj.ca'
+
+[codingwithteens]
+checkout = git clone 'git@git.sr.ht:~benoit/codingwithteens' 'codingwithteens'
+
+[crafter-bot]
+checkout = git clone 'git@git.sr.ht:~benoit/crafter-bot' 'crafter-bot'
+
+[docker]
+checkout = git clone 'git@git.sr.ht:~benoit/docker' 'docker'
+
+[docker-compose]
+checkout = git clone 'git@git.sr.ht:~benoit/docker-compose' 'docker-compose'
+
+[docker-emacs]
+checkout = git clone 'git@git.sr.ht:~benoit/docker-emacs' 'docker-emacs'
+
+[dotfiles]
+checkout = git clone 'git@git.sr.ht:~benoit/dotfiles' 'dotfiles'

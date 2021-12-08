@@ -126,16 +126,7 @@ if ! shopt -oq posix; then
     fi
 fi
 
-for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
-    profile_name="${guix_extra_profile_path##*/}"
-    comp_path="$GUIX_EXTRA_PROFILES/$profile_name/$profile_name/etc/bash_completion.d"
-    if test -d "$comp_path"; then
-        for comp_file in $comp_path/*; do
-            # shellcheck source=/dev/null
-            source "$comp_file"
-        done
-    fi
-done
+. ~/.nix-profile/etc/profile.d/bash_completion.sh
 
 complete -o filenames -F _pass passp
 complete -o filenames -F _pass passf

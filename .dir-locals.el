@@ -1,4 +1,5 @@
 ;;; Directory Local Variables
 ;;; For more information see (info "(emacs) Directory Variables")
 
-((prog-mode . ((compile-command . "just all"))))
+((nil . ((compile-command . "just all")))
+ ("dot_mrconfig" . ((mode . conf))))

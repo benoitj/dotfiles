@@ -15,6 +15,7 @@
     irssi
     ncspot
     cups
+    gh
   ];
 
   # This value determines the Home Manager release that your

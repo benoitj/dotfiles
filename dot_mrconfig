@@ -1,3 +1,4 @@
+#;;; -*- mode: conf; -*-
 [.config/emacs]
 checkout = git clone 'https://github.com/hlissner/doom-emacs' 'emacs'
 
@@ -10,80 +11,62 @@ checkout = git clone 'https://github.com/hlissner/doom-emacs' 'emacs'
 #  remote srht is sourcehut
 ##############################################
 
-[src/projects/blog.benoitj.ca]
-checkout = git clone 'git@git.sr.ht:~benoit/blog.benoitj.ca' 'blog.benoitj.ca'
+#[src/projects/dockerfiles.bak]
+#checkout = git clone 'git@bitbucket.org:benoitjoly/dockerfiles.git' 'dockerfiles.bak'
 
-[src/projects/codingwithteens]
-checkout = git clone 'git@github.com:benoitj/codingwithteens.git' 'codingwithteens'
-
-[src/projects/crafter-bot]
-checkout = git clone 'git@github.com:benoitj/crafter-bot.git' 'crafter-bot'
-
-[src/projects/docker-arch-base]
-checkout = git clone 'git@git.sr.ht:~benoit/docker-arch-base.git' 'docker-arch-base'
-
-[src/projects/docker-compose]
-checkout = git clone 'git@git.sr.ht:~benoit/docker-compose' 'docker-compose'
-
-[src/projects/docker-emacs]
-checkout = git clone 'git@git.sr.ht:~benoit/docker-emacs' 'docker-emacs'
-
-[src/projects/dockerfiles.bak]
-checkout = git clone 'git@bitbucket.org:benoitjoly/dockerfiles.git' 'dockerfiles.bak'
-
-[src/projects/dotfiles]
-checkout = git clone 'git@github.com:benoitj/dotfiles.git' 'dotfiles'
-
-[src/projects/dwm]
-checkout = git clone 'git@github.com:benoitj/dwm.git' 'dwm'
-
-[src/projects/dwmstatus]
-checkout = git clone 'https://github.com/benoitj/dwmstatus' 'dwmstatus'
-
-[src/projects/erbot]
-checkout = git clone 'git@git.sr.ht:~benoit/erbot' 'erbot'
-
-[src/projects/erc-actions]
-checkout = git clone 'git@github.com:benoitj/erc-actions.git' 'erc-actions'
-
-[src/projects/gpg-yubikey-manager]
-checkout = git clone 'git@github.com:benoitj/gpg-yubikey-manager.git' 'gpg-yubikey-manager'
-
-[src/projects/my-aur]
-checkout = git clone 'git@github.com:benoitj/my-aur.git' 'my-aur'
-
-[src/projects/my-guix-channel]
-checkout = git clone 'git@github.com:benoitj/my-guix-channel.git' 'my-guix-channel'
-
-[src/projects/notebook]
-checkout = git clone 'git@github.com:benoitj/notebook.git' 'notebook'
-
-[src/projects/p2x-share]
-checkout = git clone 'git@github.com:benoitj/p2x-share.git' 'p2x-share'
-
-[src/projects/plantuml-c4-macros]
-checkout = git clone 'git@140.82.114.4:benoitj/plantuml-c4-macros' 'plantuml-c4-macros'
-
-[src/projects/qmk_firmware]
-checkout = git clone 'ssh://homer/~/src/repos/projects/qmk_firmware.git' 'qmk_firmware'
-
-[src/projects/rocky]
-checkout = git clone 'git@github.com:benoitj/rocky.git' 'rocky'
-
-[src/projects/st]
-checkout = git clone 'git@github.com:benoitj/st.git' 'st'
-
-[src/projects/tdd-rockstar]
-checkout = git clone 'git@github.com:benoitj/tdd-rockstar.git' 'tdd-rockstar'
-
-[src/projects/tictactoe]
-checkout = git clone 'git@github.com:jolylauriane/tictactoe.git' 'tictactoe'
-
-[src/projects/wiki.systemcrafters.net]
-checkout = git clone 'git@github.com:SystemCrafters/wiki-site.git' 'wiki.systemcrafters.net'
-
-[src/projects/with-emacs.sh]
-checkout = git clone 'https://github.com/alphapapa/with-emacs.sh' 'with-emacs.sh'
+#[src/projects/dotfiles]
+#checkout = git clone 'git@github.com:benoitj/dotfiles.git' 'dotfiles'
+#
+#[src/projects/dwm]
+#checkout = git clone 'git@github.com:benoitj/dwm.git' 'dwm'
+#
+#[src/projects/dwmstatus]
+#checkout = git clone 'https://github.com/benoitj/dwmstatus' 'dwmstatus'
+#
+#[src/projects/erbot]
+#checkout = git clone 'git@git.sr.ht:~benoit/erbot' 'erbot'
+#
+#[src/projects/erc-actions]
+#checkout = git clone 'git@github.com:benoitj/erc-actions.git' 'erc-actions'
+#
+#[src/projects/gpg-yubikey-manager]
+#checkout = git clone 'git@github.com:benoitj/gpg-yubikey-manager.git' 'gpg-yubikey-manager'
+#
+#[src/projects/my-aur]
+#checkout = git clone 'git@github.com:benoitj/my-aur.git' 'my-aur'
+#
+#[src/projects/my-guix-channel]
+#checkout = git clone 'git@github.com:benoitj/my-guix-channel.git' 'my-guix-channel'
+#
+#[src/projects/notebook]
+#checkout = git clone 'git@github.com:benoitj/notebook.git' 'notebook'
+#
+#[src/projects/p2x-share]
+#checkout = git clone 'git@github.com:benoitj/p2x-share.git' 'p2x-share'
+#
+#[src/projects/plantuml-c4-macros]
+#checkout = git clone 'git@140.82.114.4:benoitj/plantuml-c4-macros' 'plantuml-c4-macros'
+#
+#[src/projects/qmk_firmware]
+#checkout = git clone 'ssh://homer/~/src/repos/projects/qmk_firmware.git' 'qmk_firmware'
+#
+#[src/projects/rocky]
+#checkout = git clone 'git@github.com:benoitj/rocky.git' 'rocky'
+#
+#[src/projects/st]
+#checkout = git clone 'git@github.com:benoitj/st.git' 'st'
+#
+#[src/projects/tdd-rockstar]
+#checkout = git clone 'git@github.com:benoitj/tdd-rockstar.git' 'tdd-rockstar'
+#
+#[src/projects/tictactoe]
+#checkout = git clone 'git@github.com:jolylauriane/tictactoe.git' 'tictactoe'
+#
+#[src/projects/wiki.systemcrafters.net]
+#checkout = git clone 'git@github.com:SystemCrafters/wiki-site.git' 'wiki.systemcrafters.net'
+#
+#[src/projects/with-emacs.sh]
+#checkout = git clone 'https://github.com/alphapapa/with-emacs.sh' 'with-emacs.sh'
 
 ##############################################
 # Other's repo
@@ -94,55 +77,55 @@ checkout = git clone 'https://github.com/alphapapa/with-emacs.sh' 'with-emacs.sh
 ##############################################
 
 [DEFAULT]
-commit = echo "Disabled"
-push = echo "Disabled"
+#commit = echo "Disabled"
+#push = echo "Disabled"
 
-[src/others/browserpass-extension]
-checkout = git clone 'https://github.com/browserpass/browserpass-extension.git' 'browserpass-extension'
-
-
-[src/others/dotfiles-daviwil]
-checkout = git clone 'https://github.com/daviwil/dotfiles' 'dotfiles-daviwil'
-
-[src/others/dotemacs-alphapapa]
-checkout = git clone 'https://github.com/alphapapa/ap.el' 'dotemacs-alphapapa'
-
-[src/others/dotemacs-karthink]
-checkout = git clone 'https://github.com/karthink/.emacs.d' 'dotemacs-karthink'
-
-[src/others/emacs-0x0]
-checkout = git clone 'https://gitlab.com/willvaughn/emacs-0x0' 'emacs-0x0'
-
-[src/others/flatwhatson-guix-channel]
-checkout = git clone 'https://github.com/flatwhatson/guix-channel' 'flatwhatson-guix-channel'
-
-[src/others/guix]
-checkout = git clone 'https://git.savannah.gnu.org/git/guix' 'guix'
-
-[src/others/hellabot]
-checkout = git clone 'https://github.com/whyrusleeping/hellabot' 'hellabot'
-
-[src/others/keyoxidizer]
-checkout = git clone 'https://codeberg.org/shom/keyoxidizer' 'keyoxidizer'
-
-[src/others/ncspot]
-checkout = git clone 'https://github.com/hrkfdn/ncspot' 'ncspot'
-
-[src/others/nonguix]
-checkout = git clone 'https://gitlab.com/nonguix/nonguix' 'nonguix'
-
-[src/others/org-website-example]
-checkout = git clone 'https://github.com/SystemCrafters/org-website-example' 'org-website-example'
-
-[src/others/ossc_pcb]
-checkout = git clone 'https://github.com/marqs85/ossc_pcb.git' 'ossc_pcb'
-
-[src/others/qute-keepassxc]
-checkout = git clone 'https://github.com/ususdei/qute-keepassxc' 'qute-keepassxc'
-
-[src/others/systemcrafters.github.io]
-checkout = git clone 'git@github.com:benoitj/systemcrafters.github.io.git' 'systemcrafters.github.io'
-
-[src/others/tessdata]
-checkout = git clone 'https://github.com/tesseract-ocr/tessdata' 'tessdata'
+#[src/others/browserpass-extension]
+#checkout = git clone 'https://github.com/browserpass/browserpass-extension.git' 'browserpass-extension'
+#
+#
+#[src/others/dotfiles-daviwil]
+#checkout = git clone 'https://github.com/daviwil/dotfiles' 'dotfiles-daviwil'
+#
+#[src/others/dotemacs-alphapapa]
+#checkout = git clone 'https://github.com/alphapapa/ap.el' 'dotemacs-alphapapa'
+#
+#[src/others/dotemacs-karthink]
+#checkout = git clone 'https://github.com/karthink/.emacs.d' 'dotemacs-karthink'
+#
+#[src/others/emacs-0x0]
+#checkout = git clone 'https://gitlab.com/willvaughn/emacs-0x0' 'emacs-0x0'
+#
+#[src/others/flatwhatson-guix-channel]
+#checkout = git clone 'https://github.com/flatwhatson/guix-channel' 'flatwhatson-guix-channel'
+#
+#[src/others/guix]
+#checkout = git clone 'https://git.savannah.gnu.org/git/guix' 'guix'
+#
+#[src/others/hellabot]
+#checkout = git clone 'https://github.com/whyrusleeping/hellabot' 'hellabot'
+#
+#[src/others/keyoxidizer]
+#checkout = git clone 'https://codeberg.org/shom/keyoxidizer' 'keyoxidizer'
+#
+#[src/others/ncspot]
+#checkout = git clone 'https://github.com/hrkfdn/ncspot' 'ncspot'
+#
+#[src/others/nonguix]
+#checkout = git clone 'https://gitlab.com/nonguix/nonguix' 'nonguix'
+#
+#[src/others/org-website-example]
+#checkout = git clone 'https://github.com/SystemCrafters/org-website-example' 'org-website-example'
+#
+#[src/others/ossc_pcb]
+#checkout = git clone 'https://github.com/marqs85/ossc_pcb.git' 'ossc_pcb'
+#
+#[src/others/qute-keepassxc]
+#checkout = git clone 'https://github.com/ususdei/qute-keepassxc' 'qute-keepassxc'
+#
+#[src/others/systemcrafters.github.io]
+#checkout = git clone 'git@github.com:benoitj/systemcrafters.github.io.git' 'systemcrafters.github.io'
+#
+#[src/others/tessdata]
+#checkout = git clone 'https://github.com/tesseract-ocr/tessdata' 'tessdata'
 
