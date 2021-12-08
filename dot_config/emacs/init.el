@@ -346,19 +346,23 @@ BODY is the symbol or expression to run."
 ;;;** NEXT workspaces
 (use-package perspective
   :demand t
-  :bind
-  ("S-M-<up>" . 'persp-prev)
-  ("S-M-<down>" . 'persp-next)
+  :custom
+  (persp-state-default-file (expand-file-name "perspectives.el" user-emacs-directory))
+  (persp-sort 'created)
   :general
   (bj-leader-keys
     "<tab>" '(:ignore t :which-key "workspaces")
     "<tab> <tab>" '(persp-switch :which-key "switch")
+    "<tab> <left>" '(persp-prev :which-key "prev") 
+    "<tab> <right>" '(persp-next :which-key "next")
+    "<tab> p" '(persp-prev :which-key "prev") 
+    "<tab> n" '(persp-next :which-key "next")
     "<tab> b" '(persp-switch-to-buffer :which-key "switch buffer")
     "<tab> d" '(persp-kill :which-key "kill")
-    "<tab> n" '(persp-new :which-key "new")
     "<tab> r" '(persp-rename :which-key "rename")
     "<tab> o" '(persp-kill-others :which-key "kill others"))
   :config
+  (add-hook 'kill-emacs-hook #'persp-state-save)
   (persp-mode)
 
   ;; TODO find a cleaner way to do this

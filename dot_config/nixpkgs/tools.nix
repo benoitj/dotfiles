@@ -61,6 +61,7 @@ in
     gnumake
     gnupg
     graphviz
+    gnumake
     gimp
     jq
     keepassxc
@@ -69,11 +70,13 @@ in
     libreoffice
     lynx
     maim
-    gnumake
     maven
     mpv
+    mr
     mupdf
     nix-bash-completions
+    ripgrep
+    ripgrep-all
     python-with-my-packages
     recutils
     scrot
