@@ -10,8 +10,8 @@
 [DEFAULT]
 setupmirror = git remote show mirror 2>/dev/null || git remote add mirror "git@github.com:benoitj/$(basename $(pwd)).git"
 push = 
-	 git push --mirror origin 
-	 git push --mirror mirror
+	 git push --all origin 
+	 git push --all mirror
 
 [blog.benoitj.ca]
 checkout = git clone 'git@git.sr.ht:~benoit/blog.benoitj.ca' 'blog.benoitj.ca'
@@ -57,3 +57,16 @@ checkout = git clone 'git@git.sr.ht:~benoit/notebook' 'notebook'
 
 [openpgpkey.benoitj.ca]
 checkout = git clone 'git@git.sr.ht:~benoit/openpgpkey.benoitj.ca' 'openpgpkey.benoitj.ca'
+
+[plantuml-c4-macros]
+checkout = git clone 'git@git.sr.ht:~benoit/plantuml-c4-macros' 'plantuml-c4-macros'
+push = git push --mirror origin
+
+[rockstar-mode]
+checkout = git clone 'git@git.sr.ht:~benoit/rockstar-mode' 'rockstar-mode'
+
+[st]
+checkout = git clone 'git@git.sr.ht:~benoit/st' 'st'
+
+[tdd-rockstar]
+checkout = git clone 'git@git.sr.ht:~benoit/tdd-rockstar' 'tdd-rockstar'
