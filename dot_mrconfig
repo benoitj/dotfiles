@@ -1,4 +1,7 @@
 #;;; -*- mode: conf; -*-
+[DEFAULT]
+verify = diff <(find $(pwd) -maxdepth 1 -type d | tail -n +2 | sort) <(mr list | sed -e 's/mr list: //' -e '/^ *$/d' -e '/finished/d')
+
 [.config/emacs]
 checkout = git clone 'https://github.com/hlissner/doom-emacs' 'emacs'
 
