@@ -10,7 +10,7 @@
 [DEFAULT]
 setupmirror = git remote show mirror 2>/dev/null || git remote add mirror "git@github.com:benoitj/$(basename $(pwd)).git"
 push = 
-	 git push --all origin 
+	 git push --all
 	 git push --all mirror
 
 [blog.benoitj.ca]
