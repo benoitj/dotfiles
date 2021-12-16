@@ -16,6 +16,7 @@
     ncspot
     cups
     gh
+    keychain
   ];
 
   # This value determines the Home Manager release that your

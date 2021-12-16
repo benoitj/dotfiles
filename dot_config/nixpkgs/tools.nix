@@ -80,6 +80,7 @@ in
     python-with-my-packages
     recutils
     scrot
+    tree
     qutebrowser
   ];
 
