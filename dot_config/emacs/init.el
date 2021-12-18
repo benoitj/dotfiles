@@ -363,10 +363,29 @@ BODY is the symbol or expression to run."
     "<tab> o" '(persp-kill-others :which-key "kill others"))
   :config
   (add-hook 'kill-emacs-hook #'persp-state-save)
-  (persp-mode))
+  (persp-mode)
 
-(use-package persp-projectile
-  :demand t)
+  ;; TODO find a cleaner way to do this
+  (defun bj-persp-project-wrapper (f)
+    "This function wraps a project-switch-project-command and switch to a perspective for the project name."
+    (let ((buf (call-interactively f))
+	  (name (file-name-nondirectory (directory-file-name (project-root (project-current))))))
+      (persp-switch name)
+      (persp-set-buffer buf)
+      (switch-to-buffer buf)))
+  (defun bj-project-find-file ()
+    (interactive)
+    (bj-persp-project-wrapper 'project-find-file))
+  (defun bj-project-find-dir ()
+    (interactive)
+    (bj-persp-project-wrapper 'project-find-dir))
+  (defun bj-project-eshell ()
+    (interactive)
+    (bj-persp-project-wrapper 'project-eshell))
+  
+  (setq project-switch-commands '((bj-project-find-file "Find file" "f")
+				  (bj-project-find-dir "Find directory" "d")
+				  (bj-project-eshell "Eshell" "t"))))
 
 ;;;** winner mode
 (use-package winner-mode
@@ -501,17 +520,37 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
   (format-all-mode 1))
 ;;;* project management
 
-(use-package projectile
-  :demand t
-  :config
-  (setq projectile-project-search-path '("~/src/projects" "~/src/others" "~/src/private" "~/src/contrib"))
+(use-package project
   :general
   (bj-leader-keys
-    "bb" '(projectile-switch-to-buffer :which-key "switch within project")
-    ","  '(projectile-switch-to-buffer :which-key "project buffers")
-    "<SPC>" '(projectile-find-file :which-key "project files")
-    "p" '(:keymap projectile-command-map :which-key "project")
-    "pp" '(projectile-persp-switch-project :which-key "projectile-switch-project")))
+    "bb" '(project-switch-to-buffer :which-key "switch within project")
+    "p" '(:ignore t :which-key "project")
+    "pa" '(project-async-shell-command :which-key "async cmd")
+    "pb" '(project-switch-to-buffer :which-key "buffers")
+    "pC" '(project-shell-command :which-key "command")
+    "pc" '(project-compile :which-key "compile")
+    "pd" '(project-dired :which-key "dired")
+    "pf" '(project-find-file :which-key "find file")
+    "pk" '(project-kill-buffers :which-key "kill buffers")
+    "pp" '(project-switch-project :which-key "switch") ;
+    "pr" '(project-query-replace-regexp :which-key "replace")
+    "pt" '(project-shell :which-key "terminal")
+    ","  '(project-switch-to-buffer :which-key "project buffers")
+    "<SPC>" '(project-find-file :which-key "project files"))
+  :config
+  (cl-defgeneric project-root (project)
+    "Return root directory of the current project.
+
+It usually contains the main build file, dependencies
+configuration file, etc. Though neither is mandatory.
+
+The directory name must be absolute."
+      (car project))
+  (eval-after-load 'consult
+     (setq consult-project-root-function
+        (lambda ()
+          (when-let (project (project-current))
+            (car (project-roots project)))))))
 
 ;;;* vertical completion
 
@@ -817,9 +856,6 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
      "nrR" '(org-roam-buffer-display-dedicated :which-key "Launch roam")
      "nrs" '(org-roam-db-sync :which-key "Sync DB"))
     :config
-    (setq org-roam-capture-templates '(("d" "default" plain "%?" :if-new
-					(file+head "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t).org" "#+title: ${title}\n")
-					:unnarrowed t)))
     (defun bj-org-id-update-org-roam-files ()
       "Update Org-ID locations for all Org-roam files."
       (interactive)
@@ -836,6 +872,8 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
   :after ox)
 ;;;** lsp
 
+;(use-package projectile)
+;(use-package flycheck)
 (use-package flycheck
   :init
   (add-to-list 'display-buffer-alist
@@ -1002,10 +1040,10 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
     "ot"  '(:ignore t :which-key "term")
     "ott" '(vterm :which-key "vterm")))
 
-;(use-package multi-vterm
-;  :general
-;  (bj-leader-keys
-;    "pt"  '(multi-vterm-project :which-key "vterm")))
+(use-package multi-vterm
+  :general
+  (bj-leader-keys
+    "pt"  '(multi-vterm-project :which-key "vterm")))
 
 ;;;** mail
 ;; TODO: setup notmuch and other tools. see https://sqrtminusone.xyz/configs/mail/
