@@ -363,29 +363,8 @@ BODY is the symbol or expression to run."
     "<tab> o" '(persp-kill-others :which-key "kill others"))
   :config
   (add-hook 'kill-emacs-hook #'persp-state-save)
-  (persp-mode)
+  (persp-mode))
 
-  ;; TODO find a cleaner way to do this
-  (defun bj-persp-project-wrapper (f)
-    "This function wraps a project-switch-project-command and switch to a perspective for the project name."
-    (let ((buf (call-interactively f))
-	  (name (file-name-nondirectory (directory-file-name (project-root (project-current))))))
-      (persp-switch name)
-      (persp-set-buffer buf)
-      (switch-to-buffer buf)))
-  (defun bj-project-find-file ()
-    (interactive)
-    (bj-persp-project-wrapper 'project-find-file))
-  (defun bj-project-find-dir ()
-    (interactive)
-    (bj-persp-project-wrapper 'project-find-dir))
-  (defun bj-project-eshell ()
-    (interactive)
-    (bj-persp-project-wrapper 'project-eshell))
-  
-  (setq project-switch-commands '((bj-project-find-file "Find file" "f")
-				  (bj-project-find-dir "Find directory" "d")
-				  (bj-project-eshell "Eshell" "t"))))
 
 ;;;** winner mode
 (use-package winner-mode
@@ -809,6 +788,13 @@ The directory name must be absolute."
              ("l" "Log" entry (file+olp+datetree ,(expand-file-name "log.org" org-directory) "Log")
               (file ,(expand-file-name "templates/logtemplate.org" org-directory))))))
 
+(use-package org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-hide-emphasis-markers t)
+  (setq org-appear-autolinks t)
+  (setq org-appear-delay 0.5))
+
 (with-eval-after-load 'org
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -822,6 +808,7 @@ The directory name must be absolute."
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
     (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
     (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+    (add-to-list 'org-structure-template-alist '("p" . "src plantuml :file "))
     (add-to-list 'org-structure-template-alist '("py" . "src python"))
     (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
     (add-to-list 'org-structure-template-alist '("json" . "src json")))
@@ -856,6 +843,9 @@ The directory name must be absolute."
      "nrR" '(org-roam-buffer-display-dedicated :which-key "Launch roam")
      "nrs" '(org-roam-db-sync :which-key "Sync DB"))
     :config
+    (setq org-roam-capture-templates '(("d" "default" plain "%?" :if-new
+					(file+head "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t).org" "#+title: ${title}\n")
+					:unnarrowed t)))
     (defun bj-org-id-update-org-roam-files ()
       "Update Org-ID locations for all Org-roam files."
       (interactive)
@@ -1002,6 +992,7 @@ The directory name must be absolute."
 (use-package nix-mode
   :mode (("\\.nix\\'" . nix-mode)))
 ;;;** TODO: plantuml
+
 ;;;* Tools
 ;;;** VC
 (use-package magit
