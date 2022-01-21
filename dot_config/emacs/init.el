@@ -67,6 +67,13 @@
   ;; auto save files in the same path as it uses for sessions
   (setq auto-save-file-name-transforms
 	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+;;;* User identity
+(setq
+ user-full-name "Benoit Joly"
+ user-mail-address "benoit@benoitj.ca"
+ user-mail-addresses '("benoit@benoitj.ca" "benoit.m.joly@gmail.com" "bjoly666@gmail.com"))
+
+
 ;;;* UI configuration
 ;;;** Basic UI configuration
 (setq inhibit-startup-message t)
@@ -554,7 +561,9 @@ The directory name must be absolute."
 
 (use-package orderless
   :after vertico
-  :custom (completion-styles '(orderless)))
+  :custom
+  (completion-styles '(orderless))
+  (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
 
 (use-package consult
   :general
@@ -1054,13 +1063,8 @@ The directory name must be absolute."
   (bj-local-leader-keys
    :states '(normal insert)
    :keymaps 'notmuch-show-mode-map
-   "b" '(notmuch-show-browse-urls :which-key "browse urls"))
+   "b" '(notmuch-show-browse-urls :which-key "browse urls")))
     
-  :config
-  (setq
-   user-full-name "Benoit Joly"
-   user-mail-address "benoit@benoitj.ca"
-   user-mail-addresses '("benoit@benoitj.ca" "benoit.m.joly@gmail.com" "bjoly666@gmail.com")))
 
 ;(after! notmuch
 ;  (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
