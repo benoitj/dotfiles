@@ -1139,6 +1139,11 @@ The directory name must be absolute."
 
 (use-package imgur)
 
+(use-package snow
+  :general
+  (bj-leader-keys
+    "as" '(snow :which-key "snow")))
+
 
 ;;;* LOCAL-VARIABLES
 ;; FIXME: for some reasons, putting a space between ;;; and * does not work
