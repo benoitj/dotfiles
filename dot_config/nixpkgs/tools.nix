@@ -19,6 +19,7 @@ in
     tig
     vim
     wget
+    babashka
 
     aspell
     aspellDicts.en
@@ -82,6 +83,7 @@ in
     scrot
     tree
     qutebrowser
+    unzip
   ];
 
   programs.emacs = {
