@@ -70,3 +70,6 @@ checkout = git clone 'git@git.sr.ht:~benoit/st' 'st'
 
 [tdd-rockstar]
 checkout = git clone 'git@git.sr.ht:~benoit/tdd-rockstar' 'tdd-rockstar'
+
+[emacs-as-http-client]
+checkout = git clone 'git@git.sr.ht:~benoit/emacs-as-http-client' 'emacs-as-http-client'
