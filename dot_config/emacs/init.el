@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
+; this is a test
 ;;;* garbage collection tuning
 (defconst bj-100MB (* 100 1024 1024))
 (defconst bj-20MB (* 20 1024 1024))
@@ -114,7 +115,8 @@
   :diminish which-key-mode
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 1))
+  (setq which-key-idle-delay 1)
+  (setq which-key-popup-type 'minibuffer))
 
 ;;;** Theme
 (use-package modus-themes
@@ -978,7 +980,73 @@ The directory name must be absolute."
 ;;(use-package dap-java :ensure nil)
 
 ;;;** clojure
-(use-package cider)
+
+(use-package cider
+  :general
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'clojure-mode-map
+   "e"  '(:ignore t                        :which-key "eval")
+   "ek" '(cider-load-buffer                :which-key "Buffer")
+   "el" '(cider-load-file                  :which-key "File")
+   "ea" '(cider-load-all-project-ns        :which-key "All ns")
+   "er" '(cider-eval-region                :which-key "Region")
+   "en" '(cider-eval-ns-form               :which-key "NS form")
+   "ee" '(cider-eval-last-sexp             :which-key "Last sexp")
+   "ep" '(cider-pprint-eval-last-sexp      :which-key "Last sexp and pprint")
+   "ew" '(cider-eval-last-sexp-and-replace :which-key "Last sexp and replace")
+   "eE" '(cider-eval-last-sexp-to-repl     :which-key "Last sexp to REPL")
+   "ed" '(cider-eval-defun-at-point        :which-key "Defun at point")
+   "ef" '(cider-pprint-eval-defun-at-point :which-key "Defun at point and pprint")
+   "ec" '(cider-eval-defun-to-comment      :which-key "Defun to comment")
+   "e:" '(cider-read-and-eval              :which-key "Read and eval")
+   "ei" '(cider-inspect                    :which-key "Inspect")
+   "em" '(cider-macroexpand-1              :which-key "Macroexpand-1")
+   "eM" '(cider-macroexpand-all            :which-key "Macroexpand all")
+   
+   "d"  '(:ignore t                          :which-key "doc")
+   "dd" '(cider-doc                          :which-key "CiderDoc")
+   "da" '(cider-apropos                      :which-key "Search symbols")
+   "dA" '(cider-apropos-documentation        :which-key "Search documentation")
+   "dr" '(cider-clojuredocs                  :which-key "ClojureDocs")
+   "dj" '(cider-javadoc                      :which-key "JavaDoc in browser")
+   "ds" '(cider-apropos-select               :which-key "Search symbols & select")
+   "de" '(cider-apropos-documentation-select :which-key "Search documentation & select")
+   "dh" '(cider-clojuredocs-web              :which-key "ClojureDocs in browser")
+
+   "t"  '(:ignore t                     :which-key "Test and Debug")
+   "tx" '((lambda () (interactive) (cider-eval-defun-at-point t)) :which-key "Eval defun at point")
+   "tv" '(cider-toggle-trace-var        :which-key "Toggle var tracing")
+   "tt" '(cider-test-run-test           :which-key "Run test")
+   "tp" '(cider-test-run-project-tests  :which-key "Run project tests")
+   "ts" '(cider-test-show-report        :which-key "Show test report")
+   "tn" '(cider-toggle-trace-ns         :which-key "Toggle ns tracing")
+   "tl" '(cider-test-run-loaded-tests   :which-key "Run loaded tests")
+   "tr" '(cider-test-rerun-failed-tests :which-key "Rerun tests")
+
+   "r"  '(:ignore t                        :which-key "REPL")
+   "rj" '(cider-jack-in                    :which-key "Jack-in")
+   "rd" '(cider-display-connection-info    :which-key "Display connection info")
+   "rz" '(cider-switch-to-repl-buffer      :which-key "Switch to REPL")
+   "rp" '(cider-insert-last-sexp-in-repl   :which-key "Insert last sexp in REPL")
+   "ro" '(cider-find-and-clear-repl-output :which-key "Clear REPL output")
+   "rb" '(cider-interrupt                  :which-key "Interrupt pending evaluations")
+   "rr" '(cider-rotate-default-connection  :which-key "Rotate default connection")
+   "rn" '(cider-repl-set-ns                :which-key "Set REPL ns")
+   "rx" '(cider-refresh                    :which-key "Reload namespaces")
+   "rO" '((lambda () (interactive) (cider-find-and-clear-repl-output t))
+ 	 :which-key "Clear entire REPL")
+   "rQ" '(cider-quit                       :which-key "Quit CIDER"))
+
+  :config
+  (setq cider-eldoc-display-context-dependent-info t)
+  (setq cider-font-lock-dynamically '(macro core function var))
+  (evil-set-initial-state 'cider-browse-ns-mode 'emacs)
+  (setq completion-category-overrides '((cider (styles '(basic flex partial-completion emacs22)))))
+  (add-hook 'clojure-mode-hook #'cider-mode)
+  (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+  (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+  )
 ;;;** markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
