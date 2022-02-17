@@ -1,0 +1,75 @@
+#;;; -*- mode: conf; -*-
+##############################################
+# Project repos (mine)
+#
+# Wanted Policies:
+#  remote origin is private
+#  remote gh is github
+#  remote srht is sourcehut
+##############################################
+[DEFAULT]
+setupmirror = git remote show mirror 2>/dev/null || git remote add mirror "git@github.com:benoitj/$(basename $(pwd)).git"
+push = 
+	 git push --all
+	 git push --all mirror
+
+[blog.benoitj.ca]
+checkout = git clone 'git@git.sr.ht:~benoit/blog.benoitj.ca' 'blog.benoitj.ca'
+
+[codingwithteens]
+checkout = git clone 'git@git.sr.ht:~benoit/codingwithteens' 'codingwithteens'
+
+[crafter-bot]
+checkout = git clone 'git@git.sr.ht:~benoit/crafter-bot' 'crafter-bot'
+
+[docker]
+checkout = git clone 'git@git.sr.ht:~benoit/docker' 'docker'
+
+[docker-compose]
+checkout = git clone 'git@git.sr.ht:~benoit/docker-compose' 'docker-compose'
+
+[docker-emacs]
+checkout = git clone 'git@git.sr.ht:~benoit/docker-emacs' 'docker-emacs'
+
+[dotfiles]
+checkout = git clone 'git@git.sr.ht:~benoit/dotfiles' 'dotfiles'
+
+[dwm]
+checkout = git clone 'git@git.sr.ht:~benoit/dwm' 'dwm'
+
+[dwmstatus]
+checkout = git clone 'git@git.sr.ht:~benoit/dwmstatus' 'dwmstatus'
+
+[gpg-yubikey-manager]
+checkout = git clone 'git@git.sr.ht:~benoit/gpg-yubikey-manager' 'gpg-yubikey-manager'
+
+[my-aur]
+checkout = git clone 'git@git.sr.ht:~benoit/my-aur' 'my-aur'
+
+[my-guix-channel]
+checkout = git clone 'git@git.sr.ht:~benoit/my-guix-channel' 'my-guix-channel'
+
+[nixconfig]
+checkout = git clone 'git@git.sr.ht:~benoit/nixconfig' 'nixconfig'
+
+[notebook]
+checkout = git clone 'git@git.sr.ht:~benoit/notebook' 'notebook'
+
+[openpgpkey.benoitj.ca]
+checkout = git clone 'git@git.sr.ht:~benoit/openpgpkey.benoitj.ca' 'openpgpkey.benoitj.ca'
+
+[plantuml-c4-macros]
+checkout = git clone 'git@git.sr.ht:~benoit/plantuml-c4-macros' 'plantuml-c4-macros'
+push = git push --mirror origin
+
+[rockstar-mode]
+checkout = git clone 'git@git.sr.ht:~benoit/rockstar-mode' 'rockstar-mode'
+
+[st]
+checkout = git clone 'git@git.sr.ht:~benoit/st' 'st'
+
+[tdd-rockstar]
+checkout = git clone 'git@git.sr.ht:~benoit/tdd-rockstar' 'tdd-rockstar'
+
+[emacs-as-http-client]
+checkout = git clone 'git@git.sr.ht:~benoit/emacs-as-http-client' 'emacs-as-http-client'

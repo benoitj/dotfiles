@@ -1,0 +1,34 @@
+* Dotfiles
+
+Guix is what introduced with functional package managers. It's based of Guile scheme, a LISP variant.
+
+Guix SD is quite new, and is tricky to run on modern hardware. I also had issues running tools I use daily at work.
+
+I ended up moving back to Arch with guix as a package manager, using arch packages or nix packages for things missing in guix.
+
+* Objectives
+
+Here is a list of objectives for OS, applications and dotfiles:
+
+** automate OS and Apps installation
+** setup most tools as user programs
+** will run in 10 weeks, 10 months, 10 years and produce the same setup
+** can rollback if I crash the OS
+** can rollback applications
+** can be extended
+** manages my dotfiles too
+** has different setup for personal vs work
+
+Guix is what introduced with functional package managers. It's based of Guile scheme, a LISP variant.
+
+Guix SD is quite new, and is tricky to run on modern hardware. I also had issues running tools I use daily at work.
+
+I ended up moving back to Arch with guix as a package manager, using arch packages or nix packages for things missing in guix.
+
+*** ONGOING setup  start with applications setup using nix system configuration
+
+* How to install
+
+run the command `nix-shell` to get all the necessary tools
+
+The command `just` will list the available commands.

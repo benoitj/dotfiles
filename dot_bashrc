@@ -47,24 +47,11 @@ pathprepend ~/.local/bin \
     ~/node_modules/.bin \
     ~/perl5/bin
 
-# --------------- GUIX Environment variables ----------------
-# only on foreign distro
-GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
-export GUIX_LOCPATH
+# --------------- NIX Environment variables ----------------
 
-GUIX_EXTRA_PROFILES="$HOME/.config/guix/profiles"
-export GUIX_EXTRA_PROFILES
-for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
-    profile_name="${guix_extra_profile_path##*/}"
-    GUIX_PROFILE="$GUIX_EXTRA_PROFILES/$profile_name/$profile_name"
-    source "$GUIX_PROFILE/etc/profile"
-done
-
-GUIX_PROFILE="$HOME/.guix-profile"
-source "$GUIX_PROFILE/etc/profile"
-
-source /etc/profile.d/nix.sh
-
+#source /etc/profile.d/nix.sh
+test -f ~/.nix-profile/etc/profile.d/nix.sh && source ~/.nix-profile/etc/profile.d/nix.sh
+source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 # --------------- stop here if non-interactive ----------------
 case $- in
     *i*) ;; # interactive
@@ -139,16 +126,7 @@ if ! shopt -oq posix; then
     fi
 fi
 
-for guix_extra_profile_path in $GUIX_EXTRA_PROFILES/*; do
-    profile_name="${guix_extra_profile_path##*/}"
-    comp_path="$GUIX_EXTRA_PROFILES/$profile_name/$profile_name/etc/bash_completion.d"
-    if test -d "$comp_path"; then
-        for comp_file in $comp_path/*; do
-            # shellcheck source=/dev/null
-            source "$comp_file"
-        done
-    fi
-done
+. ~/.nix-profile/etc/profile.d/bash_completion.sh
 
 complete -o filenames -F _pass passp
 complete -o filenames -F _pass passf
@@ -240,3 +218,5 @@ promptCommand() {
 }
 
 PROMPT_COMMAND="promptCommand"
+
+eval "$(direnv hook bash)" 

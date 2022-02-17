@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
+; this is a test
 ;;;* garbage collection tuning
 (defconst bj-100MB (* 100 1024 1024))
 (defconst bj-20MB (* 20 1024 1024))
@@ -67,6 +68,13 @@
   ;; auto save files in the same path as it uses for sessions
   (setq auto-save-file-name-transforms
 	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+;;;* User identity
+(setq
+ user-full-name "Benoit Joly"
+ user-mail-address "benoit@benoitj.ca"
+ user-mail-addresses '("benoit@benoitj.ca" "benoit.m.joly@gmail.com" "bjoly666@gmail.com"))
+
+
 ;;;* UI configuration
 ;;;** Basic UI configuration
 (setq inhibit-startup-message t)
@@ -107,11 +115,13 @@
   :diminish which-key-mode
   :config
   (which-key-mode)
-  (setq which-key-idle-delay 1))
+  (setq which-key-idle-delay 1)
+  (setq which-key-popup-type 'minibuffer))
 
 ;;;** Theme
 (use-package modus-themes
   :demand t
+  :bind ("<f5>" . modus-themes-toggle)
   :init
   ;; Add all your customizations prior to loading the themes
   ;;(setq modus-themes-slanted-constructs t
@@ -122,7 +132,9 @@
   :config
   ;; Load the theme of your choice:
   (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle))
+
+  (add-hook 'modus-themes-after-load-theme-hook (lambda ()
+						  (set-face-attribute 'mode-line-active nil :inherit 'mode-line))))
 
 ;;;** Fonts
 (defmacro bj-run-now-or-on-make-frame-hook (&rest body)
@@ -132,8 +144,8 @@ BODY is the symbol or expression to run."
        (add-hook 'server-after-make-frame-hook (lambda () ,@body))
      (progn ,@body)))
 
-(setq bj-default-font-size 120)
-(setq bj-fixed-font-name "Fira Code Retina")
+(setq bj-default-font-size 110)
+(setq bj-fixed-font-name (concat "FiraCode Nerd Font-11:style=Retina"))
 (setq bj-variable-font-name "Cantarell")
 
 (setq bj-frame-transparency '(90 . 90))
@@ -186,6 +198,14 @@ BODY is the symbol or expression to run."
 (use-package all-the-icons
   :demand t)
 ;;;** modeline
+
+(use-package doom-modeline
+  :demand t
+  :custom
+  (doom-modeline-modal-icon nil)
+  :config
+  (doom-modeline-mode))
+
 (use-package diminish
   :defer nil)
 
@@ -291,6 +311,7 @@ BODY is the symbol or expression to run."
    "bMs" '(bookmark-set :which-key "set")
    "br" '(revert-buffer :which-key "revert")
    "c" '(:ignore t :which-key "code")
+   "ci" '(imenu :which-key "imenu")
    "f" '(:ignore t :which-key "files")
    "ff" '(find-file :which-key "open")
    "fs" '(save-buffer :which-key "save")
@@ -300,7 +321,6 @@ BODY is the symbol or expression to run."
    "hM" '(man :which-key "man")
    "m" '(:ignore t :which-key "mode")
    "n" '(:ignore t :which-key "navigate")
-   "ni" '(imenu :which-key "imenu")
    "q" '(:ignore t :which-key "quit")
    "qq" '(kill-emacs :which-key "kill emacs")
    "s"  '(:ignore t :which-key "search")
@@ -332,6 +352,39 @@ BODY is the symbol or expression to run."
 
 
 ;;;* window/buffer management
+;;;** NEXT workspaces
+(use-package perspective
+  :demand t
+  :custom
+  (persp-state-default-file (expand-file-name "perspectives.el" user-emacs-directory))
+  (persp-sort 'created)
+  :general
+  (bj-leader-keys
+    "<tab>" '(:ignore t :which-key "workspaces")
+    "<tab> <tab>" '(persp-switch :which-key "switch")
+    "<tab> <left>" '(persp-prev :which-key "prev") 
+    "<tab> <right>" '(persp-next :which-key "next")
+    "<tab> p" '(persp-prev :which-key "prev") 
+    "<tab> n" '(persp-next :which-key "next")
+    "<tab> b" '(persp-switch-to-buffer :which-key "switch buffer")
+    "<tab> d" '(persp-kill :which-key "kill")
+    "<tab> r" '(persp-rename :which-key "rename")
+    "<tab> o" '(persp-kill-others :which-key "kill others"))
+  :config
+  (add-hook 'kill-emacs-hook #'persp-state-save)
+  (persp-mode))
+
+
+;;;** winner mode
+(use-package winner-mode
+  :straight nil
+  :bind
+  ("M-<left>" . 'winner-undo)
+  ("M-<right>" . 'winner-redo)
+  :init
+  (winner-mode))
+
+;;;** ace-window
 (use-package ace-window
   :demand t
   :custom
@@ -407,6 +460,7 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
   (bj-leader-keys
     "wf" '(bj-monocle-mode :which-key "monocle")))
 
+
 ;;;* scrolling and navigation
 (setq scroll-conservatively 101)
 
@@ -466,7 +520,7 @@ managers such as DWM, BSPWM refer to this state as 'monocle'."
     "pd" '(project-dired :which-key "dired")
     "pf" '(project-find-file :which-key "find file")
     "pk" '(project-kill-buffers :which-key "kill buffers")
-    "pp" '(project-switch-project :which-key "switch")
+    "pp" '(project-switch-project :which-key "switch") ;
     "pr" '(project-query-replace-regexp :which-key "replace")
     "pt" '(project-shell :which-key "terminal")
     ","  '(project-switch-to-buffer :which-key "project buffers")
@@ -509,7 +563,9 @@ The directory name must be absolute."
 
 (use-package orderless
   :after vertico
-  :custom (completion-styles '(orderless)))
+  :custom
+  (completion-styles '(orderless))
+  (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
 
 (use-package consult
   :general
@@ -740,10 +796,16 @@ The directory name must be absolute."
               (file ,(expand-file-name "templates/newprojecttemplate.org" org-directory)))
              ("s" "Someday" entry (file+headline ,(expand-file-name "someday.org" org-directory) "Someday / Maybe")
               "* SOMEDAY %?\n")
-             ("m" "Maybe" entry (file+headline ,(expand-file-name "someday.org" org-directory) "Someday / Maybe")
-              "* MAYBE %?\n")
              ("l" "Log" entry (file+olp+datetree ,(expand-file-name "log.org" org-directory) "Log")
               (file ,(expand-file-name "templates/logtemplate.org" org-directory))))))
+
+(use-package org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-hide-emphasis-markers t)
+  (setq org-appear-autolinks t)
+  (setq org-appear-delay 0.5))
+
 (with-eval-after-load 'org
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -757,6 +819,7 @@ The directory name must be absolute."
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
     (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
     (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+    (add-to-list 'org-structure-template-alist '("p" . "src plantuml :file "))
     (add-to-list 'org-structure-template-alist '("py" . "src python"))
     (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
     (add-to-list 'org-structure-template-alist '("json" . "src json")))
@@ -769,12 +832,16 @@ The directory name must be absolute."
   (setq org-indent-mode-turns-on-hiding-stars nil)
   (setq inhibit-compacting-font-caches t))
  
+(use-package org-appear
+  :hook (org-mode-hook . org-appear-mode))
 
 ; TODO: org-noter?
 
 ;;;** org roam
 (use-package org-roam
+    :straight nil
     :init
+    (setq org-roam-v2-ack t)
     (setq org-roam-directory (expand-file-name "~/src/projects/notebook/"))
     :general
     (bj-leader-keys
@@ -787,6 +854,9 @@ The directory name must be absolute."
      "nrR" '(org-roam-buffer-display-dedicated :which-key "Launch roam")
      "nrs" '(org-roam-db-sync :which-key "Sync DB"))
     :config
+    (setq org-roam-capture-templates '(("d" "default" plain "%?" :if-new
+					(file+head "%(format-time-string \"%Y%m%d%H%M%S\" (current-time) t).org" "#+title: ${title}\n")
+					:unnarrowed t)))
     (defun bj-org-id-update-org-roam-files ()
       "Update Org-ID locations for all Org-roam files."
       (interactive)
@@ -802,7 +872,6 @@ The directory name must be absolute."
 (use-package ox-hugo
   :after ox)
 ;;;** lsp
-
 
 ;(use-package projectile)
 ;(use-package flycheck)
@@ -837,8 +906,7 @@ The directory name must be absolute."
   (setq lsp-idle-delay 0.500)
   (lsp-enable-which-key-integration t)
   (bj-leader-keys
-    "cl" '(:keymap lsp-command-map :which-key "lsp"))
-  )
+    "cl" '(:keymap lsp-command-map :which-key "lsp")))
 
 (use-package company-lsp
   :after (company lsp-mode))
@@ -851,19 +919,31 @@ The directory name must be absolute."
         ;lsp-ui-sideline-show-symbol nil
 	))
 
+(eval-after-load 'compile
+  (add-hook 'compilation-filter-hook
+          (lambda () (ansi-color-apply-on-region (point-min) (point-max)))))
+
 (use-package dap-mode :after lsp-mode
+  :general
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'java-mode-map
+   "t" '(:ignore t :which-key "run tests")
+   "." '(dap-java-run-last-test :which-key "last test")
+   "tt" '(dap-java-run-last-test :which-key "last test")
+   "tc" '(dap-java-run-test-class :which-key "test class")
+   "tm" '(dap-java-run-test-method :which-key "test method")
+   "td" '(:ignore t :which-key "debug")
+   "tdd" '(dap-java-debug :which-key "debug")
+   "tdc" '(dap-java-debug-test-class :which-key "test class")
+   "tdm" '(dap-java-debug-test-method :which-key "test method"))
   :custom
   (dap-java-terminal 'integratedTerminal)
   (dap-internal-terminal #'dap-internal-terminal-vterm)
   :config
-  (dap-auto-configure-mode)
-  (add-hook 'compilation-filter-hook
-          (lambda () (ansi-color-apply-on-region (point-min) (point-max)))))
-;(use-package helm-lsp)
-;(use-package helm
-;  :config (helm-mode))
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+  (dap-auto-configure-mode))
 
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 ;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
@@ -899,6 +979,78 @@ The directory name must be absolute."
 ;  (add-hook 'java-mode-hook #'lsp-defer))
 ;;(use-package dap-java :ensure nil)
 
+;;;** clojure
+(use-package flycheck-clj-kondo)
+
+;  (require 'flycheck-clj-kondo)) 
+
+(use-package cider
+  :general
+  (bj-local-leader-keys
+   :states '(normal insert)
+   :keymaps 'clojure-mode-map
+   "e"  '(:ignore t                        :which-key "eval")
+   "ek" '(cider-load-buffer                :which-key "Buffer")
+   "el" '(cider-load-file                  :which-key "File")
+   "ea" '(cider-load-all-project-ns        :which-key "All ns")
+   "er" '(cider-eval-region                :which-key "Region")
+   "en" '(cider-eval-ns-form               :which-key "NS form")
+   "ee" '(cider-eval-last-sexp             :which-key "Last sexp")
+   "ep" '(cider-pprint-eval-last-sexp      :which-key "Last sexp and pprint")
+   "ew" '(cider-eval-last-sexp-and-replace :which-key "Last sexp and replace")
+   "eE" '(cider-eval-last-sexp-to-repl     :which-key "Last sexp to REPL")
+   "ed" '(cider-eval-defun-at-point        :which-key "Defun at point")
+   "ef" '(cider-pprint-eval-defun-at-point :which-key "Defun at point and pprint")
+   "ec" '(cider-eval-defun-to-comment      :which-key "Defun to comment")
+   "e:" '(cider-read-and-eval              :which-key "Read and eval")
+   "ei" '(cider-inspect                    :which-key "Inspect")
+   "em" '(cider-macroexpand-1              :which-key "Macroexpand-1")
+   "eM" '(cider-macroexpand-all            :which-key "Macroexpand all")
+   
+   "d"  '(:ignore t                          :which-key "doc")
+   "dd" '(cider-doc                          :which-key "CiderDoc")
+   "da" '(cider-apropos                      :which-key "Search symbols")
+   "dA" '(cider-apropos-documentation        :which-key "Search documentation")
+   "dr" '(cider-clojuredocs                  :which-key "ClojureDocs")
+   "dj" '(cider-javadoc                      :which-key "JavaDoc in browser")
+   "ds" '(cider-apropos-select               :which-key "Search symbols & select")
+   "de" '(cider-apropos-documentation-select :which-key "Search documentation & select")
+   "dh" '(cider-clojuredocs-web              :which-key "ClojureDocs in browser")
+
+   "t"  '(:ignore t                     :which-key "Test and Debug")
+   "tx" '((lambda () (interactive) (cider-eval-defun-at-point t)) :which-key "Eval defun at point")
+   "tv" '(cider-toggle-trace-var        :which-key "Toggle var tracing")
+   "tt" '(cider-test-run-test           :which-key "Run test")
+   "tp" '(cider-test-run-project-tests  :which-key "Run project tests")
+   "ts" '(cider-test-show-report        :which-key "Show test report")
+   "tn" '(cider-toggle-trace-ns         :which-key "Toggle ns tracing")
+   "tl" '(cider-test-run-loaded-tests   :which-key "Run loaded tests")
+   "tr" '(cider-test-rerun-failed-tests :which-key "Rerun tests")
+
+   "r"  '(:ignore t                        :which-key "REPL")
+   "rj" '(cider-jack-in                    :which-key "Jack-in")
+   "rd" '(cider-display-connection-info    :which-key "Display connection info")
+   "rz" '(cider-switch-to-repl-buffer      :which-key "Switch to REPL")
+   "rp" '(cider-insert-last-sexp-in-repl   :which-key "Insert last sexp in REPL")
+   "ro" '(cider-find-and-clear-repl-output :which-key "Clear REPL output")
+   "rb" '(cider-interrupt                  :which-key "Interrupt pending evaluations")
+   "rr" '(cider-rotate-default-connection  :which-key "Rotate default connection")
+   "rn" '(cider-repl-set-ns                :which-key "Set REPL ns")
+   "rx" '(cider-refresh                    :which-key "Reload namespaces")
+   "rO" '((lambda () (interactive) (cider-find-and-clear-repl-output t))
+ 	 :which-key "Clear entire REPL")
+   "rQ" '(cider-quit                       :which-key "Quit CIDER"))
+
+  :config
+  (setq cider-eldoc-display-context-dependent-info t)
+  (setq cider-font-lock-dynamically '(macro core function var))
+  (evil-set-initial-state 'cider-browse-ns-mode 'emacs)
+  (setq completion-category-overrides '((cider (styles '(basic flex partial-completion emacs22)))))
+  (add-hook 'clojure-mode-hook #'cider-mode)
+  (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+  (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+  (require 'flycheck-clj-kondo)
+  )
 ;;;** markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -917,7 +1069,11 @@ The directory name must be absolute."
   :init
   (evil-set-initial-state 'nov-mode 'emacs))
 
+;;;** nix
+(use-package nix-mode
+  :mode (("\\.nix\\'" . nix-mode)))
 ;;;** TODO: plantuml
+
 ;;;* Tools
 ;;;** VC
 (use-package magit
@@ -979,13 +1135,8 @@ The directory name must be absolute."
   (bj-local-leader-keys
    :states '(normal insert)
    :keymaps 'notmuch-show-mode-map
-   "b" '(notmuch-show-browse-urls :which-key "browse urls"))
+   "b" '(notmuch-show-browse-urls :which-key "browse urls")))
     
-  :config
-  (setq
-   user-full-name "Benoit Joly"
-   user-mail-address "benoit@benoitj.ca"
-   user-mail-addresses '("benoit@benoitj.ca" "benoit.m.joly@gmail.com" "bjoly666@gmail.com")))
 
 ;(after! notmuch
 ;  (map! :map notmuch-show-mode-map :localleader :desc "browse urls" "b" #'notmuch-show-browse-urls))
@@ -1040,6 +1191,11 @@ The directory name must be absolute."
    "tt" '(restclient-test-buffer :which-key "buffer")
    "tc" '(restclient-test-current :which-key "current")))
 
+;;;** direnv
+(use-package direnv
+  :demand t
+  :config
+  (direnv-mode))
 ;;;** TODO rss
 ;;;* Fun
 (use-package meme
@@ -1054,6 +1210,11 @@ The directory name must be absolute."
     "oMf"  '(meme-file :which-key "meme-file")))
 
 (use-package imgur)
+
+(use-package snow
+  :general
+  (bj-leader-keys
+    "as" '(snow :which-key "snow")))
 
 
 ;;;* LOCAL-VARIABLES

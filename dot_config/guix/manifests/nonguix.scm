@@ -5,7 +5,7 @@
 
 (define tools-manifest
   (specifications->manifest
-   '("emacs-native-comp"
+   '(;;"emacs-native-comp"
      "font-fira-code"
      )))
 
