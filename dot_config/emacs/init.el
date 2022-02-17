@@ -980,6 +980,9 @@ The directory name must be absolute."
 ;;(use-package dap-java :ensure nil)
 
 ;;;** clojure
+(use-package flycheck-clj-kondo)
+
+;  (require 'flycheck-clj-kondo)) 
 
 (use-package cider
   :general
@@ -1046,6 +1049,7 @@ The directory name must be absolute."
   (add-hook 'clojure-mode-hook #'cider-mode)
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+  (require 'flycheck-clj-kondo)
   )
 ;;;** markdown
 (use-package markdown-mode
