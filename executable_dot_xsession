@@ -7,7 +7,7 @@ source $HOME/.bash_profile
 
 #sxhkd -m -1 &
 
-#compton &
+picom &
 #autorandr -c
 
 #dunst &
