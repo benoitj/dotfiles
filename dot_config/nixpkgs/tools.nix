@@ -1,15 +1,14 @@
 { pkgs, ... }:
 with pkgs;
 let
-  my-python-packages = python-packages: with python-packages; [
-    tldextract
-  ];
+  my-python-packages = python-packages: with python-packages; [ tldextract ];
   python-with-my-packages = python3.withPackages my-python-packages;
 in
 {
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      url =
+        "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
     }))
   ];
 
@@ -39,6 +38,7 @@ in
     cargo
     chezmoi
     #clang
+    clang-tools
     clojure
     cmake
     cowsay
@@ -46,6 +46,7 @@ in
     #     ;; TODO docker-compose 1.29.2-1
     curl
     dos2unix
+    editorconfig-core-c
     fd
     feh
     gcc
@@ -72,15 +73,21 @@ in
     lynx
     maim
     maven
+    mdl
     mpv
     mr
     mupdf
     nix-bash-completions
-    ripgrep
-    ripgrep-all
+    nixfmt
+    openssl
+    pandoc
+    proselint
     python-with-my-packages
     recutils
+    ripgrep
+    ripgrep-all
     scrot
+    shellcheck
     tree
     qutebrowser
     unzip
@@ -89,9 +96,6 @@ in
   programs.emacs = {
     enable = true;
     package = emacsGcc;
-    extraPackages = (epkgs: [
-      epkgs.vterm
-      epkgs.org-roam
-    ]);
+    extraPackages = (epkgs: [ epkgs.vterm epkgs.org-roam ]);
   };
 }

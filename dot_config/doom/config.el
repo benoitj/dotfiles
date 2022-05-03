@@ -317,3 +317,24 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+
+(use-package! ement
+  :commands ement-connect)
+
+(setq! ement-save-sessions t
+       ement-room-send-message-filter #'ement-room-send-org-filter
+       ement-sessions-file (concat doom-cache-dir "ement.el"))
+
+(after! ement
+  (add-hook! 'doom-real-buffer-functions
+    (defun +ement-buffer-p (buf)
+      (string-prefix-p "ement-" (symbol-name (buffer-local-value 'major-mode buf)))))
+  (add-hook! 'ement-room-mode-hook (setq-local fringes-outside-margins nil)))
+
+(set-popup-rule! "^\\*Ement compose:" :side 'bottom :size 0.2 :quit 'current)
+
+(custom-theme-set-faces
+ 'user
+ '(ement-room-message-text ((t (:inherit variable-pitch))))
+ '(ement-room-self-message ((t (:inherit variable-pitch)))))

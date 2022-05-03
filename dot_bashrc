@@ -220,3 +220,4 @@ promptCommand() {
 PROMPT_COMMAND="promptCommand"
 
 eval "$(direnv hook bash)" 
+alias ssh-sw='ssh -o KexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa 10.1.1.2'

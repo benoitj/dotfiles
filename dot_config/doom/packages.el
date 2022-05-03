@@ -52,3 +52,8 @@
 (package! company-flx)
 (package! company-quickhelp)
 (package! org-appear)
+(package! plz
+	  :recipe (:host github :repo "alphapapa/plz.el"))
+(package! ement
+	  :recipe (:host github :repo "alphapapa/ement.el"))
+

@@ -1197,6 +1197,24 @@ The directory name must be absolute."
   :config
   (direnv-mode))
 ;;;** TODO rss
+;;;** ement
+
+(use-package plz
+  :demand t
+  :straight
+  (plz :host github
+	 :repo "alphapapa/plz.el"))
+
+(use-package ement
+  :straight
+  (ement :host github
+	 :repo "alphapapa/ement.el"
+	 :branch "wip/linkify-mentions")
+  :after plz
+  :commands (ement-connect))
+
+	 
+
 ;;;* Fun
 
 (use-package meme
