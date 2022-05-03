@@ -3,9 +3,8 @@
 # Project repos (mine)
 #
 # Wanted Policies:
-#  remote origin is private
+#  remote origin is sourcehut
 #  remote gh is github
-#  remote srht is sourcehut
 ##############################################
 [DEFAULT]
 setupmirror = git remote show mirror 2>/dev/null || git remote add mirror "git@github.com:benoitj/$(basename $(pwd)).git"
@@ -73,3 +72,6 @@ checkout = git clone 'git@git.sr.ht:~benoit/tdd-rockstar' 'tdd-rockstar'
 
 [emacs-as-http-client]
 checkout = git clone 'git@git.sr.ht:~benoit/emacs-as-http-client' 'emacs-as-http-client'
+
+[clj-learn-api]
+checkout = git clone 'git@git.sr.ht:~benoit/clj-learn-api' 'clj-learn-api'
