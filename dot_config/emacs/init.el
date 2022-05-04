@@ -1208,10 +1208,11 @@ The directory name must be absolute."
 (use-package ement
   :straight
   (ement :host github
-	 :repo "alphapapa/ement.el"
-	 :branch "wip/linkify-mentions")
+	 :repo "alphapapa/ement.el")
   :after plz
-  :commands (ement-connect))
+  :commands (ement-connect)
+  :config
+  (delq #'ement-notify--room-buffer-live-p ement-notify-notification-predicates))
 
 	 
 
