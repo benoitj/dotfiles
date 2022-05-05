@@ -883,7 +883,9 @@ The directory name must be absolute."
                   display-buffer-in-side-window)
                  (side            . bottom)
                  (reusable-frames . visible)
-                 (window-height   . 0.15))))
+                 (window-height   . 0.15)))
+  :config
+  (global-flycheck-mode))
 
 (use-package lsp-mode
   :commands (lsp)
@@ -982,7 +984,14 @@ The directory name must be absolute."
 ;;;** clojure
 (use-package flycheck-clj-kondo)
 
-;  (require 'flycheck-clj-kondo)) 
+(defun my-clojure-mode-hook ()
+    (clj-refactor-mode 1)
+    ;;(yas-minor-mode 1) ; for adding require/use/import statements
+    ;; This choice of keybinding leaves cider-macroexpand-1 unbound
+    (cljr-add-keybindings-with-prefix "C-c C-m"))
+
+(use-package clj-refactor
+  :hook (clojure-mode . my-clojure-mode-hook))
 
 (use-package cider
   :general
@@ -1204,7 +1213,9 @@ The directory name must be absolute."
   :straight
   (plz :host github
 	 :repo "alphapapa/plz.el"))
-
+(defun my-ement-tax-room-list
+  (&rest _ignore) (ement-taxy-room-list))
+    
 (use-package ement
   :straight
   (ement :host github
@@ -1212,9 +1223,14 @@ The directory name must be absolute."
   :after plz
   :commands (ement-connect)
   :config
-  (delq #'ement-notify--room-buffer-live-p ement-notify-notification-predicates))
+  (evil-set-initial-state 'ement-room-list-mode 'emacs)
+  (evil-set-initial-state 'ement-room-mode 'emacs)
+  (evil-set-initial-state 'ement-taxy-mode 'emacs)
+  :custom
+  (ement-save-sessions t)
+  (ement-after-initial-sync-hook '(my-ement-tax-room-list)))
 
-	 
+
 
 ;;;* Fun
 
