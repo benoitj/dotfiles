@@ -119,6 +119,12 @@
   (setq which-key-popup-type 'minibuffer))
 
 ;;;** Theme
+
+(defun my-modus-themes-after-load-hook ()
+  (pcase (modus-themes--current-theme)
+    ('modus-operandi (set-mouse-color "black"))
+    ('modus-vivendi (set-mouse-color "white"))))
+
 (use-package modus-themes
   :demand t
   :bind ("<f5>" . modus-themes-toggle)
@@ -133,9 +139,8 @@
   ;; Load the theme of your choice:
   (modus-themes-load-vivendi)
 
-  (add-hook 'modus-themes-after-load-theme-hook (lambda ()
-						  (set-face-attribute 'mode-line-active nil :inherit 'mode-line))))
-
+  (add-hook 'modus-themes-after-load-theme-hook 'my-modus-themes-after-load-hook))
+ 
 ;;;** Fonts
 (defmacro bj-run-now-or-on-make-frame-hook (&rest body)
   "Macro created to run now on setup hooks when running as a daemon.
@@ -147,6 +152,8 @@ BODY is the symbol or expression to run."
 (setq bj-default-font-size 110)
 (setq bj-fixed-font-name (concat "FiraCode Nerd Font-11:style=Retina"))
 (setq bj-variable-font-name "Cantarell")
+
+;(setq x-pointer-shape x-pointer-X-cursor)
 
 (setq bj-frame-transparency '(90 . 90))
 (set-frame-parameter (selected-frame) 'alpha bj-frame-transparency)
@@ -425,6 +432,7 @@ BODY is the symbol or expression to run."
           "Output\\*$"
 	  "*YASnippet Tables*"
           "\\*Async Shell Command\\*"
+	  cider-repl-mode
           help-mode
           compilation-mode))
   (popper-mode +1)
